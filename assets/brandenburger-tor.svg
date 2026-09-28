@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" role="img" aria-label="Schematische Silhouette des Brandenburger Tors">
+  <rect width="720" height="430" fill="#f3f4f6"/>
+  <g fill="#151515">
+    <rect x="110" y="126" width="500" height="30" rx="2"/>
+    <rect x="135" y="156" width="450" height="26"/>
+    <rect x="155" y="182" width="410" height="24"/>
+    <rect x="142" y="206" width="35" height="140"/>
+    <rect x="220" y="206" width="35" height="140"/>
+    <rect x="300" y="206" width="35" height="140"/>
+    <rect x="385" y="206" width="35" height="140"/>
+    <rect x="465" y="206" width="35" height="140"/>
+    <rect x="543" y="206" width="35" height="140"/>
+    <rect x="122" y="346" width="476" height="26"/>
+    <rect x="98" y="372" width="524" height="20"/>
+    <path d="M300 118h120l-20-22h-80z"/>
+    <rect x="346" y="66" width="28" height="30" rx="4"/>
+    <circle cx="360" cy="56" r="12"/>
+    <path d="M330 67l-28-18 8-10 35 14zm60 0 28-18-8-10-35 14z"/>
+    <path d="M351 42l-18-24 10-7 17 21 17-21 10 7-18 24z"/>
+  </g>
+</svg>
