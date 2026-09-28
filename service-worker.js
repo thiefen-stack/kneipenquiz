@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kneipenquiz-v0.3-20260928';
+const CACHE_NAME = 'kneipenquiz-v0.4-20260928';
 const APP_SHELL = [
   './',
   './index.html',
@@ -6,10 +6,30 @@ const APP_SHELL = [
   './app.js',
   './questions.js',
   './manifest.webmanifest',
-  './assets/icon-192.png',
-  './assets/icon-512.png',
+  './assets/brandenburger-tor.svg',
+  './assets/flags/austria.svg',
+  './assets/flags/belgium.svg',
+  './assets/flags/bulgaria.svg',
+  './assets/flags/colombia.svg',
+  './assets/flags/czechia.svg',
+  './assets/flags/estonia.svg',
+  './assets/flags/finland.svg',
+  './assets/flags/france.svg',
+  './assets/flags/germany.svg',
+  './assets/flags/hungary.svg',
+  './assets/flags/ireland.svg',
+  './assets/flags/italy.svg',
+  './assets/flags/japan.svg',
+  './assets/flags/lithuania.svg',
+  './assets/flags/netherlands.svg',
+  './assets/flags/poland.svg',
+  './assets/flags/romania.svg',
+  './assets/flags/sweden.svg',
+  './assets/flags/switzerland.svg',
+  './assets/flags/ukraine.svg',
   './assets/hessen-outline.svg',
-  './assets/brandenburger-tor.svg'
+  './assets/icon-192.png',
+  './assets/icon-512.png'
 ];
 
 self.addEventListener('install', event => {

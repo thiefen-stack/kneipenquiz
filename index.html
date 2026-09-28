@@ -30,7 +30,7 @@
         <div>
           <span id="poolPill" class="pill">Fragenpool wird geladen …</span>
           <h2>Mehr wissen. Weniger raten.</h2>
-          <p>Originalmix mit etwa 20 % Auswahlfragen, überwiegend Freitext – plus Bild-, Zeichen- und Audiofragen. Fehler und Fortschritt werden lokal im Browser gespeichert.</p>
+          <p>Originalmix mit etwa 20 % Auswahlfragen, überwiegend Freitext – plus Bild-, Zeichen- und Audiofragen. Die adaptive Auswahl zeigt unsichere Fragen häufiger und sicher beherrschte seltener.</p>
         </div>
         <div class="score-ring" aria-label="Beste Trefferquote"><span id="bestRate">0%</span><small>Bestwert</small></div>
       </div>
@@ -58,6 +58,14 @@
         <label>Kategorie
           <select id="categorySelect"><option value="all">Alle Kategorien</option></select>
         </label>
+        <label>Schwierigkeit
+          <select id="difficultySelect">
+            <option value="all" selected>Alle Schwierigkeitsgrade</option>
+            <option value="leicht">Leicht</option>
+            <option value="mittel">Mittel</option>
+            <option value="anspruchsvoll">Anspruchsvoll</option>
+          </select>
+        </label>
         <label>Modus
           <select id="modeSelect">
             <option value="original" selected>Originalmix – ca. 20 % Auswahl</option>
@@ -77,6 +85,38 @@
         <label class="file-btn">JSON importieren<input id="importInput" type="file" accept="application/json,.json" /></label>
         <button id="exportBtn" class="ghost" type="button">Fragenbank exportieren</button>
       </div>
+
+
+      <details class="card editor-card">
+        <summary><span>Frageneditor</span><small>Eigene Fragen lokal hinzufügen, bearbeiten und exportieren</small></summary>
+        <div class="editor-body">
+          <p class="editor-note">GitHub Pages ist statisch: Fragen aus diesem Editor werden zunächst nur in diesem Browser gespeichert. Mit „Eigene Fragen exportieren“ kannst du sie als JSON sichern und später in die feste Fragenbank übernehmen.</p>
+          <form id="editorForm" class="editor-form">
+            <input id="editorId" type="hidden" />
+            <label>Kategorie<input id="editorCategory" type="text" value="Allgemeinwissen" required /></label>
+            <label>Schwierigkeit
+              <select id="editorDifficulty"><option value="leicht">Leicht</option><option value="mittel" selected>Mittel</option><option value="anspruchsvoll">Anspruchsvoll</option></select>
+            </label>
+            <label class="span-2">Frage<textarea id="editorQuestion" rows="3" required placeholder="Frage eingeben …"></textarea></label>
+            <label class="span-2">Richtige Antwort<input id="editorAnswer" type="text" required placeholder="Antwort …" /></label>
+            <label class="span-2">Weitere akzeptierte Antworten <small>(eine pro Zeile)</small><textarea id="editorAliases" rows="3" placeholder="Alternative Schreibweise …"></textarea></label>
+            <label class="span-2">Auswahlmöglichkeiten <small>(optional, eine pro Zeile; richtige Antwort muss enthalten sein)</small><textarea id="editorChoices" rows="4" placeholder="Antwort A
+Antwort B
+Antwort C
+Antwort D"></textarea></label>
+            <label class="span-2">Erklärung<textarea id="editorExplanation" rows="3" placeholder="Kurze Erklärung nach der Auflösung …"></textarea></label>
+            <label>Bildpfad <small>(optional)</small><input id="editorVisual" type="text" placeholder="assets/mein-bild.svg" /></label>
+            <label class="check-label"><input id="editorStrict" type="checkbox" /> Exakte Schreibweise verlangen</label>
+            <div class="editor-actions span-2">
+              <button class="primary" type="submit">Frage speichern</button>
+              <button id="editorReset" class="ghost" type="button">Neu / zurücksetzen</button>
+              <button id="exportCustomBtn" class="ghost" type="button">Eigene Fragen exportieren</button>
+            </div>
+          </form>
+          <div class="editor-list-head"><strong id="customQuestionCount">0 eigene Fragen</strong><span>Tippe auf Bearbeiten, um eine lokale Frage zu ändern.</span></div>
+          <div id="customQuestionList" class="custom-question-list"></div>
+        </div>
+      </details>
 
       <div class="card music-card">
         <div class="card-headline">
@@ -100,7 +140,7 @@
       </div>
 
       <footer class="credits">
-        <span>Version 0.3 PWA</span>
+        <span>Version 0.4 • 512 Fragen</span>
         <span>•</span>
         <span>Hessen-Umriss: schematische Eigenzeichnung, nicht maßstabsgetreu.</span>
       </footer>

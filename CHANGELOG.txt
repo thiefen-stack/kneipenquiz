@@ -1,0 +1,16 @@
+BERLINER KNEIPENQUIZ TRAINER v0.4
+=================================
+
+- Fragenpool von 236 auf exakt 512 Basisfragen erweitert
+- 20 neue Flaggen-Bildfragen; insgesamt 22 integrierte Bildfragen
+- 6 neue Zeichenaufgaben; insgesamt 8 Zeichenaufgaben
+- adaptive Fragenauswahl nach Lernstand
+- falsche/unsichere Fragen werden häufiger ausgewählt
+- sichere Fragen werden seltener ausgewählt
+- ein Fehler gilt nach zwei richtigen Antworten in Folge als gefestigt
+- Schwierigkeitsfilter ergänzt
+- lokaler Frageneditor ergänzt
+- eigene Fragen können bearbeitet, gelöscht und als JSON exportiert werden
+- PWA/Offline-Cache auf alle integrierten Bilddateien erweitert
+- Cache-Version auf v0.4 angehoben
+- Fragenbank-Export auf v0.4 umgestellt

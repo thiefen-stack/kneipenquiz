@@ -14,14 +14,34 @@
   const screens = ['home','quiz','results'];
   const statsKey = 'bq_stats_v2';
   const mistakesKey = 'bq_mistakes_v2';
+  const masteryKey = 'bq_mastery_v1';
   const stats = Object.assign({sessions:0,answered:0,correct:0,best:0}, JSON.parse(localStorage.getItem(statsKey)||'{}'));
   let mistakes = new Set(JSON.parse(localStorage.getItem(mistakesKey)||'[]'));
+  let mastery = JSON.parse(localStorage.getItem(masteryKey)||'{}');
 
   function show(id){
     screens.forEach(x=>$('#'+x).classList.toggle('active',x===id));
     window.scrollTo({top:0,behavior:'smooth'});
   }
   function shuffle(a){ return [...a].sort(()=>Math.random()-.5); }
+  function masteryFor(id){ return mastery[String(id)] || {seen:0,correct:0,wrong:0,streak:0}; }
+  function questionWeight(q){
+    const m=masteryFor(q.id);
+    if(mistakes.has(q.id)) return 10 + Math.min(5,m.wrong||0);
+    if(!m.seen) return 5;
+    const accuracy=(m.correct||0)/Math.max(1,m.seen||1);
+    return Math.max(.7, 4.5-(accuracy*2.4)-Math.min(4,m.streak||0)*.45);
+  }
+  function weightedSample(pool,count){
+    const work=[...pool], out=[];
+    while(work.length && out.length<count){
+      const weights=work.map(questionWeight), total=weights.reduce((a,b)=>a+b,0);
+      let r=Math.random()*total, picked=0;
+      for(let i=0;i<work.length;i++){ r-=weights[i]; if(r<=0){picked=i;break;} }
+      out.push(work.splice(picked,1)[0]);
+    }
+    return out;
+  }
   function normalize(s=''){
     return String(s).toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
       .replace(/ß/g,'ss').replace(/[^a-z0-9äöü]+/g,' ').replace(/\s+/g,' ').trim();
@@ -70,7 +90,7 @@
   function bonusCorrect(input,b){ return simpleMatch(input,b.answer,b.aliases||[]); }
 
   function saveImported(){ localStorage.setItem('bq_imported',JSON.stringify(imported)); }
-  function refreshBank(){ bank=[...BASE,...imported]; fillCategories(); updatePoolInfo(); updateAudioCount(); }
+  function refreshBank(){ bank=[...BASE,...imported]; fillCategories(); updatePoolInfo(); updateAudioCount(); renderCustomQuestions(); }
   function updateStats(){
     $('#statSessions').textContent=stats.sessions;
     $('#statAnswered').textContent=stats.answered;
@@ -81,7 +101,8 @@
   function updatePoolInfo(){
     const visual=bank.filter(q=>q.visual).length;
     const audio=bank.filter(q=>q.melody||q.audioLocal).length;
-    $('#poolPill').textContent=`${bank.length} Fragen • ${visual} Bild • ${audio} Audio`;
+    const custom=imported.length;
+    $('#poolPill').textContent=`${BASE.length} Basisfragen${custom?` + ${custom} eigene`:''} • ${visual} Bild • ${audio} Audio`;
   }
   function updateAudioCount(){
     const n=bank.filter(q=>q.audioLocal).length;
@@ -96,11 +117,12 @@
 
   function pickQuestions({mistakeOnly=false}={}){
     const cat=$('#categorySelect').value;
-    let pool=bank.filter(q=>(cat==='all'||q.category===cat) && (!mistakeOnly || mistakes.has(q.id)));
+    const diff=$('#difficultySelect')?.value||'all';
+    let pool=bank.filter(q=>(cat==='all'||q.category===cat) && (diff==='all'||q.difficulty===diff) && (!mistakeOnly || mistakes.has(q.id)));
     if(!pool.length){ alert(mistakeOnly?'Aktuell sind keine Fehler zum Wiederholen gespeichert.':'Für diese Auswahl gibt es keine Fragen.'); return false; }
     const requested=Number($('#questionCount').value);
     const desired=requested===0?pool.length:Math.min(requested,pool.length);
-    session=shuffle(pool).slice(0,desired);
+    session=weightedSample(pool,desired);
     const mode=$('#modeSelect').value;
     if(mode==='original'){
       const eligible=shuffle(session.filter(q=>Array.isArray(q.choices)&&q.choices.length>=2&&!q.taskType&&!q.audioLocal));
@@ -242,7 +264,12 @@
   function finalizeAnswer(q,correct,given,bonusStatus=null,self=false){
     checked=true;
     answers.push({id:q.id,correct,given,category:q.category,bonus:bonusStatus});
-    if(correct) mistakes.delete(q.id); else mistakes.add(q.id);
+    const mk=String(q.id), m=masteryFor(q.id);
+    m.seen=(m.seen||0)+1;
+    if(correct){ m.correct=(m.correct||0)+1; m.streak=(m.streak||0)+1; if(m.streak>=2) mistakes.delete(q.id); }
+    else { m.wrong=(m.wrong||0)+1; m.streak=0; mistakes.add(q.id); }
+    m.lastSeen=Date.now(); mastery[mk]=m;
+    localStorage.setItem(masteryKey,JSON.stringify(mastery));
     localStorage.setItem(mistakesKey,JSON.stringify([...mistakes]));
     const fb=$('#feedback'); fb.className='feedback '+(correct?'good':'bad');
     const answerLine=!correct&&!self?`Richtige Antwort: <b>${escapeHtml(q.answer)}</b><br>`:'';
@@ -309,6 +336,55 @@
     setTimeout(()=>ctx.close().catch(()=>{}),(t-ctx.currentTime+1)*1000);
   }
 
+  // Local question editor. GitHub Pages itself is read-only; edited questions live in localStorage until exported.
+  function editorLocalQuestions(){ return imported.filter(q=>q.origin==='Frageneditor'); }
+  function renderCustomQuestions(){
+    const list=$('#customQuestionList'), count=$('#customQuestionCount');
+    if(!list||!count) return;
+    const own=editorLocalQuestions(); count.textContent=own.length===1?'1 eigene Frage':`${own.length} eigene Fragen`;
+    if(!own.length){ list.innerHTML='<div class="fineprint">Noch keine Frage im Editor gespeichert.</div>'; return; }
+    list.innerHTML=own.slice().reverse().map(q=>`<div class="custom-question-item"><div><strong>${escapeHtml(q.q)}</strong><small>${escapeHtml(q.category)} • ${escapeHtml(q.difficulty||'mittel')} • Antwort: ${escapeHtml(q.answer)}</small></div><div class="custom-question-actions"><button class="ghost small edit-custom" data-id="${escapeHtml(String(q.id))}" type="button">Bearbeiten</button><button class="danger small delete-custom" data-id="${escapeHtml(String(q.id))}" type="button">Löschen</button></div></div>`).join('');
+    list.querySelectorAll('.edit-custom').forEach(b=>b.onclick=()=>loadEditorQuestion(b.dataset.id));
+    list.querySelectorAll('.delete-custom').forEach(b=>b.onclick=()=>deleteEditorQuestion(b.dataset.id));
+  }
+  function resetEditor(){
+    if(!$('#editorForm')) return;
+    $('#editorForm').reset(); $('#editorId').value=''; $('#editorCategory').value='Allgemeinwissen'; $('#editorDifficulty').value='mittel';
+  }
+  function loadEditorQuestion(id){
+    const q=imported.find(x=>String(x.id)===String(id)); if(!q)return;
+    $('#editorId').value=q.id; $('#editorCategory').value=q.category||'Allgemeinwissen'; $('#editorDifficulty').value=q.difficulty||'mittel';
+    $('#editorQuestion').value=q.q||''; $('#editorAnswer').value=q.answer||''; $('#editorAliases').value=(q.aliases||[]).join('\n');
+    $('#editorChoices').value=(q.choices||[]).join('\n'); $('#editorExplanation').value=q.explanation||''; $('#editorVisual').value=q.visual||''; $('#editorStrict').checked=!!q.strictSpelling;
+    document.querySelector('.editor-card')?.setAttribute('open',''); $('#editorQuestion').focus();
+  }
+  function deleteEditorQuestion(id){
+    const q=imported.find(x=>String(x.id)===String(id)); if(!q)return;
+    if(!confirm(`Frage wirklich löschen?\n\n${q.q}`))return;
+    imported=imported.filter(x=>String(x.id)!==String(id)); saveImported(); refreshBank();
+  }
+  function downloadJson(data,name){
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}), a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),0);
+  }
+  $('#editorForm')?.addEventListener('submit',e=>{
+    e.preventDefault();
+    const editId=$('#editorId').value.trim();
+    const question=$('#editorQuestion').value.trim(), answer=$('#editorAnswer').value.trim(), category=$('#editorCategory').value.trim();
+    if(!question||!answer||!category)return;
+    const aliases=$('#editorAliases').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+    const choices=$('#editorChoices').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+    const q={id:editId||`custom-${Date.now()}`,category,difficulty:$('#editorDifficulty').value,q:question,answer,explanation:$('#editorExplanation').value.trim()||`Richtige Antwort: ${answer}`,origin:'Frageneditor'};
+    if(aliases.length)q.aliases=aliases;
+    if(choices.length){ if(!choices.some(x=>normalize(x)===normalize(answer))) choices.unshift(answer); q.choices=choices.slice(0,6); }
+    const visual=$('#editorVisual').value.trim(); if(visual){q.visual=visual;q.visualAlt='Eigenes Bild zur Frage';}
+    if($('#editorStrict').checked)q.strictSpelling=true;
+    const pos=imported.findIndex(x=>String(x.id)===String(editId)); if(pos>=0)imported[pos]=q; else imported.push(q);
+    saveImported(); refreshBank(); resetEditor();
+  });
+  $('#editorReset')?.addEventListener('click',resetEditor);
+  $('#exportCustomBtn')?.addEventListener('click',()=>downloadJson(editorLocalQuestions(),'kneipenquiz-eigene-fragen.json'));
+
   // Local audio store: IndexedDB keeps modern song clips out of the distributed app package.
   function openAudioDB(){
     return new Promise((resolve,reject)=>{
@@ -330,7 +406,7 @@
 
   $('#exportBtn').onclick=()=>{
     const blob=new Blob([JSON.stringify(bank,null,2)],{type:'application/json'}); const a=document.createElement('a');
-    a.href=URL.createObjectURL(blob);a.download='kneipenquiz-fragenbank-v0.3.json';a.click();URL.revokeObjectURL(a.href);
+    a.href=URL.createObjectURL(blob);a.download='kneipenquiz-fragenbank-v0.4.json';a.click();URL.revokeObjectURL(a.href);
   };
   $('#importInput').addEventListener('change',async e=>{
     try{
@@ -399,5 +475,5 @@
     });
   }
 
-  fillCategories(); updateStats(); updatePoolInfo(); updateAudioCount();
+  fillCategories(); updateStats(); updatePoolInfo(); updateAudioCount(); renderCustomQuestions();
 })();

@@ -2915,15 +2915,17 @@ window.QUIZ_QUESTIONS = [
     "answer": "O3",
     "aliases": [
       "o3",
-      "o 3"
+      "o 3",
+      "O₃",
+      "O3"
     ],
     "choices": [
-      "O₂",
-      "O₃",
-      "CO₂",
-      "N₂O"
+      "O2",
+      "O3",
+      "CO2",
+      "N2O"
     ],
-    "explanation": "Ozon besteht aus drei Sauerstoffatomen: O₃."
+    "explanation": "Ozon besteht aus drei Sauerstoffatomen und hat die Formel O₃."
   },
   {
     "id": 145,
@@ -4307,13 +4309,15 @@ window.QUIZ_QUESTIONS = [
     "category": "Essen & Trinken",
     "difficulty": "anspruchsvoll",
     "q": "Welcher Teil des Safrankrokus liefert das Gewürz Safran?",
-    "answer": "Die Narbenfäden der Blüte",
+    "answer": "Narbenfäden der Blüte",
     "aliases": [
       "narbenfäden",
       "narbenfaeden",
       "narben",
       "stempel",
-      "blütennarben"
+      "blütennarben",
+      "Die Narbenfäden der Blüte",
+      "Narbenfäden"
     ],
     "choices": [
       "Blätter",
@@ -4600,5 +4604,4058 @@ window.QUIZ_QUESTIONS = [
       "24"
     ],
     "explanation": "Ein Ikosaeder besitzt 20 dreieckige Flächen."
+  },
+  {
+    "id": 237,
+    "category": "Berlin",
+    "difficulty": "mittel",
+    "q": "Welcher Fluss mündet im Berliner Bezirk Spandau in die Havel?",
+    "answer": "Spree",
+    "choices": [
+      "Dahme",
+      "Panke",
+      "Wuhle",
+      "Spree"
+    ],
+    "explanation": "In Spandau mündet die Spree in die Havel."
+  },
+  {
+    "id": 238,
+    "category": "Berlin",
+    "difficulty": "anspruchsvoll",
+    "q": "Wie heißt die höchste natürliche Erhebung Berlins?",
+    "answer": "Großer Müggelberg",
+    "aliases": [
+      "grosser müggelberg",
+      "großer müggelberg",
+      "müggelberg"
+    ],
+    "choices": [
+      "Kreuzberg",
+      "Arkenberge",
+      "Großer Müggelberg",
+      "Teufelsberg"
+    ],
+    "explanation": "Der Große Müggelberg ist mit rund 115 Metern die höchste natürliche Erhebung Berlins."
+  },
+  {
+    "id": 239,
+    "category": "Berlin",
+    "difficulty": "mittel",
+    "q": "In welchem Berliner Bezirk liegen die „Gärten der Welt“?",
+    "answer": "Marzahn-Hellersdorf",
+    "choices": [
+      "Pankow",
+      "Marzahn-Hellersdorf",
+      "Lichtenberg",
+      "Treptow-Köpenick"
+    ],
+    "explanation": "Die Gärten der Welt liegen in Marzahn-Hellersdorf."
+  },
+  {
+    "id": 240,
+    "category": "Berlin",
+    "difficulty": "leicht",
+    "q": "Wie heißt das Schloss im Berliner Ortsteil Charlottenburg?",
+    "answer": "Schloss Charlottenburg",
+    "choices": [
+      "Schloss Charlottenburg",
+      "Schloss Bellevue",
+      "Schloss Köpenick",
+      "Schloss Friedrichsfelde"
+    ],
+    "explanation": "Das barocke Schloss Charlottenburg gab dem Ortsteil seinen Namen."
+  },
+  {
+    "id": 241,
+    "category": "Berlin",
+    "difficulty": "mittel",
+    "q": "Welchen IATA-Flughafencode trug der ehemalige Flughafen Tempelhof?",
+    "answer": "THF",
+    "choices": [
+      "TXL",
+      "SXF",
+      "BER",
+      "THF"
+    ],
+    "explanation": "Tempelhof führte den IATA-Code THF."
+  },
+  {
+    "id": 242,
+    "category": "Berlin",
+    "difficulty": "mittel",
+    "q": "Wie wird die vergoldete Viktoria auf der Berliner Siegessäule umgangssprachlich genannt?",
+    "answer": "Goldelse",
+    "choices": [
+      "Berolina",
+      "Fortuna",
+      "Goldelse",
+      "Goldmarie"
+    ],
+    "explanation": "Die Figur auf der Siegessäule wird im Berliner Volksmund „Goldelse“ genannt."
+  },
+  {
+    "id": 243,
+    "category": "Berlin",
+    "difficulty": "anspruchsvoll",
+    "q": "In welchem Jahr wurde die Berliner U-Bahn eröffnet?",
+    "answer": "1902",
+    "choices": [
+      "1924",
+      "1902",
+      "1896",
+      "1910"
+    ],
+    "explanation": "Die erste Berliner Hoch- und Untergrundbahn nahm 1902 den Betrieb auf."
+  },
+  {
+    "id": 244,
+    "category": "Berlin",
+    "difficulty": "mittel",
+    "q": "Wie heißt Berlins ältester noch bestehender Zoo?",
+    "answer": "Zoologischer Garten Berlin",
+    "aliases": [
+      "zoologischer garten",
+      "zoo berlin"
+    ],
+    "choices": [
+      "Zoologischer Garten Berlin",
+      "Tierpark Berlin",
+      "Zoo Eberswalde",
+      "Wildpark Schorfheide"
+    ],
+    "explanation": "Der Zoologische Garten Berlin wurde 1844 eröffnet und ist Deutschlands ältester Zoo."
+  },
+  {
+    "id": 245,
+    "category": "Berlin",
+    "difficulty": "anspruchsvoll",
+    "q": "Welche Straße gilt mit rund zwölf Kilometern als längste Straße Berlins?",
+    "answer": "Adlergestell",
+    "choices": [
+      "Kurfürstendamm",
+      "Karl-Marx-Allee",
+      "Frankfurter Allee",
+      "Adlergestell"
+    ],
+    "explanation": "Das Adlergestell im Südosten Berlins ist mit knapp zwölf Kilometern die längste Straße der Stadt."
+  },
+  {
+    "id": 246,
+    "category": "Berlin",
+    "difficulty": "mittel",
+    "q": "Welches Museum befindet sich unmittelbar am ehemaligen Grenzübergang Checkpoint Charlie?",
+    "answer": "Mauermuseum – Museum Haus am Checkpoint Charlie",
+    "aliases": [
+      "mauermuseum",
+      "museum haus am checkpoint charlie",
+      "checkpoint charlie museum"
+    ],
+    "choices": [
+      "Deutsches Historisches Museum",
+      "AlliiertenMuseum",
+      "Mauermuseum – Museum Haus am Checkpoint Charlie",
+      "DDR Museum"
+    ],
+    "explanation": "Am Checkpoint Charlie befindet sich das Mauermuseum – Museum Haus am Checkpoint Charlie."
+  },
+  {
+    "id": 247,
+    "category": "Berlin",
+    "difficulty": "mittel",
+    "q": "Wie heißt das rekonstruierte Berliner Schloss, in dem heute das Humboldt Forum untergebracht ist?",
+    "answer": "Berliner Schloss",
+    "aliases": [
+      "berliner schloss",
+      "stadtschloss"
+    ],
+    "choices": [
+      "Palais am Festungsgraben",
+      "Berliner Schloss",
+      "Schloss Bellevue",
+      "Kronprinzenpalais"
+    ],
+    "explanation": "Das Humboldt Forum befindet sich im rekonstruierten Berliner Schloss."
+  },
+  {
+    "id": 248,
+    "category": "Berlin",
+    "difficulty": "anspruchsvoll",
+    "q": "In welchem Jahr beschloss der Deutsche Bundestag den Umzug von Parlament und Regierung nach Berlin?",
+    "answer": "1991",
+    "choices": [
+      "1991",
+      "1990",
+      "1994",
+      "1999"
+    ],
+    "explanation": "Der sogenannte Hauptstadtbeschluss fiel am 20. Juni 1991."
+  },
+  {
+    "id": 249,
+    "category": "Berlin",
+    "difficulty": "mittel",
+    "q": "Welcher Berliner Park umgibt Schloss Bellevue?",
+    "answer": "Großer Tiergarten",
+    "aliases": [
+      "tiergarten",
+      "großer tiergarten",
+      "grosser tiergarten"
+    ],
+    "choices": [
+      "Volkspark Friedrichshain",
+      "Treptower Park",
+      "Viktoriapark",
+      "Großer Tiergarten"
+    ],
+    "explanation": "Schloss Bellevue liegt am Rand des Großen Tiergartens."
+  },
+  {
+    "id": 250,
+    "category": "Berlin",
+    "difficulty": "mittel",
+    "q": "Wie heißt der große Park auf dem Gelände des ehemaligen Flughafens Tempelhof?",
+    "answer": "Tempelhofer Feld",
+    "choices": [
+      "Mauerpark",
+      "Volkspark Hasenheide",
+      "Tempelhofer Feld",
+      "Görlitzer Park"
+    ],
+    "explanation": "Das frühere Flugfeld ist heute als Tempelhofer Feld öffentlich zugänglich."
+  },
+  {
+    "id": 251,
+    "category": "Berlin",
+    "difficulty": "anspruchsvoll",
+    "q": "Welche Berliner Straße verbindet das Brandenburger Tor mit der Schlossbrücke?",
+    "answer": "Unter den Linden",
+    "choices": [
+      "Leipziger Straße",
+      "Unter den Linden",
+      "Friedrichstraße",
+      "Straße des 17. Juni"
+    ],
+    "explanation": "Der Boulevard Unter den Linden führt vom Brandenburger Tor bis zur Schlossbrücke."
+  },
+  {
+    "id": 252,
+    "category": "Deutschland",
+    "difficulty": "leicht",
+    "q": "Wie heißt die Landeshauptstadt von Thüringen?",
+    "answer": "Erfurt",
+    "choices": [
+      "Erfurt",
+      "Jena",
+      "Weimar",
+      "Gera"
+    ],
+    "explanation": "Erfurt ist die Landeshauptstadt Thüringens."
+  },
+  {
+    "id": 253,
+    "category": "Deutschland",
+    "difficulty": "leicht",
+    "q": "Wie heißt die Landeshauptstadt des Saarlandes?",
+    "answer": "Saarbrücken",
+    "choices": [
+      "Saarlouis",
+      "Neunkirchen",
+      "Homburg",
+      "Saarbrücken"
+    ],
+    "explanation": "Saarbrücken ist die Landeshauptstadt des Saarlandes."
+  },
+  {
+    "id": 254,
+    "category": "Deutschland",
+    "difficulty": "leicht",
+    "q": "Wie heißt die Landeshauptstadt von Rheinland-Pfalz?",
+    "answer": "Mainz",
+    "choices": [
+      "Trier",
+      "Kaiserslautern",
+      "Mainz",
+      "Koblenz"
+    ],
+    "explanation": "Mainz ist die Landeshauptstadt von Rheinland-Pfalz."
+  },
+  {
+    "id": 255,
+    "category": "Deutschland",
+    "difficulty": "mittel",
+    "q": "Wie heißt die Landeshauptstadt von Mecklenburg-Vorpommern?",
+    "answer": "Schwerin",
+    "choices": [
+      "Stralsund",
+      "Schwerin",
+      "Rostock",
+      "Greifswald"
+    ],
+    "explanation": "Schwerin ist die Landeshauptstadt Mecklenburg-Vorpommerns."
+  },
+  {
+    "id": 256,
+    "category": "Deutschland",
+    "difficulty": "leicht",
+    "q": "Wie heißt die Landeshauptstadt von Nordrhein-Westfalen?",
+    "answer": "Düsseldorf",
+    "choices": [
+      "Düsseldorf",
+      "Köln",
+      "Bonn",
+      "Essen"
+    ],
+    "explanation": "Düsseldorf ist die Landeshauptstadt Nordrhein-Westfalens."
+  },
+  {
+    "id": 257,
+    "category": "Deutschland",
+    "difficulty": "mittel",
+    "q": "Welcher große Fluss fließt durch Hamburg?",
+    "answer": "Elbe",
+    "choices": [
+      "Weser",
+      "Oder",
+      "Main",
+      "Elbe"
+    ],
+    "explanation": "Hamburg liegt an der Elbe."
+  },
+  {
+    "id": 258,
+    "category": "Deutschland",
+    "difficulty": "mittel",
+    "q": "Wie heißt die größte deutsche Insel?",
+    "answer": "Rügen",
+    "choices": [
+      "Sylt",
+      "Fehmarn",
+      "Rügen",
+      "Usedom"
+    ],
+    "explanation": "Rügen ist flächenmäßig die größte Insel Deutschlands."
+  },
+  {
+    "id": 259,
+    "category": "Deutschland",
+    "difficulty": "mittel",
+    "q": "Zu welchem Bundesland gehört Helgoland?",
+    "answer": "Schleswig-Holstein",
+    "choices": [
+      "Hamburg",
+      "Schleswig-Holstein",
+      "Niedersachsen",
+      "Bremen"
+    ],
+    "explanation": "Helgoland gehört zum Kreis Pinneberg in Schleswig-Holstein."
+  },
+  {
+    "id": 260,
+    "category": "Deutschland",
+    "difficulty": "leicht",
+    "q": "Wie hieß die Währung in Westdeutschland unmittelbar vor dem Euro?",
+    "answer": "Deutsche Mark",
+    "aliases": [
+      "deutsche mark",
+      "dm",
+      "d-mark"
+    ],
+    "choices": [
+      "Deutsche Mark",
+      "Reichsmark",
+      "Gulden",
+      "Franc"
+    ],
+    "explanation": "Vor dem Euro war die Deutsche Mark (DM) die Währung der Bundesrepublik Deutschland."
+  },
+  {
+    "id": 261,
+    "category": "Deutschland",
+    "difficulty": "leicht",
+    "q": "Wie viele Bundesländer hat Deutschland?",
+    "answer": "16",
+    "choices": [
+      "14",
+      "15",
+      "18",
+      "16"
+    ],
+    "explanation": "Deutschland besteht aus 16 Bundesländern."
+  },
+  {
+    "id": 262,
+    "category": "Deutschland",
+    "difficulty": "mittel",
+    "q": "In welchem Nationalpark liegen die berühmten Kreidefelsen auf Rügen?",
+    "answer": "Nationalpark Jasmund",
+    "choices": [
+      "Nationalpark Müritz",
+      "Nationalpark Wattenmeer",
+      "Nationalpark Jasmund",
+      "Nationalpark Harz"
+    ],
+    "explanation": "Die Kreideküste mit dem Königsstuhl liegt im Nationalpark Jasmund."
+  },
+  {
+    "id": 263,
+    "category": "Deutschland",
+    "difficulty": "anspruchsvoll",
+    "q": "Welche ist die älteste noch bestehende Universität Deutschlands?",
+    "answer": "Universität Heidelberg",
+    "aliases": [
+      "heidelberg",
+      "universität heidelberg",
+      "ruprecht-karls-universität"
+    ],
+    "choices": [
+      "Universität Tübingen",
+      "Universität Heidelberg",
+      "Universität Leipzig",
+      "Universität Freiburg"
+    ],
+    "explanation": "Die Ruprecht-Karls-Universität Heidelberg wurde 1386 gegründet."
+  },
+  {
+    "id": 264,
+    "category": "Deutschland",
+    "difficulty": "leicht",
+    "q": "In welchem Bundesland liegt Schloss Neuschwanstein?",
+    "answer": "Bayern",
+    "choices": [
+      "Bayern",
+      "Baden-Württemberg",
+      "Hessen",
+      "Thüringen"
+    ],
+    "explanation": "Schloss Neuschwanstein liegt bei Füssen in Bayern."
+  },
+  {
+    "id": 265,
+    "category": "Deutschland",
+    "difficulty": "mittel",
+    "q": "In welcher Stadt wurde Johann Sebastian Bach geboren?",
+    "answer": "Eisenach",
+    "choices": [
+      "Leipzig",
+      "Weimar",
+      "Köthen",
+      "Eisenach"
+    ],
+    "explanation": "Johann Sebastian Bach wurde 1685 in Eisenach geboren."
+  },
+  {
+    "id": 266,
+    "category": "Deutschland",
+    "difficulty": "mittel",
+    "q": "In welchem Bundesland liegt der Spreewald?",
+    "answer": "Brandenburg",
+    "choices": [
+      "Sachsen-Anhalt",
+      "Mecklenburg-Vorpommern",
+      "Brandenburg",
+      "Sachsen"
+    ],
+    "explanation": "Der Spreewald liegt südöstlich von Berlin in Brandenburg."
+  },
+  {
+    "id": 267,
+    "category": "Deutschland",
+    "difficulty": "mittel",
+    "q": "Wie heißt der berühmte Weihnachtsmarkt in Nürnberg?",
+    "answer": "Christkindlesmarkt",
+    "choices": [
+      "Nikolausmarkt",
+      "Christkindlesmarkt",
+      "Striezelmarkt",
+      "Dommarkt"
+    ],
+    "explanation": "Der Nürnberger Christkindlesmarkt zählt zu den bekanntesten Weihnachtsmärkten Deutschlands."
+  },
+  {
+    "id": 268,
+    "category": "Deutschland",
+    "difficulty": "mittel",
+    "q": "Welche Stadt gilt als Stammsitz der Automarke Mercedes-Benz?",
+    "answer": "Stuttgart",
+    "choices": [
+      "Stuttgart",
+      "München",
+      "Wolfsburg",
+      "Rüsselsheim"
+    ],
+    "explanation": "Mercedes-Benz hat seinen Unternehmenssitz in Stuttgart."
+  },
+  {
+    "id": 269,
+    "category": "Deutschland",
+    "difficulty": "mittel",
+    "q": "Wie heißt der Kanal, der Nordsee und Ostsee durch Schleswig-Holstein verbindet?",
+    "answer": "Nord-Ostsee-Kanal",
+    "aliases": [
+      "nord ostsee kanal",
+      "kiel canal",
+      "kieler kanal"
+    ],
+    "choices": [
+      "Mittellandkanal",
+      "Dortmund-Ems-Kanal",
+      "Elbe-Havel-Kanal",
+      "Nord-Ostsee-Kanal"
+    ],
+    "explanation": "Der Nord-Ostsee-Kanal verbindet die Unterelbe bei Brunsbüttel mit der Kieler Förde."
+  },
+  {
+    "id": 270,
+    "category": "Deutschland",
+    "difficulty": "mittel",
+    "q": "In welcher Stadt steht die als „Blaues Wunder“ bekannte Loschwitzer Brücke?",
+    "answer": "Dresden",
+    "choices": [
+      "Magdeburg",
+      "Potsdam",
+      "Dresden",
+      "Leipzig"
+    ],
+    "explanation": "Das Blaue Wunder überspannt in Dresden die Elbe."
+  },
+  {
+    "id": 271,
+    "category": "Deutschland",
+    "difficulty": "anspruchsvoll",
+    "q": "Welcher Fluss mündet bei Mainz in den Rhein?",
+    "answer": "Main",
+    "choices": [
+      "Lahn",
+      "Main",
+      "Neckar",
+      "Mosel"
+    ],
+    "explanation": "Der Main mündet gegenüber von Mainz bei Mainz-Kostheim in den Rhein."
+  },
+  {
+    "id": 272,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Wie heißt die Hauptstadt der Mongolei?",
+    "answer": "Ulaanbaatar",
+    "aliases": [
+      "ulaanbaatar",
+      "ulan bator",
+      "ulan-bator"
+    ],
+    "choices": [
+      "Ulaanbaatar",
+      "Astana",
+      "Bischkek",
+      "Duschanbe"
+    ],
+    "explanation": "Ulaanbaatar ist die Hauptstadt der Mongolei."
+  },
+  {
+    "id": 273,
+    "category": "Geografie",
+    "difficulty": "leicht",
+    "q": "Wie heißt die Hauptstadt Islands?",
+    "answer": "Reykjavík",
+    "aliases": [
+      "reykjavik",
+      "reykjavík"
+    ],
+    "choices": [
+      "Oslo",
+      "Helsinki",
+      "Tórshavn",
+      "Reykjavík"
+    ],
+    "explanation": "Reykjavík ist die Hauptstadt Islands."
+  },
+  {
+    "id": 274,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Wie heißt die Hauptstadt Äthiopiens?",
+    "answer": "Addis Abeba",
+    "choices": [
+      "Asmara",
+      "Khartum",
+      "Addis Abeba",
+      "Nairobi"
+    ],
+    "explanation": "Addis Abeba ist die Hauptstadt Äthiopiens."
+  },
+  {
+    "id": 275,
+    "category": "Geografie",
+    "difficulty": "leicht",
+    "q": "Wie heißt die Hauptstadt Vietnams?",
+    "answer": "Hanoi",
+    "choices": [
+      "Vientiane",
+      "Hanoi",
+      "Ho-Chi-Minh-Stadt",
+      "Phnom Penh"
+    ],
+    "explanation": "Hanoi ist die Hauptstadt Vietnams."
+  },
+  {
+    "id": 276,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Wie heißt die Hauptstadt Marokkos?",
+    "answer": "Rabat",
+    "choices": [
+      "Rabat",
+      "Casablanca",
+      "Marrakesch",
+      "Fès"
+    ],
+    "explanation": "Rabat ist die Hauptstadt Marokkos."
+  },
+  {
+    "id": 277,
+    "category": "Geografie",
+    "difficulty": "leicht",
+    "q": "Wie heißt die Hauptstadt Portugals?",
+    "answer": "Lissabon",
+    "choices": [
+      "Porto",
+      "Coimbra",
+      "Faro",
+      "Lissabon"
+    ],
+    "explanation": "Lissabon ist die Hauptstadt Portugals."
+  },
+  {
+    "id": 278,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Welche Stadt ist die Bundesstadt und faktische Hauptstadt der Schweiz?",
+    "answer": "Bern",
+    "choices": [
+      "Genf",
+      "Basel",
+      "Bern",
+      "Zürich"
+    ],
+    "explanation": "Bern ist Sitz von Regierung und Parlament und wird als Bundesstadt bezeichnet."
+  },
+  {
+    "id": 279,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Wie heißt die Hauptstadt Sloweniens?",
+    "answer": "Ljubljana",
+    "aliases": [
+      "ljubljana",
+      "laibach"
+    ],
+    "choices": [
+      "Sarajevo",
+      "Ljubljana",
+      "Bratislava",
+      "Zagreb"
+    ],
+    "explanation": "Ljubljana ist die Hauptstadt Sloweniens."
+  },
+  {
+    "id": 280,
+    "category": "Geografie",
+    "difficulty": "leicht",
+    "q": "Welcher Ozean ist flächenmäßig der größte?",
+    "answer": "Pazifischer Ozean",
+    "aliases": [
+      "pazifik",
+      "pazifischer ozean"
+    ],
+    "choices": [
+      "Pazifischer Ozean",
+      "Atlantischer Ozean",
+      "Indischer Ozean",
+      "Arktischer Ozean"
+    ],
+    "explanation": "Der Pazifik ist der größte Ozean der Erde."
+  },
+  {
+    "id": 281,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Welcher Fluss fließt durch Kairo?",
+    "answer": "Nil",
+    "choices": [
+      "Niger",
+      "Kongo",
+      "Sambesi",
+      "Nil"
+    ],
+    "explanation": "Kairo liegt am Nil."
+  },
+  {
+    "id": 282,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Wie heißt das längste kontinentale Gebirge der Erde?",
+    "answer": "Anden",
+    "choices": [
+      "Himalaya",
+      "Alpen",
+      "Anden",
+      "Rocky Mountains"
+    ],
+    "explanation": "Die Anden ziehen sich über rund 7.000 Kilometer entlang der Westseite Südamerikas."
+  },
+  {
+    "id": 283,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zwischen welchen beiden Staaten liegt der Titicacasee?",
+    "answer": "Peru und Bolivien",
+    "aliases": [
+      "peru bolivien",
+      "bolivien und peru",
+      "peru und bolivien"
+    ],
+    "choices": [
+      "Argentinien und Chile",
+      "Peru und Bolivien",
+      "Chile und Peru",
+      "Bolivien und Paraguay"
+    ],
+    "explanation": "Der Titicacasee liegt auf dem Altiplano an der Grenze zwischen Peru und Bolivien."
+  },
+  {
+    "id": 284,
+    "category": "Geografie",
+    "difficulty": "leicht",
+    "q": "Vor welcher Küste Afrikas liegt die Insel Madagaskar?",
+    "answer": "Ostküste",
+    "choices": [
+      "Ostküste",
+      "Westküste",
+      "Nordküste",
+      "Südküste"
+    ],
+    "explanation": "Madagaskar liegt im Indischen Ozean östlich des afrikanischen Festlands."
+  },
+  {
+    "id": 285,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Wie heißt die Hauptstadt der Vereinigten Arabischen Emirate?",
+    "answer": "Abu Dhabi",
+    "choices": [
+      "Dubai",
+      "Doha",
+      "Maskat",
+      "Abu Dhabi"
+    ],
+    "explanation": "Abu Dhabi ist die Hauptstadt der Vereinigten Arabischen Emirate."
+  },
+  {
+    "id": 286,
+    "category": "Geografie",
+    "difficulty": "leicht",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Frankreich",
+    "choices": [
+      "Russland",
+      "Luxemburg",
+      "Frankreich",
+      "Niederlande"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Frankreich.",
+    "visual": "assets/flags/france.svg",
+    "visualAlt": "Flagge von Frankreich"
+  },
+  {
+    "id": 287,
+    "category": "Geografie",
+    "difficulty": "leicht",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Italien",
+    "choices": [
+      "Ungarn",
+      "Italien",
+      "Irland",
+      "Mexiko"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Italien.",
+    "visual": "assets/flags/italy.svg",
+    "visualAlt": "Flagge von Italien"
+  },
+  {
+    "id": 288,
+    "category": "Geografie",
+    "difficulty": "leicht",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Deutschland",
+    "choices": [
+      "Deutschland",
+      "Belgien",
+      "Spanien",
+      "Litauen"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Deutschland.",
+    "visual": "assets/flags/germany.svg",
+    "visualAlt": "Flagge von Deutschland"
+  },
+  {
+    "id": 289,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Belgien",
+    "choices": [
+      "Deutschland",
+      "Rumänien",
+      "Frankreich",
+      "Belgien"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Belgien.",
+    "visual": "assets/flags/belgium.svg",
+    "visualAlt": "Flagge von Belgien"
+  },
+  {
+    "id": 290,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Niederlande",
+    "choices": [
+      "Frankreich",
+      "Russland",
+      "Niederlande",
+      "Luxemburg"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Niederlande.",
+    "visual": "assets/flags/netherlands.svg",
+    "visualAlt": "Flagge von Niederlande"
+  },
+  {
+    "id": 291,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Polen",
+    "choices": [
+      "Österreich",
+      "Polen",
+      "Indonesien",
+      "Monaco"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Polen.",
+    "visual": "assets/flags/poland.svg",
+    "visualAlt": "Flagge von Polen"
+  },
+  {
+    "id": 292,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Ukraine",
+    "choices": [
+      "Ukraine",
+      "Schweden",
+      "Kasachstan",
+      "Rumänien"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Ukraine.",
+    "visual": "assets/flags/ukraine.svg",
+    "visualAlt": "Flagge von Ukraine"
+  },
+  {
+    "id": 293,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Österreich",
+    "choices": [
+      "Lettland",
+      "Polen",
+      "Peru",
+      "Österreich"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Österreich.",
+    "visual": "assets/flags/austria.svg",
+    "visualAlt": "Flagge von Österreich"
+  },
+  {
+    "id": 294,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Irland",
+    "choices": [
+      "Elfenbeinküste",
+      "Ungarn",
+      "Irland",
+      "Italien"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Irland.",
+    "visual": "assets/flags/ireland.svg",
+    "visualAlt": "Flagge von Irland"
+  },
+  {
+    "id": 295,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Rumänien",
+    "choices": [
+      "Andorra",
+      "Rumänien",
+      "Belgien",
+      "Tschad"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Rumänien.",
+    "visual": "assets/flags/romania.svg",
+    "visualAlt": "Flagge von Rumänien"
+  },
+  {
+    "id": 296,
+    "category": "Geografie",
+    "difficulty": "leicht",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Japan",
+    "choices": [
+      "Japan",
+      "Bangladesch",
+      "Palau",
+      "Südkorea"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Japan.",
+    "visual": "assets/flags/japan.svg",
+    "visualAlt": "Flagge von Japan"
+  },
+  {
+    "id": 297,
+    "category": "Geografie",
+    "difficulty": "leicht",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Schweiz",
+    "choices": [
+      "Dänemark",
+      "England",
+      "Georgien",
+      "Schweiz"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Schweiz.",
+    "visual": "assets/flags/switzerland.svg",
+    "visualAlt": "Flagge von Schweiz"
+  },
+  {
+    "id": 298,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Schweden",
+    "choices": [
+      "Norwegen",
+      "Island",
+      "Schweden",
+      "Finnland"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Schweden.",
+    "visual": "assets/flags/sweden.svg",
+    "visualAlt": "Flagge von Schweden"
+  },
+  {
+    "id": 299,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Finnland",
+    "choices": [
+      "Island",
+      "Finnland",
+      "Schweden",
+      "Norwegen"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Finnland.",
+    "visual": "assets/flags/finland.svg",
+    "visualAlt": "Flagge von Finnland"
+  },
+  {
+    "id": 300,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Tschechien",
+    "choices": [
+      "Tschechien",
+      "Slowakei",
+      "Slowenien",
+      "Serbien"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Tschechien.",
+    "visual": "assets/flags/czechia.svg",
+    "visualAlt": "Flagge von Tschechien"
+  },
+  {
+    "id": 301,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Ungarn",
+    "choices": [
+      "Bulgarien",
+      "Italien",
+      "Iran",
+      "Ungarn"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Ungarn.",
+    "visual": "assets/flags/hungary.svg",
+    "visualAlt": "Flagge von Ungarn"
+  },
+  {
+    "id": 302,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Estland",
+    "choices": [
+      "Lettland",
+      "Finnland",
+      "Estland",
+      "Litauen"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Estland.",
+    "visual": "assets/flags/estonia.svg",
+    "visualAlt": "Flagge von Estland"
+  },
+  {
+    "id": 303,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Litauen",
+    "choices": [
+      "Äthiopien",
+      "Litauen",
+      "Bolivien",
+      "Ungarn"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Litauen.",
+    "visual": "assets/flags/lithuania.svg",
+    "visualAlt": "Flagge von Litauen"
+  },
+  {
+    "id": 304,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Bulgarien",
+    "choices": [
+      "Bulgarien",
+      "Ungarn",
+      "Italien",
+      "Iran"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Bulgarien.",
+    "visual": "assets/flags/bulgaria.svg",
+    "visualAlt": "Flagge von Bulgarien"
+  },
+  {
+    "id": 305,
+    "category": "Geografie",
+    "difficulty": "mittel",
+    "q": "Zu welchem Land gehört diese Flagge?",
+    "answer": "Kolumbien",
+    "choices": [
+      "Ecuador",
+      "Venezuela",
+      "Armenien",
+      "Kolumbien"
+    ],
+    "explanation": "Die abgebildete Flagge gehört zu Kolumbien.",
+    "visual": "assets/flags/colombia.svg",
+    "visualAlt": "Flagge von Kolumbien"
+  },
+  {
+    "id": 306,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "In welchem Jahr fand die Schlacht bei Hastings statt?",
+    "answer": "1066",
+    "choices": [
+      "1415",
+      "1492",
+      "1066",
+      "1215"
+    ],
+    "explanation": "Die Schlacht bei Hastings fand 1066 statt und führte zur normannischen Eroberung Englands."
+  },
+  {
+    "id": 307,
+    "category": "Geschichte",
+    "difficulty": "leicht",
+    "q": "In welchem Jahr erklärten die dreizehn britischen Kolonien in Nordamerika ihre Unabhängigkeit?",
+    "answer": "1776",
+    "choices": [
+      "1812",
+      "1776",
+      "1763",
+      "1789"
+    ],
+    "explanation": "Die amerikanische Unabhängigkeitserklärung wurde am 4. Juli 1776 verabschiedet."
+  },
+  {
+    "id": 308,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "Wer gilt als erster römischer Kaiser?",
+    "answer": "Augustus",
+    "choices": [
+      "Augustus",
+      "Julius Caesar",
+      "Nero",
+      "Trajan"
+    ],
+    "explanation": "Octavian nahm den Ehrennamen Augustus an und gilt als erster römischer Kaiser."
+  },
+  {
+    "id": 309,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "Für welchen Pharao wurde die Große Pyramide von Gizeh errichtet?",
+    "answer": "Cheops",
+    "aliases": [
+      "cheops",
+      "khufu"
+    ],
+    "choices": [
+      "Tutanchamun",
+      "Ramses II.",
+      "Echnaton",
+      "Cheops"
+    ],
+    "explanation": "Die Große Pyramide wurde für Pharao Cheops (Khufu) errichtet."
+  },
+  {
+    "id": 310,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "Welche Stadt galt im Mittelalter als „Königin der Hanse“?",
+    "answer": "Lübeck",
+    "choices": [
+      "Bremen",
+      "Rostock",
+      "Lübeck",
+      "Hamburg"
+    ],
+    "explanation": "Lübeck war ein führendes Zentrum der Hanse."
+  },
+  {
+    "id": 311,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "In welcher französischen Stadt wurde Jeanne d’Arc 1431 hingerichtet?",
+    "answer": "Rouen",
+    "choices": [
+      "Paris",
+      "Rouen",
+      "Orléans",
+      "Reims"
+    ],
+    "explanation": "Jeanne d’Arc wurde 1431 in Rouen auf dem Scheiterhaufen hingerichtet."
+  },
+  {
+    "id": 312,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "Wer entdeckte 1922 das Grab des Tutanchamun?",
+    "answer": "Howard Carter",
+    "choices": [
+      "Howard Carter",
+      "Heinrich Schliemann",
+      "Arthur Evans",
+      "Flinders Petrie"
+    ],
+    "explanation": "Der britische Archäologe Howard Carter entdeckte 1922 das Grab Tutanchamuns."
+  },
+  {
+    "id": 313,
+    "category": "Geschichte",
+    "difficulty": "anspruchsvoll",
+    "q": "Wer vollendete nach Magellans Tod die erste Weltumsegelung?",
+    "answer": "Juan Sebastián Elcano",
+    "aliases": [
+      "juan sebastian elcano",
+      "elcano"
+    ],
+    "choices": [
+      "Vasco da Gama",
+      "Bartolomeu Dias",
+      "Amerigo Vespucci",
+      "Juan Sebastián Elcano"
+    ],
+    "explanation": "Juan Sebastián Elcano führte das verbliebene Schiff 1522 zurück nach Spanien."
+  },
+  {
+    "id": 314,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "In welchem Jahr begann die Russische Oktoberrevolution nach dem gregorianischen Kalender?",
+    "answer": "1917",
+    "choices": [
+      "1914",
+      "1922",
+      "1917",
+      "1905"
+    ],
+    "explanation": "Die Oktoberrevolution ereignete sich 1917; der Name bezieht sich auf den damals in Russland verwendeten julianischen Kalender."
+  },
+  {
+    "id": 315,
+    "category": "Geschichte",
+    "difficulty": "leicht",
+    "q": "An welchem Datum begann die alliierte Landung in der Normandie, der D-Day?",
+    "answer": "6. Juni 1944",
+    "aliases": [
+      "6 juni 1944",
+      "06.06.1944",
+      "6.6.1944"
+    ],
+    "choices": [
+      "7. Dezember 1941",
+      "6. Juni 1944",
+      "8. Mai 1945",
+      "1. September 1939"
+    ],
+    "explanation": "Der D-Day begann am 6. Juni 1944."
+  },
+  {
+    "id": 316,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "In welchem Jahr fand die Kubakrise statt?",
+    "answer": "1962",
+    "choices": [
+      "1962",
+      "1956",
+      "1968",
+      "1973"
+    ],
+    "explanation": "Die Kubakrise brachte die USA und die Sowjetunion im Oktober 1962 an den Rand eines Atomkriegs."
+  },
+  {
+    "id": 317,
+    "category": "Geschichte",
+    "difficulty": "leicht",
+    "q": "Welche Apollo-Mission landete 1969 erstmals Menschen auf dem Mond?",
+    "answer": "Apollo 11",
+    "choices": [
+      "Apollo 8",
+      "Apollo 12",
+      "Apollo 13",
+      "Apollo 11"
+    ],
+    "explanation": "Apollo 11 landete im Juli 1969 auf dem Mond."
+  },
+  {
+    "id": 318,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "Welche Frau erhielt 1903 gemeinsam mit Pierre Curie und Henri Becquerel den Nobelpreis für Physik?",
+    "answer": "Marie Curie",
+    "choices": [
+      "Rosalind Franklin",
+      "Emmy Noether",
+      "Marie Curie",
+      "Lise Meitner"
+    ],
+    "explanation": "Marie Curie erhielt 1903 den Nobelpreis für Physik und 1911 zusätzlich den Chemienobelpreis."
+  },
+  {
+    "id": 319,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "In welchem Jahr wurde der Suezkanal eröffnet?",
+    "answer": "1869",
+    "choices": [
+      "1914",
+      "1869",
+      "1848",
+      "1888"
+    ],
+    "explanation": "Der Suezkanal wurde 1869 eröffnet."
+  },
+  {
+    "id": 320,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "In welchem griechischen Ort fanden die antiken Olympischen Spiele statt?",
+    "answer": "Olympia",
+    "choices": [
+      "Olympia",
+      "Athen",
+      "Sparta",
+      "Delphi"
+    ],
+    "explanation": "Die antiken Olympischen Spiele wurden im Heiligtum von Olympia ausgetragen."
+  },
+  {
+    "id": 321,
+    "category": "Geschichte",
+    "difficulty": "anspruchsvoll",
+    "q": "Welcher byzantinische Kaiser ließ die Hagia Sophia in ihrer heutigen Grundform errichten?",
+    "answer": "Justinian I.",
+    "choices": [
+      "Konstantin der Große",
+      "Theodosius I.",
+      "Herakleios",
+      "Justinian I."
+    ],
+    "explanation": "Die Hagia Sophia wurde im 6. Jahrhundert unter Kaiser Justinian I. errichtet."
+  },
+  {
+    "id": 322,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "Wer berief 1884/85 die sogenannte Berliner Kongokonferenz ein?",
+    "answer": "Otto von Bismarck",
+    "choices": [
+      "Helmuth von Moltke",
+      "Gustav Stresemann",
+      "Otto von Bismarck",
+      "Wilhelm II."
+    ],
+    "explanation": "Die Berliner Kongokonferenz wurde auf Einladung Reichskanzler Otto von Bismarcks abgehalten."
+  },
+  {
+    "id": 323,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "In welchem Jahr wurde die Weimarer Reichsverfassung verabschiedet?",
+    "answer": "1919",
+    "choices": [
+      "1925",
+      "1919",
+      "1918",
+      "1923"
+    ],
+    "explanation": "Die Weimarer Reichsverfassung trat 1919 in Kraft."
+  },
+  {
+    "id": 324,
+    "category": "Geschichte",
+    "difficulty": "anspruchsvoll",
+    "q": "Welcher Stein half entscheidend bei der Entzifferung der ägyptischen Hieroglyphen?",
+    "answer": "Stein von Rosette",
+    "aliases": [
+      "rosetta stein",
+      "stein von rosette",
+      "rosetta stone"
+    ],
+    "choices": [
+      "Stein von Rosette",
+      "Stein von Palermo",
+      "Naram-Sin-Stele",
+      "Behistun-Inschrift"
+    ],
+    "explanation": "Der Stein von Rosette enthält denselben Text in mehreren Schriften und war entscheidend für die Entzifferung der Hieroglyphen."
+  },
+  {
+    "id": 325,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "In welchem Jahr wurde das Kolosseum in Rom unter Kaiser Titus eröffnet?",
+    "answer": "80 n. Chr.",
+    "aliases": [
+      "80",
+      "80 n chr",
+      "80 nach christus"
+    ],
+    "choices": [
+      "27 v. Chr.",
+      "117 n. Chr.",
+      "313 n. Chr.",
+      "80 n. Chr."
+    ],
+    "explanation": "Das Kolosseum wurde im Jahr 80 n. Chr. unter Titus eröffnet."
+  },
+  {
+    "id": 326,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "Welcher karthagische Feldherr überquerte im Zweiten Punischen Krieg mit Elefanten die Alpen?",
+    "answer": "Hannibal",
+    "choices": [
+      "Scipio",
+      "Hasdrubal",
+      "Hannibal",
+      "Hamilkar"
+    ],
+    "explanation": "Hannibal überquerte 218 v. Chr. mit seinem Heer die Alpen."
+  },
+  {
+    "id": 327,
+    "category": "Geschichte",
+    "difficulty": "leicht",
+    "q": "In welchem Jahr begann der Zweite Weltkrieg in Europa mit dem deutschen Überfall auf Polen?",
+    "answer": "1939",
+    "choices": [
+      "1941",
+      "1939",
+      "1938",
+      "1940"
+    ],
+    "explanation": "Der Überfall auf Polen begann am 1. September 1939."
+  },
+  {
+    "id": 328,
+    "category": "Geschichte",
+    "difficulty": "mittel",
+    "q": "Wie hieß das Schiff, mit dem Charles Darwin seine berühmte Forschungsreise unternahm?",
+    "answer": "HMS Beagle",
+    "choices": [
+      "HMS Beagle",
+      "HMS Endeavour",
+      "HMS Victory",
+      "HMS Bounty"
+    ],
+    "explanation": "Darwin reiste von 1831 bis 1836 auf der HMS Beagle."
+  },
+  {
+    "id": 329,
+    "category": "Geschichte",
+    "difficulty": "anspruchsvoll",
+    "q": "Welche antike Stadt wurde von Heinrich Schliemann im heutigen Nordwesten der Türkei ausgegraben?",
+    "answer": "Troja",
+    "aliases": [
+      "troja",
+      "troy"
+    ],
+    "choices": [
+      "Knossos",
+      "Ephesos",
+      "Pergamon",
+      "Troja"
+    ],
+    "explanation": "Schliemann grub ab 1870 am Hügel Hisarlık, den er mit Troja identifizierte."
+  },
+  {
+    "id": 330,
+    "category": "Wissenschaft",
+    "difficulty": "leicht",
+    "q": "Welches chemische Element hat das Symbol Na?",
+    "answer": "Natrium",
+    "choices": [
+      "Stickstoff",
+      "Nickel",
+      "Natrium",
+      "Neon"
+    ],
+    "explanation": "Na ist das Symbol für Natrium."
+  },
+  {
+    "id": 331,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "Welches chemische Element hat das Symbol K?",
+    "answer": "Kalium",
+    "choices": [
+      "Krypton",
+      "Kalium",
+      "Kobalt",
+      "Kalzium"
+    ],
+    "explanation": "K ist das Symbol für Kalium."
+  },
+  {
+    "id": 332,
+    "category": "Wissenschaft",
+    "difficulty": "leicht",
+    "q": "Welches chemische Element hat das Symbol Hg?",
+    "answer": "Quecksilber",
+    "choices": [
+      "Quecksilber",
+      "Hafnium",
+      "Holmium",
+      "Wasserstoff"
+    ],
+    "explanation": "Hg steht für Quecksilber."
+  },
+  {
+    "id": 333,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "Welches chemische Element hat das Symbol Pb?",
+    "answer": "Blei",
+    "choices": [
+      "Platin",
+      "Phosphor",
+      "Palladium",
+      "Blei"
+    ],
+    "explanation": "Pb leitet sich vom lateinischen plumbum ab und steht für Blei."
+  },
+  {
+    "id": 334,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "Welches chemische Element hat das Symbol Sn?",
+    "answer": "Zinn",
+    "choices": [
+      "Selen",
+      "Silizium",
+      "Zinn",
+      "Zink"
+    ],
+    "explanation": "Sn steht für Zinn und leitet sich von stannum ab."
+  },
+  {
+    "id": 335,
+    "category": "Wissenschaft",
+    "difficulty": "leicht",
+    "q": "Welches chemische Element hat das Symbol Cu?",
+    "answer": "Kupfer",
+    "choices": [
+      "Kohlenstoff",
+      "Kupfer",
+      "Calcium",
+      "Curium"
+    ],
+    "explanation": "Cu steht für Kupfer, lateinisch cuprum."
+  },
+  {
+    "id": 336,
+    "category": "Wissenschaft",
+    "difficulty": "leicht",
+    "q": "Welche Ordnungszahl hat Wasserstoff?",
+    "answer": "1",
+    "choices": [
+      "1",
+      "2",
+      "6",
+      "8"
+    ],
+    "explanation": "Wasserstoff ist das erste Element im Periodensystem und hat Ordnungszahl 1."
+  },
+  {
+    "id": 337,
+    "category": "Wissenschaft",
+    "difficulty": "leicht",
+    "q": "Welche Form hat die DNA-Doppelstruktur?",
+    "answer": "Doppelhelix",
+    "choices": [
+      "Einfachspirale",
+      "Ringstruktur",
+      "Tetraeder",
+      "Doppelhelix"
+    ],
+    "explanation": "Die DNA besteht typischerweise aus zwei umeinander gewundenen Strängen, einer Doppelhelix."
+  },
+  {
+    "id": 338,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "In welchem Organ wird das Hormon Insulin hauptsächlich gebildet?",
+    "answer": "Bauchspeicheldrüse",
+    "aliases": [
+      "bauchspeicheldrüse",
+      "pankreas"
+    ],
+    "choices": [
+      "Schilddrüse",
+      "Nebenniere",
+      "Bauchspeicheldrüse",
+      "Leber"
+    ],
+    "explanation": "Insulin wird in den Betazellen der Langerhans-Inseln der Bauchspeicheldrüse gebildet."
+  },
+  {
+    "id": 339,
+    "category": "Wissenschaft",
+    "difficulty": "anspruchsvoll",
+    "q": "Welche Blutgruppe gilt bei Erythrozytenkonzentraten vereinfacht als Universalspender?",
+    "answer": "0 negativ",
+    "aliases": [
+      "0 negativ",
+      "o negativ",
+      "0-",
+      "o-"
+    ],
+    "choices": [
+      "B positiv",
+      "0 negativ",
+      "AB positiv",
+      "A negativ"
+    ],
+    "explanation": "Bei roten Blutkörperchen gilt 0 negativ im Notfall als Universalspender, auch wenn Transfusionen individuell abgeglichen werden."
+  },
+  {
+    "id": 340,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "Welcher Knochen ist der längste und kräftigste im menschlichen Körper?",
+    "answer": "Oberschenkelknochen",
+    "aliases": [
+      "femur",
+      "oberschenkelknochen"
+    ],
+    "choices": [
+      "Oberschenkelknochen",
+      "Schienbein",
+      "Oberarmknochen",
+      "Beckenbein"
+    ],
+    "explanation": "Der Oberschenkelknochen (Femur) ist der längste und kräftigste menschliche Knochen."
+  },
+  {
+    "id": 341,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "Wie viele Paare von Hirnnerven besitzt der Mensch?",
+    "answer": "12",
+    "choices": [
+      "10",
+      "14",
+      "16",
+      "12"
+    ],
+    "explanation": "Beim Menschen werden zwölf Hirnnervenpaare unterschieden."
+  },
+  {
+    "id": 342,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "Wie viele Lappen hat die rechte menschliche Lunge normalerweise?",
+    "answer": "3",
+    "choices": [
+      "4",
+      "5",
+      "3",
+      "2"
+    ],
+    "explanation": "Die rechte Lunge hat drei Lappen, die linke wegen der Herzlage zwei."
+  },
+  {
+    "id": 343,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "Wie heißen die beiden grundlegenden Typen von Fotorezeptoren in der Netzhaut?",
+    "answer": "Stäbchen und Zapfen",
+    "aliases": [
+      "stäbchen zapfen",
+      "zapfen und stäbchen",
+      "staebchen und zapfen"
+    ],
+    "choices": [
+      "Venen und Arterien",
+      "Stäbchen und Zapfen",
+      "Axone und Dendriten",
+      "Alveolen und Bronchien"
+    ],
+    "explanation": "Die Netzhaut enthält Stäbchen für lichtempfindliches Sehen und Zapfen für Farb- und Detailsehen."
+  },
+  {
+    "id": 344,
+    "category": "Wissenschaft",
+    "difficulty": "leicht",
+    "q": "Welches Gas macht den größten Anteil der Erdatmosphäre aus?",
+    "answer": "Stickstoff",
+    "choices": [
+      "Stickstoff",
+      "Sauerstoff",
+      "Kohlendioxid",
+      "Argon"
+    ],
+    "explanation": "Die Erdatmosphäre besteht zu rund 78 Prozent aus Stickstoff."
+  },
+  {
+    "id": 345,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "Wie alt ist die Erde ungefähr?",
+    "answer": "4,54 Milliarden Jahre",
+    "aliases": [
+      "4,54 milliarden jahre",
+      "4.54 milliarden jahre",
+      "4,5 milliarden jahre"
+    ],
+    "choices": [
+      "540 Millionen Jahre",
+      "13,8 Milliarden Jahre",
+      "65 Millionen Jahre",
+      "4,54 Milliarden Jahre"
+    ],
+    "explanation": "Das Alter der Erde wird auf etwa 4,54 Milliarden Jahre bestimmt."
+  },
+  {
+    "id": 346,
+    "category": "Wissenschaft",
+    "difficulty": "leicht",
+    "q": "Welcher Planet ist der kleinste im Sonnensystem?",
+    "answer": "Merkur",
+    "choices": [
+      "Venus",
+      "Neptun",
+      "Merkur",
+      "Mars"
+    ],
+    "explanation": "Merkur ist der kleinste der acht Planeten."
+  },
+  {
+    "id": 347,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "In welchem Jahr wurde Pluto von der Internationalen Astronomischen Union als Zwergplanet klassifiziert?",
+    "answer": "2006",
+    "choices": [
+      "2012",
+      "2006",
+      "1999",
+      "2003"
+    ],
+    "explanation": "Die IAU führte 2006 die heutige Planetendefinition ein, nach der Pluto als Zwergplanet gilt."
+  },
+  {
+    "id": 348,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "Woraus bestehen die Ringe des Saturn überwiegend?",
+    "answer": "Wassereis",
+    "choices": [
+      "Wassereis",
+      "Eisen",
+      "Methaneis",
+      "Staub aus Kohlenstoff"
+    ],
+    "explanation": "Saturns Ringe bestehen überwiegend aus Wasser-Eispartikeln mit Anteilen von Gestein und Staub."
+  },
+  {
+    "id": 349,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "Wie viele Kilometer entspricht eine Astronomische Einheit ungefähr?",
+    "answer": "150 Millionen Kilometer",
+    "aliases": [
+      "150 millionen kilometer",
+      "149,6 millionen kilometer",
+      "149.6 millionen kilometer"
+    ],
+    "choices": [
+      "15 Millionen Kilometer",
+      "1,5 Milliarden Kilometer",
+      "9,46 Billionen Kilometer",
+      "150 Millionen Kilometer"
+    ],
+    "explanation": "Eine Astronomische Einheit entspricht ungefähr der mittleren Entfernung Erde–Sonne: 149,6 Millionen Kilometer."
+  },
+  {
+    "id": 350,
+    "category": "Wissenschaft",
+    "difficulty": "leicht",
+    "q": "Was misst ein Lichtjahr?",
+    "answer": "Entfernung",
+    "choices": [
+      "Helligkeit",
+      "Temperatur",
+      "Entfernung",
+      "Zeit"
+    ],
+    "explanation": "Ein Lichtjahr ist die Strecke, die Licht im Vakuum in einem Jahr zurücklegt."
+  },
+  {
+    "id": 351,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "Welche starke Säure ist ein Hauptbestandteil der Magensäure?",
+    "answer": "Salzsäure",
+    "choices": [
+      "Essigsäure",
+      "Salzsäure",
+      "Schwefelsäure",
+      "Salpetersäure"
+    ],
+    "explanation": "Die Magensäure enthält vor allem Salzsäure (HCl)."
+  },
+  {
+    "id": 352,
+    "category": "Wissenschaft",
+    "difficulty": "leicht",
+    "q": "In welcher SI-Einheit wird die elektrische Stromstärke gemessen?",
+    "answer": "Ampere",
+    "choices": [
+      "Ampere",
+      "Volt",
+      "Ohm",
+      "Watt"
+    ],
+    "explanation": "Die elektrische Stromstärke wird in Ampere gemessen."
+  },
+  {
+    "id": 353,
+    "category": "Wissenschaft",
+    "difficulty": "leicht",
+    "q": "In welcher SI-Einheit wird Leistung gemessen?",
+    "answer": "Watt",
+    "choices": [
+      "Joule",
+      "Pascal",
+      "Tesla",
+      "Watt"
+    ],
+    "explanation": "Leistung wird in Watt gemessen."
+  },
+  {
+    "id": 354,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "In welcher SI-Einheit wird Druck gemessen?",
+    "answer": "Pascal",
+    "choices": [
+      "Weber",
+      "Kelvin",
+      "Pascal",
+      "Newton"
+    ],
+    "explanation": "Die SI-Einheit des Drucks ist das Pascal."
+  },
+  {
+    "id": 355,
+    "category": "Wissenschaft",
+    "difficulty": "leicht",
+    "q": "Wie heißt die SI-Basiseinheit der thermodynamischen Temperatur?",
+    "answer": "Kelvin",
+    "choices": [
+      "Joule",
+      "Kelvin",
+      "Celsius",
+      "Fahrenheit"
+    ],
+    "explanation": "Die SI-Basiseinheit der Temperatur ist Kelvin."
+  },
+  {
+    "id": 356,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "Wer entdeckte 1896 die natürliche Radioaktivität?",
+    "answer": "Henri Becquerel",
+    "choices": [
+      "Henri Becquerel",
+      "Ernest Rutherford",
+      "Niels Bohr",
+      "Max Planck"
+    ],
+    "explanation": "Henri Becquerel entdeckte 1896 die Radioaktivität von Uranverbindungen."
+  },
+  {
+    "id": 357,
+    "category": "Wissenschaft",
+    "difficulty": "leicht",
+    "q": "Wer entdeckte 1928 die antibakterielle Wirkung des Penicillins?",
+    "answer": "Alexander Fleming",
+    "choices": [
+      "Louis Pasteur",
+      "Robert Koch",
+      "Joseph Lister",
+      "Alexander Fleming"
+    ],
+    "explanation": "Alexander Fleming beobachtete 1928 die Wirkung eines Penicillium-Schimmelpilzes auf Bakterien."
+  },
+  {
+    "id": 358,
+    "category": "Wissenschaft",
+    "difficulty": "mittel",
+    "q": "Welches Metall ist bei normaler Raumtemperatur flüssig?",
+    "answer": "Quecksilber",
+    "choices": [
+      "Aluminium",
+      "Zinn",
+      "Quecksilber",
+      "Blei"
+    ],
+    "explanation": "Quecksilber ist bei Raumtemperatur flüssig."
+  },
+  {
+    "id": 359,
+    "category": "Wissenschaft",
+    "difficulty": "anspruchsvoll",
+    "q": "Wie heißt das Teilchen mit gleicher Masse wie ein Elektron, aber positiver Ladung?",
+    "answer": "Positron",
+    "choices": [
+      "Photon",
+      "Positron",
+      "Proton",
+      "Neutrino"
+    ],
+    "explanation": "Das Positron ist das Antiteilchen des Elektrons und trägt positive Elementarladung."
+  },
+  {
+    "id": 360,
+    "category": "Musik",
+    "difficulty": "leicht",
+    "q": "Wer komponierte „Die vier Jahreszeiten“?",
+    "answer": "Antonio Vivaldi",
+    "choices": [
+      "Antonio Vivaldi",
+      "Johann Sebastian Bach",
+      "Georg Friedrich Händel",
+      "Joseph Haydn"
+    ],
+    "explanation": "Antonio Vivaldi komponierte den Zyklus „Die vier Jahreszeiten“."
+  },
+  {
+    "id": 361,
+    "category": "Musik",
+    "difficulty": "leicht",
+    "q": "Wer komponierte die Oper „Die Zauberflöte“?",
+    "answer": "Wolfgang Amadeus Mozart",
+    "choices": [
+      "Ludwig van Beethoven",
+      "Richard Wagner",
+      "Giuseppe Verdi",
+      "Wolfgang Amadeus Mozart"
+    ],
+    "explanation": "Mozarts „Die Zauberflöte“ wurde 1791 uraufgeführt."
+  },
+  {
+    "id": 362,
+    "category": "Musik",
+    "difficulty": "mittel",
+    "q": "Wer komponierte die sogenannte „Mondscheinsonate“?",
+    "answer": "Ludwig van Beethoven",
+    "choices": [
+      "Franz Schubert",
+      "Robert Schumann",
+      "Ludwig van Beethoven",
+      "Frédéric Chopin"
+    ],
+    "explanation": "Die Klaviersonate Nr. 14 cis-Moll stammt von Beethoven."
+  },
+  {
+    "id": 363,
+    "category": "Musik",
+    "difficulty": "mittel",
+    "q": "Wer komponierte die „Brandenburgischen Konzerte“?",
+    "answer": "Johann Sebastian Bach",
+    "choices": [
+      "Georg Friedrich Händel",
+      "Johann Sebastian Bach",
+      "Georg Philipp Telemann",
+      "Antonio Vivaldi"
+    ],
+    "explanation": "Die sechs Brandenburgischen Konzerte stammen von Johann Sebastian Bach."
+  },
+  {
+    "id": 364,
+    "category": "Musik",
+    "difficulty": "mittel",
+    "q": "Wer komponierte den Walzer „An der schönen blauen Donau“?",
+    "answer": "Johann Strauss Sohn",
+    "aliases": [
+      "johann strauss sohn",
+      "johann strauss ii",
+      "johann strauß sohn"
+    ],
+    "choices": [
+      "Johann Strauss Sohn",
+      "Franz Lehár",
+      "Josef Strauss",
+      "Johann Strauss Vater"
+    ],
+    "explanation": "Der Donauwalzer stammt von Johann Strauss Sohn."
+  },
+  {
+    "id": 365,
+    "category": "Musik",
+    "difficulty": "mittel",
+    "q": "Wer komponierte das Ballett „Schwanensee“?",
+    "answer": "Pjotr Iljitsch Tschaikowski",
+    "aliases": [
+      "tschaikowski",
+      "tchaikovsky",
+      "pjotr tschaikowski"
+    ],
+    "choices": [
+      "Sergei Prokofjew",
+      "Igor Strawinsky",
+      "Nikolai Rimski-Korsakow",
+      "Pjotr Iljitsch Tschaikowski"
+    ],
+    "explanation": "„Schwanensee“ stammt von Pjotr Iljitsch Tschaikowski."
+  },
+  {
+    "id": 366,
+    "category": "Musik",
+    "difficulty": "mittel",
+    "q": "Wer komponierte die Oper „Carmen“?",
+    "answer": "Georges Bizet",
+    "choices": [
+      "Giuseppe Verdi",
+      "Charles Gounod",
+      "Georges Bizet",
+      "Giacomo Puccini"
+    ],
+    "explanation": "Georges Bizets Oper „Carmen“ wurde 1875 uraufgeführt."
+  },
+  {
+    "id": 367,
+    "category": "Musik",
+    "difficulty": "mittel",
+    "q": "Aus welcher Oper stammt der „Ritt der Walküren“?",
+    "answer": "Die Walküre",
+    "choices": [
+      "Parsifal",
+      "Die Walküre",
+      "Lohengrin",
+      "Tannhäuser"
+    ],
+    "explanation": "Der „Ritt der Walküren“ eröffnet den dritten Akt von Wagners Oper „Die Walküre“."
+  },
+  {
+    "id": 368,
+    "category": "Musik",
+    "difficulty": "mittel",
+    "q": "Wer komponierte „Rhapsody in Blue“?",
+    "answer": "George Gershwin",
+    "choices": [
+      "George Gershwin",
+      "Leonard Bernstein",
+      "Aaron Copland",
+      "Duke Ellington"
+    ],
+    "explanation": "George Gershwin komponierte „Rhapsody in Blue“ 1924."
+  },
+  {
+    "id": 369,
+    "category": "Musik",
+    "difficulty": "anspruchsvoll",
+    "q": "Wer komponierte „Carmina Burana“?",
+    "answer": "Carl Orff",
+    "choices": [
+      "Richard Strauss",
+      "Paul Hindemith",
+      "Kurt Weill",
+      "Carl Orff"
+    ],
+    "explanation": "Carl Orff komponierte „Carmina Burana“, uraufgeführt 1937."
+  },
+  {
+    "id": 370,
+    "category": "Musik",
+    "difficulty": "leicht",
+    "q": "Wie heißt der langjährige Frontmann der Rolling Stones?",
+    "answer": "Mick Jagger",
+    "choices": [
+      "Robert Plant",
+      "Rod Stewart",
+      "Mick Jagger",
+      "Roger Daltrey"
+    ],
+    "explanation": "Mick Jagger ist Sänger und Frontmann der Rolling Stones."
+  },
+  {
+    "id": 371,
+    "category": "Musik",
+    "difficulty": "leicht",
+    "q": "Wie heißt der Sänger von U2?",
+    "answer": "Bono",
+    "aliases": [
+      "bono",
+      "paul david hewson"
+    ],
+    "choices": [
+      "Bono Voxx",
+      "Bono",
+      "Sting",
+      "Morrissey"
+    ],
+    "explanation": "Bono ist der Sänger von U2."
+  },
+  {
+    "id": 372,
+    "category": "Musik",
+    "difficulty": "mittel",
+    "q": "Wie heißt der Gitarrist von Queen, der auch Astrophysiker ist?",
+    "answer": "Brian May",
+    "choices": [
+      "Brian May",
+      "John Deacon",
+      "Roger Taylor",
+      "David Gilmour"
+    ],
+    "explanation": "Brian May ist Gitarrist von Queen und promovierter Astrophysiker."
+  },
+  {
+    "id": 373,
+    "category": "Musik",
+    "difficulty": "leicht",
+    "q": "Wie heißt der Schlagzeuger der Beatles?",
+    "answer": "Ringo Starr",
+    "choices": [
+      "George Harrison",
+      "Pete Townshend",
+      "Charlie Watts",
+      "Ringo Starr"
+    ],
+    "explanation": "Ringo Starr war der Schlagzeuger der Beatles."
+  },
+  {
+    "id": 374,
+    "category": "Musik",
+    "difficulty": "mittel",
+    "q": "Welche Band veröffentlichte 1977 das Album „Rumours“?",
+    "answer": "Fleetwood Mac",
+    "choices": [
+      "Genesis",
+      "Boston",
+      "Fleetwood Mac",
+      "Supertramp"
+    ],
+    "explanation": "„Rumours“ ist ein Album von Fleetwood Mac."
+  },
+  {
+    "id": 375,
+    "category": "Musik",
+    "difficulty": "leicht",
+    "q": "Welcher Künstler veröffentlichte das Album „Thriller“?",
+    "answer": "Michael Jackson",
+    "choices": [
+      "Lionel Richie",
+      "Michael Jackson",
+      "Prince",
+      "Stevie Wonder"
+    ],
+    "explanation": "„Thriller“ von Michael Jackson erschien 1982."
+  },
+  {
+    "id": 376,
+    "category": "Musik",
+    "difficulty": "mittel",
+    "q": "Welche Sängerin veröffentlichte 1989 das Album „Like a Prayer“?",
+    "answer": "Madonna",
+    "choices": [
+      "Madonna",
+      "Cyndi Lauper",
+      "Whitney Houston",
+      "Cher"
+    ],
+    "explanation": "„Like a Prayer“ ist ein Album von Madonna."
+  },
+  {
+    "id": 377,
+    "category": "Musik",
+    "difficulty": "mittel",
+    "q": "Wie heißt das 1991 erschienene Nirvana-Album mit „Smells Like Teen Spirit“?",
+    "answer": "Nevermind",
+    "choices": [
+      "In Utero",
+      "Bleach",
+      "Incesticide",
+      "Nevermind"
+    ],
+    "explanation": "„Smells Like Teen Spirit“ erschien auf Nirvanas Album „Nevermind“."
+  },
+  {
+    "id": 378,
+    "category": "Musik",
+    "difficulty": "mittel",
+    "q": "Aus welcher deutschen Stadt stammt die Band Kraftwerk?",
+    "answer": "Düsseldorf",
+    "choices": [
+      "Hamburg",
+      "Köln",
+      "Düsseldorf",
+      "Berlin"
+    ],
+    "explanation": "Kraftwerk wurde in Düsseldorf gegründet."
+  },
+  {
+    "id": 379,
+    "category": "Musik",
+    "difficulty": "leicht",
+    "q": "Aus welchem Land stammt das Elektro-Duo Daft Punk?",
+    "answer": "Frankreich",
+    "choices": [
+      "Kanada",
+      "Frankreich",
+      "Belgien",
+      "Großbritannien"
+    ],
+    "explanation": "Daft Punk war ein französisches Duo."
+  },
+  {
+    "id": 380,
+    "category": "Film",
+    "difficulty": "mittel",
+    "q": "Wer spielte Rick Blaine im Filmklassiker „Casablanca“?",
+    "answer": "Humphrey Bogart",
+    "choices": [
+      "Humphrey Bogart",
+      "Cary Grant",
+      "James Stewart",
+      "Gregory Peck"
+    ],
+    "explanation": "Humphrey Bogart spielte Rick Blaine in „Casablanca“."
+  },
+  {
+    "id": 381,
+    "category": "Film",
+    "difficulty": "leicht",
+    "q": "Wer führte Regie bei „Der weiße Hai“ (Jaws)?",
+    "answer": "Steven Spielberg",
+    "choices": [
+      "George Lucas",
+      "Ridley Scott",
+      "Francis Ford Coppola",
+      "Steven Spielberg"
+    ],
+    "explanation": "Steven Spielberg führte 1975 Regie bei „Der weiße Hai“."
+  },
+  {
+    "id": 382,
+    "category": "Film",
+    "difficulty": "mittel",
+    "q": "Wer führte Regie bei „Alien“ von 1979?",
+    "answer": "Ridley Scott",
+    "choices": [
+      "John Carpenter",
+      "David Cronenberg",
+      "Ridley Scott",
+      "James Cameron"
+    ],
+    "explanation": "Ridley Scott inszenierte den ersten „Alien“-Film."
+  },
+  {
+    "id": 383,
+    "category": "Film",
+    "difficulty": "mittel",
+    "q": "Wer führte Regie bei „Inception“?",
+    "answer": "Christopher Nolan",
+    "choices": [
+      "Sam Mendes",
+      "Christopher Nolan",
+      "Denis Villeneuve",
+      "David Fincher"
+    ],
+    "explanation": "„Inception“ wurde von Christopher Nolan geschrieben und inszeniert."
+  },
+  {
+    "id": 384,
+    "category": "Film",
+    "difficulty": "mittel",
+    "q": "Welche Schauspielerin spielt die Titelrolle in „Die fabelhafte Welt der Amélie“?",
+    "answer": "Audrey Tautou",
+    "choices": [
+      "Audrey Tautou",
+      "Juliette Binoche",
+      "Marion Cotillard",
+      "Sophie Marceau"
+    ],
+    "explanation": "Audrey Tautou spielt Amélie Poulain."
+  },
+  {
+    "id": 385,
+    "category": "Film",
+    "difficulty": "leicht",
+    "q": "Wer spielt Rocky Balboa in der „Rocky“-Filmreihe?",
+    "answer": "Sylvester Stallone",
+    "choices": [
+      "Arnold Schwarzenegger",
+      "Bruce Willis",
+      "Jean-Claude Van Damme",
+      "Sylvester Stallone"
+    ],
+    "explanation": "Sylvester Stallone schrieb den ersten Rocky-Film und spielte die Hauptrolle."
+  },
+  {
+    "id": 386,
+    "category": "Film",
+    "difficulty": "leicht",
+    "q": "Welcher Schauspieler verkörpert Indiana Jones?",
+    "answer": "Harrison Ford",
+    "choices": [
+      "Kurt Russell",
+      "Kevin Costner",
+      "Harrison Ford",
+      "Mel Gibson"
+    ],
+    "explanation": "Harrison Ford spielt Indiana Jones."
+  },
+  {
+    "id": 387,
+    "category": "Film",
+    "difficulty": "mittel",
+    "q": "Wer schuf die „Star Wars“-Saga und führte beim ersten Film von 1977 Regie?",
+    "answer": "George Lucas",
+    "choices": [
+      "Irvin Kershner",
+      "George Lucas",
+      "Steven Spielberg",
+      "J. J. Abrams"
+    ],
+    "explanation": "George Lucas schuf Star Wars und inszenierte den Film von 1977."
+  },
+  {
+    "id": 388,
+    "category": "Film",
+    "difficulty": "mittel",
+    "q": "Welcher Schauspieler verkörperte Gollum per Performance Capture in „Der Herr der Ringe“?",
+    "answer": "Andy Serkis",
+    "choices": [
+      "Andy Serkis",
+      "Ian Holm",
+      "Sean Bean",
+      "Dominic Monaghan"
+    ],
+    "explanation": "Andy Serkis spielte Gollum mithilfe von Performance Capture."
+  },
+  {
+    "id": 389,
+    "category": "Film",
+    "difficulty": "leicht",
+    "q": "Welche Automarke und welches Modell dient in „Zurück in die Zukunft“ als Zeitmaschine?",
+    "answer": "DeLorean DMC-12",
+    "aliases": [
+      "delorean",
+      "dmc-12",
+      "delorean dmc 12"
+    ],
+    "choices": [
+      "Pontiac Firebird",
+      "Ford Mustang",
+      "Chevrolet Corvette",
+      "DeLorean DMC-12"
+    ],
+    "explanation": "Doc Browns Zeitmaschine basiert auf einem DeLorean DMC-12."
+  },
+  {
+    "id": 390,
+    "category": "Film",
+    "difficulty": "leicht",
+    "q": "In welcher US-Stadt spielt der erste „Ghostbusters“-Film überwiegend?",
+    "answer": "New York City",
+    "aliases": [
+      "new york",
+      "new york city"
+    ],
+    "choices": [
+      "Los Angeles",
+      "Boston",
+      "New York City",
+      "Chicago"
+    ],
+    "explanation": "Ghostbusters spielt überwiegend in New York City."
+  },
+  {
+    "id": 391,
+    "category": "Film",
+    "difficulty": "mittel",
+    "q": "Wie heißt der Bordcomputer in „2001: Odyssee im Weltraum“?",
+    "answer": "HAL 9000",
+    "choices": [
+      "VIKI",
+      "HAL 9000",
+      "MOTHER",
+      "GERTY"
+    ],
+    "explanation": "Der Computer an Bord der Discovery One heißt HAL 9000."
+  },
+  {
+    "id": 392,
+    "category": "Film",
+    "difficulty": "leicht",
+    "q": "Welche Farbe hat die Pille, die Neo in „Matrix“ nimmt, um die Wahrheit zu erfahren?",
+    "answer": "Rot",
+    "choices": [
+      "Rot",
+      "Blau",
+      "Grün",
+      "Weiß"
+    ],
+    "explanation": "Neo entscheidet sich für die rote Pille."
+  },
+  {
+    "id": 393,
+    "category": "Film",
+    "difficulty": "mittel",
+    "q": "Wie heißt die Mafiafamilie im Zentrum von „Der Pate“?",
+    "answer": "Corleone",
+    "choices": [
+      "Soprano",
+      "Gambino",
+      "Montana",
+      "Corleone"
+    ],
+    "explanation": "Im Zentrum von „Der Pate“ steht die Familie Corleone."
+  },
+  {
+    "id": 394,
+    "category": "Film",
+    "difficulty": "mittel",
+    "q": "Wer führte Regie bei dem deutschen Film „Das Boot“ von 1981?",
+    "answer": "Wolfgang Petersen",
+    "choices": [
+      "Wim Wenders",
+      "Werner Herzog",
+      "Wolfgang Petersen",
+      "Volker Schlöndorff"
+    ],
+    "explanation": "Wolfgang Petersen führte bei „Das Boot“ Regie."
+  },
+  {
+    "id": 395,
+    "category": "Film",
+    "difficulty": "mittel",
+    "q": "Wer führte Regie bei dem Stummfilmklassiker „Metropolis“ von 1927?",
+    "answer": "Fritz Lang",
+    "choices": [
+      "Billy Wilder",
+      "Fritz Lang",
+      "F. W. Murnau",
+      "Ernst Lubitsch"
+    ],
+    "explanation": "Fritz Lang inszenierte „Metropolis“."
+  },
+  {
+    "id": 396,
+    "category": "Film",
+    "difficulty": "anspruchsvoll",
+    "q": "Welcher Schauspieler spielte den Taxifahrer Travis Bickle in „Taxi Driver“?",
+    "answer": "Robert De Niro",
+    "choices": [
+      "Robert De Niro",
+      "Al Pacino",
+      "Dustin Hoffman",
+      "Harvey Keitel"
+    ],
+    "explanation": "Robert De Niro spielt Travis Bickle in Martin Scorseses „Taxi Driver“."
+  },
+  {
+    "id": 397,
+    "category": "Film",
+    "difficulty": "mittel",
+    "q": "Wie heißt das Hotel in Stanley Kubricks „Shining“?",
+    "answer": "Overlook Hotel",
+    "choices": [
+      "Bates Motel",
+      "Grand Budapest Hotel",
+      "Hotel California",
+      "Overlook Hotel"
+    ],
+    "explanation": "Das abgelegene Hotel in „Shining“ heißt Overlook Hotel."
+  },
+  {
+    "id": 398,
+    "category": "Literatur",
+    "difficulty": "leicht",
+    "q": "Wer schrieb das Drama „Hamlet“?",
+    "answer": "William Shakespeare",
+    "choices": [
+      "Ben Jonson",
+      "John Milton",
+      "William Shakespeare",
+      "Christopher Marlowe"
+    ],
+    "explanation": "„Hamlet“ stammt von William Shakespeare."
+  },
+  {
+    "id": 399,
+    "category": "Literatur",
+    "difficulty": "mittel",
+    "q": "Wer schrieb „Schöne neue Welt“ (Brave New World)?",
+    "answer": "Aldous Huxley",
+    "choices": [
+      "H. G. Wells",
+      "Aldous Huxley",
+      "George Orwell",
+      "Ray Bradbury"
+    ],
+    "explanation": "Aldous Huxley veröffentlichte „Brave New World“ 1932."
+  },
+  {
+    "id": 400,
+    "category": "Literatur",
+    "difficulty": "mittel",
+    "q": "Wer schrieb „Fahrenheit 451“?",
+    "answer": "Ray Bradbury",
+    "choices": [
+      "Ray Bradbury",
+      "Isaac Asimov",
+      "Arthur C. Clarke",
+      "Philip K. Dick"
+    ],
+    "explanation": "„Fahrenheit 451“ ist ein Roman von Ray Bradbury."
+  },
+  {
+    "id": 401,
+    "category": "Literatur",
+    "difficulty": "leicht",
+    "q": "Wer schrieb „Der Hobbit“?",
+    "answer": "J. R. R. Tolkien",
+    "choices": [
+      "C. S. Lewis",
+      "Terry Pratchett",
+      "George R. R. Martin",
+      "J. R. R. Tolkien"
+    ],
+    "explanation": "„Der Hobbit“ stammt von J. R. R. Tolkien."
+  },
+  {
+    "id": 402,
+    "category": "Literatur",
+    "difficulty": "leicht",
+    "q": "Wer schrieb „Alice im Wunderland“?",
+    "answer": "Lewis Carroll",
+    "choices": [
+      "Rudyard Kipling",
+      "Robert Louis Stevenson",
+      "Lewis Carroll",
+      "Oscar Wilde"
+    ],
+    "explanation": "Lewis Carroll schrieb „Alice’s Adventures in Wonderland“."
+  },
+  {
+    "id": 403,
+    "category": "Literatur",
+    "difficulty": "mittel",
+    "q": "Wer schrieb den Roman „Frankenstein“?",
+    "answer": "Mary Shelley",
+    "choices": [
+      "George Eliot",
+      "Mary Shelley",
+      "Emily Brontë",
+      "Jane Austen"
+    ],
+    "explanation": "Mary Shelley veröffentlichte „Frankenstein“ 1818."
+  },
+  {
+    "id": 404,
+    "category": "Literatur",
+    "difficulty": "mittel",
+    "q": "Wer schrieb „Dracula“?",
+    "answer": "Bram Stoker",
+    "choices": [
+      "Bram Stoker",
+      "Mary Shelley",
+      "Robert Louis Stevenson",
+      "H. P. Lovecraft"
+    ],
+    "explanation": "Bram Stoker veröffentlichte „Dracula“ 1897."
+  },
+  {
+    "id": 405,
+    "category": "Literatur",
+    "difficulty": "mittel",
+    "q": "Welchem Dichter werden „Ilias“ und „Odyssee“ traditionell zugeschrieben?",
+    "answer": "Homer",
+    "choices": [
+      "Vergil",
+      "Ovid",
+      "Sophokles",
+      "Homer"
+    ],
+    "explanation": "„Ilias“ und „Odyssee“ werden traditionell Homer zugeschrieben."
+  },
+  {
+    "id": 406,
+    "category": "Literatur",
+    "difficulty": "mittel",
+    "q": "Wer schrieb „Schuld und Sühne“?",
+    "answer": "Fjodor Dostojewski",
+    "aliases": [
+      "dostojewski",
+      "fjodor dostojewski",
+      "dostoevsky"
+    ],
+    "choices": [
+      "Iwan Turgenew",
+      "Anton Tschechow",
+      "Fjodor Dostojewski",
+      "Leo Tolstoi"
+    ],
+    "explanation": "„Schuld und Sühne“ stammt von Fjodor Dostojewski."
+  },
+  {
+    "id": 407,
+    "category": "Literatur",
+    "difficulty": "leicht",
+    "q": "Wer schrieb „Der alte Mann und das Meer“?",
+    "answer": "Ernest Hemingway",
+    "choices": [
+      "William Faulkner",
+      "Ernest Hemingway",
+      "John Steinbeck",
+      "F. Scott Fitzgerald"
+    ],
+    "explanation": "Ernest Hemingway schrieb „Der alte Mann und das Meer“."
+  },
+  {
+    "id": 408,
+    "category": "Literatur",
+    "difficulty": "mittel",
+    "q": "Wer schrieb „Farm der Tiere“?",
+    "answer": "George Orwell",
+    "choices": [
+      "George Orwell",
+      "Aldous Huxley",
+      "Kurt Vonnegut",
+      "Anthony Burgess"
+    ],
+    "explanation": "„Animal Farm“ bzw. „Farm der Tiere“ stammt von George Orwell."
+  },
+  {
+    "id": 409,
+    "category": "Literatur",
+    "difficulty": "mittel",
+    "q": "Wer schrieb „Die Blechtrommel“?",
+    "answer": "Günter Grass",
+    "choices": [
+      "Heinrich Böll",
+      "Siegfried Lenz",
+      "Max Frisch",
+      "Günter Grass"
+    ],
+    "explanation": "„Die Blechtrommel“ ist ein Roman von Günter Grass."
+  },
+  {
+    "id": 410,
+    "category": "Literatur",
+    "difficulty": "mittel",
+    "q": "Wer schrieb „Der Steppenwolf“?",
+    "answer": "Hermann Hesse",
+    "choices": [
+      "Robert Musil",
+      "Franz Werfel",
+      "Hermann Hesse",
+      "Thomas Mann"
+    ],
+    "explanation": "„Der Steppenwolf“ stammt von Hermann Hesse."
+  },
+  {
+    "id": 411,
+    "category": "Literatur",
+    "difficulty": "mittel",
+    "q": "Wer schrieb „Das Parfum“?",
+    "answer": "Patrick Süskind",
+    "choices": [
+      "Siegfried Lenz",
+      "Patrick Süskind",
+      "Bernhard Schlink",
+      "Daniel Kehlmann"
+    ],
+    "explanation": "Patrick Süskind veröffentlichte „Das Parfum“ 1985."
+  },
+  {
+    "id": 412,
+    "category": "Literatur",
+    "difficulty": "leicht",
+    "q": "Wer schrieb „Emil und die Detektive“?",
+    "answer": "Erich Kästner",
+    "choices": [
+      "Erich Kästner",
+      "Otfried Preußler",
+      "Michael Ende",
+      "James Krüss"
+    ],
+    "explanation": "„Emil und die Detektive“ stammt von Erich Kästner."
+  },
+  {
+    "id": 413,
+    "category": "Literatur",
+    "difficulty": "anspruchsvoll",
+    "q": "Wie heißt der Kapitän des Walfängers „Pequod“ in „Moby-Dick“?",
+    "answer": "Ahab",
+    "choices": [
+      "Nemo",
+      "Queequeg",
+      "Starbuck",
+      "Ahab"
+    ],
+    "explanation": "Kapitän Ahab jagt besessen den weißen Wal Moby Dick."
+  },
+  {
+    "id": 414,
+    "category": "Sport",
+    "difficulty": "mittel",
+    "q": "In welchem Land fand 1930 die erste Fußball-Weltmeisterschaft statt?",
+    "answer": "Uruguay",
+    "choices": [
+      "Italien",
+      "Frankreich",
+      "Uruguay",
+      "Brasilien"
+    ],
+    "explanation": "Die erste Fußball-WM wurde 1930 in Uruguay ausgetragen."
+  },
+  {
+    "id": 415,
+    "category": "Sport",
+    "difficulty": "mittel",
+    "q": "Wie hoch hängt ein Basketballkorb nach internationalem Standard?",
+    "answer": "3,05 Meter",
+    "aliases": [
+      "3,05 meter",
+      "3.05 meter",
+      "3,05 m",
+      "3.05 m"
+    ],
+    "choices": [
+      "3,50 Meter",
+      "3,05 Meter",
+      "2,75 Meter",
+      "3,25 Meter"
+    ],
+    "explanation": "Der Ring befindet sich 3,05 Meter über dem Boden."
+  },
+  {
+    "id": 416,
+    "category": "Sport",
+    "difficulty": "mittel",
+    "q": "Wie groß ist ein Handballtor?",
+    "answer": "3 m breit und 2 m hoch",
+    "aliases": [
+      "3 x 2 meter",
+      "3m x 2m",
+      "3 meter breit 2 meter hoch"
+    ],
+    "choices": [
+      "3 m breit und 2 m hoch",
+      "4 m breit und 2 m hoch",
+      "3 m breit und 2,44 m hoch",
+      "2,5 m breit und 2 m hoch"
+    ],
+    "explanation": "Ein Handballtor ist 3 Meter breit und 2 Meter hoch."
+  },
+  {
+    "id": 417,
+    "category": "Sport",
+    "difficulty": "leicht",
+    "q": "Bis zu wie vielen Punkten wird ein regulärer Volleyballsatz normalerweise gespielt, sofern zwei Punkte Vorsprung erreicht werden?",
+    "answer": "25",
+    "choices": [
+      "15",
+      "21",
+      "30",
+      "25"
+    ],
+    "explanation": "Die ersten vier Sätze werden bis 25 Punkte gespielt; der Entscheidungssatz bis 15."
+  },
+  {
+    "id": 418,
+    "category": "Sport",
+    "difficulty": "leicht",
+    "q": "Bis zu wie vielen Punkten wird ein Tischtennissatz normalerweise gespielt, sofern zwei Punkte Vorsprung erreicht werden?",
+    "answer": "11",
+    "choices": [
+      "21",
+      "25",
+      "11",
+      "15"
+    ],
+    "explanation": "Seit 2001 werden Tischtennissätze normalerweise bis 11 Punkte gespielt."
+  },
+  {
+    "id": 419,
+    "category": "Sport",
+    "difficulty": "leicht",
+    "q": "Bis zu wie vielen Punkten wird ein Badminton-Satz normalerweise gespielt?",
+    "answer": "21",
+    "choices": [
+      "30",
+      "21",
+      "15",
+      "25"
+    ],
+    "explanation": "Ein Badminton-Satz wird im Rally-Point-System grundsätzlich bis 21 gespielt."
+  },
+  {
+    "id": 420,
+    "category": "Sport",
+    "difficulty": "mittel",
+    "q": "Wie viele Punkte zählt das innere Bullseye beim Darts?",
+    "answer": "50",
+    "choices": [
+      "50",
+      "25",
+      "40",
+      "60"
+    ],
+    "explanation": "Das innere Bullseye zählt 50 Punkte."
+  },
+  {
+    "id": 421,
+    "category": "Sport",
+    "difficulty": "mittel",
+    "q": "Wie viele Kugeln liegen zu Beginn eines Snookerframes auf dem Tisch?",
+    "answer": "22",
+    "choices": [
+      "16",
+      "21",
+      "24",
+      "22"
+    ],
+    "explanation": "Zu Beginn liegen 15 rote, 6 farbige Kugeln und die weiße Spielkugel auf dem Tisch: insgesamt 22."
+  },
+  {
+    "id": 422,
+    "category": "Sport",
+    "difficulty": "leicht",
+    "q": "Welche Flagge signalisiert im Motorsport üblicherweise das Rennende?",
+    "answer": "Schwarz-weiß karierte Flagge",
+    "choices": [
+      "Rote Flagge",
+      "Blaue Flagge",
+      "Schwarz-weiß karierte Flagge",
+      "Gelbe Flagge"
+    ],
+    "explanation": "Die schwarz-weiß karierte Flagge zeigt das Rennende an."
+  },
+  {
+    "id": 423,
+    "category": "Sport",
+    "difficulty": "mittel",
+    "q": "In welcher Stadt fanden die Olympischen Sommerspiele 1936 statt?",
+    "answer": "Berlin",
+    "choices": [
+      "London",
+      "Berlin",
+      "Paris",
+      "Rom"
+    ],
+    "explanation": "Die Olympischen Sommerspiele 1936 fanden in Berlin statt."
+  },
+  {
+    "id": 424,
+    "category": "Sport",
+    "difficulty": "leicht",
+    "q": "Aus wie vielen Disziplinen besteht ein Zehnkampf?",
+    "answer": "10",
+    "choices": [
+      "10",
+      "8",
+      "9",
+      "12"
+    ],
+    "explanation": "Der Zehnkampf besteht aus zehn Leichtathletikdisziplinen."
+  },
+  {
+    "id": 425,
+    "category": "Sport",
+    "difficulty": "leicht",
+    "q": "Welche drei Disziplinen gehören zum klassischen Triathlon?",
+    "answer": "Schwimmen, Radfahren und Laufen",
+    "aliases": [
+      "schwimmen radfahren laufen",
+      "schwimmen, radfahren und laufen"
+    ],
+    "choices": [
+      "Rudern, Radfahren und Laufen",
+      "Schwimmen, Reiten und Laufen",
+      "Laufen, Fechten und Radfahren",
+      "Schwimmen, Radfahren und Laufen"
+    ],
+    "explanation": "Triathlon kombiniert Schwimmen, Radfahren und Laufen."
+  },
+  {
+    "id": 426,
+    "category": "Sport",
+    "difficulty": "leicht",
+    "q": "Wie viele Bases umfasst ein vollständiger Lauf im Baseball einschließlich Home Plate?",
+    "answer": "4",
+    "choices": [
+      "5",
+      "6",
+      "4",
+      "3"
+    ],
+    "explanation": "Ein Runner umrundet First, Second und Third Base und kehrt zur Home Plate zurück: vier Stationen."
+  },
+  {
+    "id": 427,
+    "category": "Sport",
+    "difficulty": "mittel",
+    "q": "Aus wie vielen senkrechten Stäben besteht ein Cricket-Wicket?",
+    "answer": "3",
+    "choices": [
+      "5",
+      "3",
+      "2",
+      "4"
+    ],
+    "explanation": "Ein Cricket-Wicket besteht aus drei Stumps mit zwei Bails darauf."
+  },
+  {
+    "id": 428,
+    "category": "Sport",
+    "difficulty": "mittel",
+    "q": "Wie viele Spieler hat eine Mannschaft im Rugby Union gleichzeitig auf dem Feld?",
+    "answer": "15",
+    "choices": [
+      "15",
+      "11",
+      "13",
+      "17"
+    ],
+    "explanation": "Im Rugby Union stehen 15 Spieler pro Mannschaft auf dem Feld."
+  },
+  {
+    "id": 429,
+    "category": "Sport",
+    "difficulty": "leicht",
+    "q": "Wie heißt das Spielgerät im Eishockey?",
+    "answer": "Puck",
+    "choices": [
+      "Diskus",
+      "Ball",
+      "Shuttlecock",
+      "Puck"
+    ],
+    "explanation": "Im Eishockey wird mit einem Puck gespielt."
+  },
+  {
+    "id": 430,
+    "category": "Sport",
+    "difficulty": "mittel",
+    "q": "Welche drei Waffen gibt es im olympischen Fechten?",
+    "answer": "Florett, Degen und Säbel",
+    "aliases": [
+      "florett degen säbel",
+      "florett, degen und säbel",
+      "degen florett säbel"
+    ],
+    "choices": [
+      "Florett, Rapier und Degen",
+      "Säbel, Katana und Florett",
+      "Florett, Degen und Säbel",
+      "Degen, Lanze und Säbel"
+    ],
+    "explanation": "Olympisches Fechten umfasst Florett, Degen und Säbel.",
+    "keywords": [
+      "florett",
+      "degen",
+      "säbel"
+    ],
+    "minKeywords": 3
+  },
+  {
+    "id": 431,
+    "category": "Sport",
+    "difficulty": "mittel",
+    "q": "Wie viele Minuten dauert ein reguläres Fußballspiel ohne Nachspielzeit und Verlängerung?",
+    "answer": "90",
+    "choices": [
+      "120",
+      "90",
+      "80",
+      "100"
+    ],
+    "explanation": "Ein reguläres Fußballspiel besteht aus zwei Halbzeiten zu je 45 Minuten."
+  },
+  {
+    "id": 432,
+    "category": "Kunst & Kultur",
+    "difficulty": "leicht",
+    "q": "Wer malte die Decke der Sixtinischen Kapelle?",
+    "answer": "Michelangelo",
+    "choices": [
+      "Michelangelo",
+      "Raffael",
+      "Leonardo da Vinci",
+      "Donatello"
+    ],
+    "explanation": "Michelangelo schuf die berühmten Deckenfresken der Sixtinischen Kapelle."
+  },
+  {
+    "id": 433,
+    "category": "Kunst & Kultur",
+    "difficulty": "mittel",
+    "q": "Welcher Künstler ist für das Motiv „Girl with Balloon“ bekannt?",
+    "answer": "Banksy",
+    "choices": [
+      "Keith Haring",
+      "Jean-Michel Basquiat",
+      "JR",
+      "Banksy"
+    ],
+    "explanation": "„Girl with Balloon“ ist ein bekanntes Werk des Street-Art-Künstlers Banksy."
+  },
+  {
+    "id": 434,
+    "category": "Kunst & Kultur",
+    "difficulty": "mittel",
+    "q": "Wer malte die berühmte Serie der „Seerosen“?",
+    "answer": "Claude Monet",
+    "choices": [
+      "Pierre-Auguste Renoir",
+      "Paul Cézanne",
+      "Claude Monet",
+      "Édouard Manet"
+    ],
+    "explanation": "Claude Monet malte zahlreiche Bilder seiner Seerosenteiche in Giverny."
+  },
+  {
+    "id": 435,
+    "category": "Kunst & Kultur",
+    "difficulty": "mittel",
+    "q": "Wer malte „American Gothic“?",
+    "answer": "Grant Wood",
+    "choices": [
+      "Andrew Wyeth",
+      "Grant Wood",
+      "Edward Hopper",
+      "Norman Rockwell"
+    ],
+    "explanation": "„American Gothic“ wurde 1930 von Grant Wood gemalt."
+  },
+  {
+    "id": 436,
+    "category": "Kunst & Kultur",
+    "difficulty": "leicht",
+    "q": "In welchem Museum befindet sich die „Venus von Milo“?",
+    "answer": "Louvre",
+    "choices": [
+      "Louvre",
+      "Prado",
+      "British Museum",
+      "Uffizien"
+    ],
+    "explanation": "Die Venus von Milo befindet sich im Louvre in Paris."
+  },
+  {
+    "id": 437,
+    "category": "Kunst & Kultur",
+    "difficulty": "mittel",
+    "q": "Welcher Künstler ist für geometrische Bilder mit schwarzen Linien und Primärfarben bekannt?",
+    "answer": "Piet Mondrian",
+    "choices": [
+      "Paul Klee",
+      "Kasimir Malewitsch",
+      "Joan Miró",
+      "Piet Mondrian"
+    ],
+    "explanation": "Piet Mondrian prägte mit seinen Rasterkompositionen die De-Stijl-Bewegung."
+  },
+  {
+    "id": 438,
+    "category": "Kunst & Kultur",
+    "difficulty": "mittel",
+    "q": "Welche mexikanische Malerin ist besonders für zahlreiche Selbstporträts bekannt?",
+    "answer": "Frida Kahlo",
+    "choices": [
+      "Georgia O’Keeffe",
+      "Leonora Carrington",
+      "Frida Kahlo",
+      "Tamara de Lempicka"
+    ],
+    "explanation": "Frida Kahlo schuf zahlreiche symbolisch aufgeladene Selbstporträts."
+  },
+  {
+    "id": 439,
+    "category": "Kunst & Kultur",
+    "difficulty": "mittel",
+    "q": "Welche japanische Künstlerin ist berühmt für Punktmuster und „Infinity Rooms“?",
+    "answer": "Yayoi Kusama",
+    "choices": [
+      "Chiharu Shiota",
+      "Yayoi Kusama",
+      "Yoko Ono",
+      "Mariko Mori"
+    ],
+    "explanation": "Yayoi Kusama ist für Polka Dots und immersive Infinity Rooms bekannt."
+  },
+  {
+    "id": 440,
+    "category": "Kunst & Kultur",
+    "difficulty": "leicht",
+    "q": "In welcher Stadt befindet sich das Prado-Museum?",
+    "answer": "Madrid",
+    "choices": [
+      "Madrid",
+      "Barcelona",
+      "Sevilla",
+      "Valencia"
+    ],
+    "explanation": "Der Prado befindet sich in Madrid."
+  },
+  {
+    "id": 441,
+    "category": "Kunst & Kultur",
+    "difficulty": "mittel",
+    "q": "In welcher italienischen Stadt befinden sich die Uffizien?",
+    "answer": "Florenz",
+    "choices": [
+      "Rom",
+      "Venedig",
+      "Mailand",
+      "Florenz"
+    ],
+    "explanation": "Die Uffizien befinden sich in Florenz."
+  },
+  {
+    "id": 442,
+    "category": "Kunst & Kultur",
+    "difficulty": "mittel",
+    "q": "In welcher Stadt befindet sich das Rijksmuseum?",
+    "answer": "Amsterdam",
+    "choices": [
+      "Den Haag",
+      "Utrecht",
+      "Amsterdam",
+      "Rotterdam"
+    ],
+    "explanation": "Das Rijksmuseum befindet sich in Amsterdam."
+  },
+  {
+    "id": 443,
+    "category": "Kunst & Kultur",
+    "difficulty": "mittel",
+    "q": "Wer entwarf das Guggenheim-Museum in Bilbao?",
+    "answer": "Frank Gehry",
+    "choices": [
+      "Norman Foster",
+      "Frank Gehry",
+      "Zaha Hadid",
+      "Renzo Piano"
+    ],
+    "explanation": "Das Guggenheim-Museum Bilbao wurde von Frank Gehry entworfen."
+  },
+  {
+    "id": 444,
+    "category": "Kunst & Kultur",
+    "difficulty": "anspruchsvoll",
+    "q": "Wer entwarf das Opernhaus von Sydney?",
+    "answer": "Jørn Utzon",
+    "aliases": [
+      "jorn utzon",
+      "jørn utzon",
+      "utzon"
+    ],
+    "choices": [
+      "Jørn Utzon",
+      "Eero Saarinen",
+      "Oscar Niemeyer",
+      "I. M. Pei"
+    ],
+    "explanation": "Das Sydney Opera House wurde vom dänischen Architekten Jørn Utzon entworfen."
+  },
+  {
+    "id": 445,
+    "category": "Kunst & Kultur",
+    "difficulty": "mittel",
+    "q": "In welcher Stadt entstand 1916 im Cabaret Voltaire die Dada-Bewegung?",
+    "answer": "Zürich",
+    "choices": [
+      "Paris",
+      "Berlin",
+      "Wien",
+      "Zürich"
+    ],
+    "explanation": "Das Cabaret Voltaire in Zürich gilt als Geburtsort des Dadaismus."
+  },
+  {
+    "id": 446,
+    "category": "Kunst & Kultur",
+    "difficulty": "anspruchsvoll",
+    "q": "Wer veröffentlichte 1924 das erste „Manifest des Surrealismus“?",
+    "answer": "André Breton",
+    "choices": [
+      "René Magritte",
+      "Max Ernst",
+      "André Breton",
+      "Salvador Dalí"
+    ],
+    "explanation": "André Breton veröffentlichte 1924 das „Manifest des Surrealismus“."
+  },
+  {
+    "id": 447,
+    "category": "Kunst & Kultur",
+    "difficulty": "mittel",
+    "q": "Welche Kunstrichtung ist eng mit Andy Warhol und Roy Lichtenstein verbunden?",
+    "answer": "Pop-Art",
+    "choices": [
+      "Expressionismus",
+      "Pop-Art",
+      "Kubismus",
+      "Fauvismus"
+    ],
+    "explanation": "Andy Warhol und Roy Lichtenstein gehören zu den bekanntesten Vertretern der Pop-Art."
+  },
+  {
+    "id": 448,
+    "category": "Essen & Trinken",
+    "difficulty": "leicht",
+    "q": "Welche Kräuterzutat prägt klassisches Pesto alla Genovese?",
+    "answer": "Basilikum",
+    "choices": [
+      "Basilikum",
+      "Petersilie",
+      "Koriander",
+      "Salbei"
+    ],
+    "explanation": "Pesto alla Genovese wird klassisch mit Basilikum zubereitet."
+  },
+  {
+    "id": 449,
+    "category": "Essen & Trinken",
+    "difficulty": "mittel",
+    "q": "Welche Getreideart bildet die Grundlage von klassischem Couscous?",
+    "answer": "Hartweizen",
+    "aliases": [
+      "hartweizen",
+      "hartweizengrieß"
+    ],
+    "choices": [
+      "Roggen",
+      "Hafer",
+      "Mais",
+      "Hartweizen"
+    ],
+    "explanation": "Couscous wird traditionell aus befeuchtetem Hartweizengrieß hergestellt."
+  },
+  {
+    "id": 450,
+    "category": "Essen & Trinken",
+    "difficulty": "mittel",
+    "q": "Woraus wird Miso hauptsächlich hergestellt?",
+    "answer": "Fermentierten Sojabohnen",
+    "aliases": [
+      "sojabohnen",
+      "fermentierte sojabohnen"
+    ],
+    "choices": [
+      "Linsen",
+      "Reis allein",
+      "Fermentierten Sojabohnen",
+      "Kichererbsen"
+    ],
+    "explanation": "Miso ist eine japanische Würzpaste, meist aus fermentierten Sojabohnen mit Koji."
+  },
+  {
+    "id": 451,
+    "category": "Essen & Trinken",
+    "difficulty": "leicht",
+    "q": "Welche zwei Zutaten prägen klassisches Tzatziki neben Knoblauch?",
+    "answer": "Joghurt und Gurke",
+    "aliases": [
+      "joghurt gurke",
+      "joghurt und gurke"
+    ],
+    "choices": [
+      "Kartoffel und Zwiebel",
+      "Joghurt und Gurke",
+      "Tomate und Paprika",
+      "Käse und Olive"
+    ],
+    "explanation": "Tzatziki besteht klassisch vor allem aus Joghurt, Gurke und Knoblauch."
+  },
+  {
+    "id": 452,
+    "category": "Essen & Trinken",
+    "difficulty": "mittel",
+    "q": "Aus welcher französischen Region stammt Ratatouille?",
+    "answer": "Provence",
+    "choices": [
+      "Provence",
+      "Bretagne",
+      "Normandie",
+      "Elsass"
+    ],
+    "explanation": "Ratatouille stammt aus der Provence, besonders aus dem Raum Nizza."
+  },
+  {
+    "id": 453,
+    "category": "Essen & Trinken",
+    "difficulty": "mittel",
+    "q": "Aus welcher Milch wird Mozzarella di Bufala Campana traditionell hergestellt?",
+    "answer": "Büffelmilch",
+    "choices": [
+      "Schafsmilch",
+      "Ziegenmilch",
+      "Kuhmilch",
+      "Büffelmilch"
+    ],
+    "explanation": "Mozzarella di Bufala Campana wird aus Milch des Wasserbüffels hergestellt."
+  },
+  {
+    "id": 454,
+    "category": "Essen & Trinken",
+    "difficulty": "mittel",
+    "q": "Mit welcher italienischen Stadt ist traditioneller Aceto Balsamico besonders verbunden?",
+    "answer": "Modena",
+    "choices": [
+      "Turin",
+      "Bari",
+      "Modena",
+      "Neapel"
+    ],
+    "explanation": "Traditioneller Balsamico ist besonders mit Modena und Reggio Emilia verbunden."
+  },
+  {
+    "id": 455,
+    "category": "Essen & Trinken",
+    "difficulty": "mittel",
+    "q": "Aus welchem Land stammt Worcestershiresauce?",
+    "answer": "England",
+    "choices": [
+      "Australien",
+      "England",
+      "Frankreich",
+      "USA"
+    ],
+    "explanation": "Worcestershiresauce entstand im englischen Worcester."
+  },
+  {
+    "id": 456,
+    "category": "Essen & Trinken",
+    "difficulty": "mittel",
+    "q": "Aus welchem Getreide wird traditioneller Pumpernickel überwiegend hergestellt?",
+    "answer": "Roggen",
+    "choices": [
+      "Roggen",
+      "Weizen",
+      "Gerste",
+      "Dinkel"
+    ],
+    "explanation": "Pumpernickel ist ein dunkles Brot aus Roggenschrot bzw. Roggenvollkorn."
+  },
+  {
+    "id": 457,
+    "category": "Essen & Trinken",
+    "difficulty": "leicht",
+    "q": "Aus welchem Grundrohstoff wird Sake hergestellt?",
+    "answer": "Reis",
+    "choices": [
+      "Gerste",
+      "Trauben",
+      "Kartoffeln",
+      "Reis"
+    ],
+    "explanation": "Sake ist ein japanisches alkoholisches Getränk auf Reisbasis."
+  },
+  {
+    "id": 458,
+    "category": "Essen & Trinken",
+    "difficulty": "mittel",
+    "q": "Welche Hülsenfrucht ist in vielen levantinischen Falafel-Rezepten die Hauptzutat?",
+    "answer": "Kichererbsen",
+    "aliases": [
+      "kichererbsen",
+      "kichererbse"
+    ],
+    "choices": [
+      "Kidneybohnen",
+      "Sojabohnen",
+      "Kichererbsen",
+      "Erbsen"
+    ],
+    "explanation": "In vielen levantinischen Falafel-Rezepten sind Kichererbsen die Hauptzutat; regional, etwa in Ägypten, werden auch Favabohnen verwendet."
+  },
+  {
+    "id": 459,
+    "category": "Essen & Trinken",
+    "difficulty": "mittel",
+    "q": "Wie heißt der italienische Nachtisch aus Mascarpone, Kaffee und Löffelbiskuits?",
+    "answer": "Tiramisu",
+    "choices": [
+      "Cannoli",
+      "Tiramisu",
+      "Panna cotta",
+      "Zabaglione"
+    ],
+    "explanation": "Tiramisu besteht klassisch aus Löffelbiskuits, Kaffee, Mascarponecreme und Kakao."
+  },
+  {
+    "id": 460,
+    "category": "Natur",
+    "difficulty": "leicht",
+    "q": "Welches ist das größte heute lebende Tier der Erde?",
+    "answer": "Blauwal",
+    "choices": [
+      "Blauwal",
+      "Afrikanischer Elefant",
+      "Walhai",
+      "Pottwal"
+    ],
+    "explanation": "Der Blauwal ist das größte heute lebende Tier der Erde."
+  },
+  {
+    "id": 461,
+    "category": "Natur",
+    "difficulty": "leicht",
+    "q": "Welches Landtier erreicht die höchste Spitzengeschwindigkeit?",
+    "answer": "Gepard",
+    "choices": [
+      "Gabelbock",
+      "Löwe",
+      "Strauß",
+      "Gepard"
+    ],
+    "explanation": "Der Gepard ist das schnellste Landtier."
+  },
+  {
+    "id": 462,
+    "category": "Natur",
+    "difficulty": "mittel",
+    "q": "Welche Säugetiergruppe kann als einzige aktiv und dauerhaft fliegen?",
+    "answer": "Fledermäuse",
+    "choices": [
+      "Gleitbeutler",
+      "Lemuren",
+      "Fledermäuse",
+      "Flughörnchen"
+    ],
+    "explanation": "Fledermäuse sind die einzigen Säugetiere mit echtem aktivem Flug."
+  },
+  {
+    "id": 463,
+    "category": "Natur",
+    "difficulty": "leicht",
+    "q": "Welches ist das größte heute lebende Landtier?",
+    "answer": "Afrikanischer Savannenelefant",
+    "aliases": [
+      "afrikanischer elefant",
+      "savannenelefant",
+      "afrikanischer savannenelefant"
+    ],
+    "choices": [
+      "Giraffe",
+      "Afrikanischer Savannenelefant",
+      "Breitmaulnashorn",
+      "Flusspferd"
+    ],
+    "explanation": "Der Afrikanische Savannenelefant ist das größte Landtier."
+  },
+  {
+    "id": 464,
+    "category": "Natur",
+    "difficulty": "leicht",
+    "q": "Welcher heute lebende Vogel ist der größte?",
+    "answer": "Strauß",
+    "choices": [
+      "Strauß",
+      "Emu",
+      "Kasuare",
+      "Königsalbatros"
+    ],
+    "explanation": "Der Afrikanische Strauß ist der größte und schwerste heute lebende Vogel."
+  },
+  {
+    "id": 465,
+    "category": "Natur",
+    "difficulty": "anspruchsvoll",
+    "q": "Welcher Vogel gilt als kleinste bekannte Vogelart?",
+    "answer": "Bienenelfe",
+    "aliases": [
+      "bienenelfe",
+      "bienenkolibri"
+    ],
+    "choices": [
+      "Zaunkönig",
+      "Kolibri",
+      "Goldhähnchen",
+      "Bienenelfe"
+    ],
+    "explanation": "Die Bienenelfe aus Kuba ist die kleinste bekannte Vogelart."
+  },
+  {
+    "id": 466,
+    "category": "Natur",
+    "difficulty": "leicht",
+    "q": "Wie heißt das Larvenstadium des Frosches?",
+    "answer": "Kaulquappe",
+    "choices": [
+      "Made",
+      "Raupe",
+      "Kaulquappe",
+      "Nymphe"
+    ],
+    "explanation": "Froschlarven werden Kaulquappen genannt."
+  },
+  {
+    "id": 467,
+    "category": "Natur",
+    "difficulty": "leicht",
+    "q": "Woran lässt sich bei vielen Bäumen das Alter am Stamm grob ablesen?",
+    "answer": "Jahresringe",
+    "choices": [
+      "Rindenfarbe",
+      "Jahresringe",
+      "Blattadern",
+      "Wurzelknoten"
+    ],
+    "explanation": "Die Anzahl der Jahresringe kann bei vielen Bäumen Aufschluss über das Alter geben."
+  },
+  {
+    "id": 468,
+    "category": "Natur",
+    "difficulty": "mittel",
+    "q": "Welcher Nadelbaum wirft im Herbst seine Nadeln ab?",
+    "answer": "Lärche",
+    "choices": [
+      "Lärche",
+      "Fichte",
+      "Tanne",
+      "Kiefer"
+    ],
+    "explanation": "Die Lärche ist ein sommergrüner Nadelbaum und verliert im Herbst ihre Nadeln."
+  },
+  {
+    "id": 469,
+    "category": "Natur",
+    "difficulty": "mittel",
+    "q": "Zu welcher Tiergruppe gehört der Axolotl?",
+    "answer": "Salamander",
+    "choices": [
+      "Fisch",
+      "Frosch",
+      "Echse",
+      "Salamander"
+    ],
+    "explanation": "Der Axolotl ist ein mexikanischer Schwanzlurch und gehört zu den Salamandern."
+  },
+  {
+    "id": 470,
+    "category": "Natur",
+    "difficulty": "mittel",
+    "q": "Welches eierlegende Säugetier besitzt einen entenähnlichen Schnabel?",
+    "answer": "Schnabeltier",
+    "choices": [
+      "Wombat",
+      "Quokka",
+      "Schnabeltier",
+      "Ameisenigel"
+    ],
+    "explanation": "Das Schnabeltier ist ein eierlegendes Säugetier aus Australien."
+  },
+  {
+    "id": 471,
+    "category": "Natur",
+    "difficulty": "mittel",
+    "q": "Sind Korallen Tiere, Pflanzen oder Pilze?",
+    "answer": "Tiere",
+    "choices": [
+      "Protisten",
+      "Tiere",
+      "Pflanzen",
+      "Pilze"
+    ],
+    "explanation": "Korallen sind Nesseltiere; viele leben in Symbiose mit Algen."
+  },
+  {
+    "id": 472,
+    "category": "Auto & Technik",
+    "difficulty": "leicht",
+    "q": "Wofür steht die Abkürzung ABS beim Auto?",
+    "answer": "Antiblockiersystem",
+    "choices": [
+      "Antiblockiersystem",
+      "Automatische Bremssteuerung",
+      "Aktive Balance-Sicherung",
+      "Antriebs-Bremssystem"
+    ],
+    "explanation": "ABS steht für Antiblockiersystem."
+  },
+  {
+    "id": 473,
+    "category": "Auto & Technik",
+    "difficulty": "mittel",
+    "q": "Welches Ford-Modell wurde ab 1908 gebaut und später zum Symbol der Fließband-Massenproduktion?",
+    "answer": "Model T",
+    "choices": [
+      "Model A",
+      "Mustang",
+      "Thunderbird",
+      "Model T"
+    ],
+    "explanation": "Der Ford Model T wurde zum Symbol früher automobiler Massenproduktion."
+  },
+  {
+    "id": 474,
+    "category": "Auto & Technik",
+    "difficulty": "mittel",
+    "q": "Wo sitzt der Motor beim klassischen Porsche 911 traditionell?",
+    "answer": "Hinter der Hinterachse",
+    "choices": [
+      "Zwischen den Achsen mittig",
+      "Unter den Vordersitzen",
+      "Hinter der Hinterachse",
+      "Vor der Vorderachse"
+    ],
+    "explanation": "Der klassische Porsche 911 ist für sein Heckmotor-Konzept bekannt."
+  },
+  {
+    "id": 475,
+    "category": "Auto & Technik",
+    "difficulty": "leicht",
+    "q": "Mit welcher Automarke ist der Allradbegriff „quattro“ besonders verbunden?",
+    "answer": "Audi",
+    "choices": [
+      "Saab",
+      "Audi",
+      "BMW",
+      "Volvo"
+    ],
+    "explanation": "Audi verwendet „quattro“ als Bezeichnung für Allradsysteme."
+  },
+  {
+    "id": 476,
+    "category": "Auto & Technik",
+    "difficulty": "mittel",
+    "q": "Welcher Motorbauart liegen sich die Zylinder flach gegenüber?",
+    "answer": "Boxermotor",
+    "choices": [
+      "Boxermotor",
+      "Reihenmotor",
+      "Wankelmotor",
+      "V-Motor"
+    ],
+    "explanation": "Beim Boxermotor liegen die Zylinder einander horizontal gegenüber."
+  },
+  {
+    "id": 477,
+    "category": "Auto & Technik",
+    "difficulty": "leicht",
+    "q": "Wofür steht die Abkürzung USB?",
+    "answer": "Universal Serial Bus",
+    "choices": [
+      "Unified System Bridge",
+      "Universal System Band",
+      "User Serial Base",
+      "Universal Serial Bus"
+    ],
+    "explanation": "USB steht für Universal Serial Bus."
+  },
+  {
+    "id": 478,
+    "category": "Auto & Technik",
+    "difficulty": "mittel",
+    "q": "Nach welchem historischen König ist Bluetooth benannt?",
+    "answer": "Harald Blauzahn",
+    "aliases": [
+      "harald blauzahn",
+      "harald bluetooth"
+    ],
+    "choices": [
+      "Gustav Wasa",
+      "Knut der Große",
+      "Harald Blauzahn",
+      "Wilhelm der Eroberer"
+    ],
+    "explanation": "Bluetooth ist nach dem dänischen König Harald Blauzahn (Harald Bluetooth) benannt."
+  },
+  {
+    "id": 479,
+    "category": "Auto & Technik",
+    "difficulty": "mittel",
+    "q": "In welchem Land wurde der QR-Code entwickelt?",
+    "answer": "Japan",
+    "choices": [
+      "Südkorea",
+      "Japan",
+      "USA",
+      "Deutschland"
+    ],
+    "explanation": "Der QR-Code wurde 1994 von Denso Wave in Japan entwickelt."
+  },
+  {
+    "id": 480,
+    "category": "Auto & Technik",
+    "difficulty": "leicht",
+    "q": "Wer gilt als Erfinder des World Wide Web?",
+    "answer": "Tim Berners-Lee",
+    "choices": [
+      "Tim Berners-Lee",
+      "Vint Cerf",
+      "Bill Gates",
+      "Steve Wozniak"
+    ],
+    "explanation": "Tim Berners-Lee entwickelte das World Wide Web am CERN."
+  },
+  {
+    "id": 481,
+    "category": "Auto & Technik",
+    "difficulty": "leicht",
+    "q": "Wer startete 1991 die Entwicklung des Linux-Kernels?",
+    "answer": "Linus Torvalds",
+    "choices": [
+      "Richard Stallman",
+      "Ken Thompson",
+      "Dennis Ritchie",
+      "Linus Torvalds"
+    ],
+    "explanation": "Linus Torvalds veröffentlichte 1991 die erste Linux-Kernel-Version."
+  },
+  {
+    "id": 482,
+    "category": "Sprache",
+    "difficulty": "anspruchsvoll",
+    "q": "Buchstabiere „Rhythmus“.",
+    "answer": "Rhythmus",
+    "choices": [
+      "rhythmus"
+    ],
+    "explanation": "Die korrekte Schreibweise lautet R-h-y-t-h-m-u-s.",
+    "strictSpelling": true
+  },
+  {
+    "id": 483,
+    "category": "Sprache",
+    "difficulty": "anspruchsvoll",
+    "q": "Buchstabiere „Silhouette“.",
+    "answer": "Silhouette",
+    "choices": [
+      "silhouette"
+    ],
+    "explanation": "Die korrekte Schreibweise lautet S-i-l-h-o-u-e-t-t-e.",
+    "strictSpelling": true
+  },
+  {
+    "id": 484,
+    "category": "Sprache",
+    "difficulty": "anspruchsvoll",
+    "q": "Buchstabiere „Akquise“.",
+    "answer": "Akquise",
+    "choices": [
+      "akquise"
+    ],
+    "explanation": "Die korrekte Schreibweise lautet A-k-q-u-i-s-e.",
+    "strictSpelling": true
+  },
+  {
+    "id": 485,
+    "category": "Sprache",
+    "difficulty": "anspruchsvoll",
+    "q": "Buchstabiere „Chrysantheme“.",
+    "answer": "Chrysantheme",
+    "choices": [
+      "chrysantheme"
+    ],
+    "explanation": "Die korrekte Schreibweise lautet C-h-r-y-s-a-n-t-h-e-m-e.",
+    "strictSpelling": true
+  },
+  {
+    "id": 486,
+    "category": "Sprache",
+    "difficulty": "mittel",
+    "q": "Wie lautet der Plural von „Museum“?",
+    "answer": "Museen",
+    "choices": [
+      "Museume",
+      "Musia",
+      "Museen",
+      "Museums"
+    ],
+    "explanation": "Der Plural von Museum lautet Museen."
+  },
+  {
+    "id": 487,
+    "category": "Sprache",
+    "difficulty": "leicht",
+    "q": "Welchen grammatischen Fall verlangt die Präposition „mit“ im Deutschen?",
+    "answer": "Dativ",
+    "choices": [
+      "Nominativ",
+      "Dativ",
+      "Genitiv",
+      "Akkusativ"
+    ],
+    "explanation": "Die Präposition „mit“ regiert den Dativ."
+  },
+  {
+    "id": 488,
+    "category": "Sprache",
+    "difficulty": "mittel",
+    "q": "Welcher Fall gilt in der Standardsprache typischerweise nach „wegen“?",
+    "answer": "Genitiv",
+    "choices": [
+      "Genitiv",
+      "Dativ",
+      "Akkusativ",
+      "Nominativ"
+    ],
+    "explanation": "In der Standardsprache steht „wegen“ typischerweise mit dem Genitiv."
+  },
+  {
+    "id": 489,
+    "category": "Sprache",
+    "difficulty": "leicht",
+    "q": "Wie lautet die Steigerung von „gern“?",
+    "answer": "gern – lieber – am liebsten",
+    "choices": [
+      "gern – gerner – am gernsten",
+      "gern – besser – am besten",
+      "gern – mehr – am meisten",
+      "gern – lieber – am liebsten"
+    ],
+    "explanation": "„gern“ wird unregelmäßig zu „lieber“ und „am liebsten“."
+  },
+  {
+    "id": 490,
+    "category": "Sprache",
+    "difficulty": "mittel",
+    "q": "Welche Schreibweise ist korrekt für die Konjunktion in „Ich weiß, ___ du kommst“?",
+    "answer": "dass",
+    "choices": [
+      "daß",
+      "dasss",
+      "dass",
+      "das"
+    ],
+    "explanation": "Als Konjunktion wird „dass“ mit Doppel-s geschrieben."
+  },
+  {
+    "id": 491,
+    "category": "Sprache",
+    "difficulty": "mittel",
+    "q": "Wie heißt ein Wort, das vorwärts und rückwärts gleich gelesen wird, zum Beispiel „Lagerregal“?",
+    "answer": "Palindrom",
+    "choices": [
+      "Akronym",
+      "Palindrom",
+      "Anagramm",
+      "Oxymoron"
+    ],
+    "explanation": "Ein Palindrom liest sich in beide Richtungen gleich."
+  },
+  {
+    "id": 492,
+    "category": "Logik & Zahlen",
+    "difficulty": "mittel",
+    "q": "Wie geht die Reihe weiter? 1 – 3 – 6 – 10 – 15 – ?",
+    "answer": "21",
+    "choices": [
+      "21",
+      "einundzwanzig"
+    ],
+    "explanation": "Die Abstände sind +2, +3, +4, +5 und anschließend +6."
+  },
+  {
+    "id": 493,
+    "category": "Logik & Zahlen",
+    "difficulty": "mittel",
+    "q": "Wie geht die Reihe weiter? 81 – 27 – 9 – 3 – ?",
+    "answer": "1",
+    "choices": [
+      "1",
+      "eins"
+    ],
+    "explanation": "Jede Zahl wird durch 3 geteilt."
+  },
+  {
+    "id": 494,
+    "category": "Logik & Zahlen",
+    "difficulty": "anspruchsvoll",
+    "q": "Wie geht die Reihe weiter? 2 – 3 – 5 – 8 – 12 – 17 – ?",
+    "answer": "23",
+    "choices": [
+      "23",
+      "dreiundzwanzig"
+    ],
+    "explanation": "Die Abstände wachsen: +1, +2, +3, +4, +5, danach +6."
+  },
+  {
+    "id": 495,
+    "category": "Logik & Zahlen",
+    "difficulty": "leicht",
+    "q": "Wie geht die Reihe weiter? 1 – 4 – 9 – 16 – 25 – ?",
+    "answer": "36",
+    "choices": [
+      "36",
+      "sechsunddreissig",
+      "sechsunddreißig"
+    ],
+    "explanation": "Die Folge besteht aus Quadratzahlen: 1², 2², 3², 4², 5², 6²."
+  },
+  {
+    "id": 496,
+    "category": "Logik & Zahlen",
+    "difficulty": "mittel",
+    "q": "Was ergibt 30 geteilt durch ein Halb plus 10?",
+    "answer": "70",
+    "choices": [
+      "70",
+      "siebzig"
+    ],
+    "explanation": "Durch 0,5 teilen verdoppelt: 30 / 0,5 = 60; plus 10 ergibt 70."
+  },
+  {
+    "id": 497,
+    "category": "Logik & Zahlen",
+    "difficulty": "leicht",
+    "q": "Welchen kleineren Winkel bilden Stunden- und Minutenzeiger genau um 6:00 Uhr?",
+    "answer": "180 Grad",
+    "choices": [
+      "180",
+      "180 grad",
+      "180°"
+    ],
+    "explanation": "Um 6:00 Uhr stehen die Zeiger einander gegenüber."
+  },
+  {
+    "id": 498,
+    "category": "Logik & Zahlen",
+    "difficulty": "leicht",
+    "q": "Du hast drei Äpfel und nimmst zwei davon. Wie viele Äpfel hast du dann?",
+    "answer": "2",
+    "choices": [
+      "2",
+      "zwei"
+    ],
+    "explanation": "Die zwei genommenen Äpfel hast du in der Hand."
+  },
+  {
+    "id": 499,
+    "category": "Logik & Zahlen",
+    "difficulty": "mittel",
+    "q": "Ein Arzt gibt dir drei Tabletten und sagt: „Nimm alle 30 Minuten eine.“ Wie lange dauert es, bis alle drei genommen sind?",
+    "answer": "1 Stunde",
+    "choices": [
+      "1 stunde",
+      "60 minuten",
+      "eine stunde"
+    ],
+    "explanation": "Die erste nimmst du sofort, die zweite nach 30 Minuten, die dritte nach 60 Minuten."
+  },
+  {
+    "id": 500,
+    "category": "Logik & Zahlen",
+    "difficulty": "mittel",
+    "q": "Gestern war Sonntag. Welcher Wochentag ist übermorgen?",
+    "answer": "Mittwoch",
+    "choices": [
+      "mittwoch"
+    ],
+    "explanation": "Wenn gestern Sonntag war, ist heute Montag und übermorgen Mittwoch."
+  },
+  {
+    "id": 501,
+    "category": "Logik & Zahlen",
+    "difficulty": "mittel",
+    "q": "Eine Familie hat zwei Eltern und sechs Söhne. Alle Söhne haben dieselbe Schwester. Wie viele Personen gehören zur Familie?",
+    "answer": "9",
+    "choices": [
+      "9",
+      "neun"
+    ],
+    "explanation": "2 Eltern + 6 Söhne + 1 gemeinsame Schwester = 9 Personen."
+  },
+  {
+    "id": 502,
+    "category": "Logik & Zahlen",
+    "difficulty": "leicht",
+    "q": "Wie viele Kanten hat ein Würfel?",
+    "answer": "12",
+    "choices": [
+      "12",
+      "zwölf",
+      "zwoelf"
+    ],
+    "explanation": "Ein Würfel hat 6 Flächen, 8 Ecken und 12 Kanten."
+  },
+  {
+    "id": 503,
+    "category": "Logik & Zahlen",
+    "difficulty": "mittel",
+    "q": "Wie groß ist die Wahrscheinlichkeit, bei drei fairen Münzwürfen dreimal Kopf zu erhalten?",
+    "answer": "1/8",
+    "choices": [
+      "1/8",
+      "12,5%",
+      "12.5 prozent",
+      "ein achtel"
+    ],
+    "explanation": "Es gibt 2³ = 8 gleich wahrscheinliche Folgen; nur eine davon ist Kopf-Kopf-Kopf."
+  },
+  {
+    "id": 504,
+    "category": "Logik & Zahlen",
+    "difficulty": "leicht",
+    "q": "Was ist schwerer: ein Kilogramm Eisen oder ein Kilogramm Federn?",
+    "answer": "Beide sind gleich schwer",
+    "choices": [
+      "gleich schwer",
+      "beide gleich",
+      "beide sind gleich schwer"
+    ],
+    "explanation": "Beide Massen betragen exakt ein Kilogramm."
+  },
+  {
+    "id": 505,
+    "category": "Logik & Zahlen",
+    "difficulty": "mittel",
+    "q": "Welche Zahl fehlt? 5 – 10 – 20 – 40 – ? – 160",
+    "answer": "80",
+    "choices": [
+      "80",
+      "achtzig"
+    ],
+    "explanation": "Jede Zahl wird verdoppelt."
+  },
+  {
+    "id": 506,
+    "category": "Logik & Zahlen",
+    "difficulty": "anspruchsvoll",
+    "q": "Ein Rechteck ist 8 cm lang und 5 cm breit. Wie groß ist sein Umfang?",
+    "answer": "26 cm",
+    "choices": [
+      "26",
+      "26 cm",
+      "26 zentimeter"
+    ],
+    "explanation": "Der Umfang ist 2 × (8 + 5) = 26 cm."
+  },
+  {
+    "id": 507,
+    "category": "Kreativ",
+    "difficulty": "mittel",
+    "q": "Male die vier Ringe des Audi-Logos aus dem Gedächtnis.",
+    "answer": "Selbsteinschätzung",
+    "explanation": "Das Audi-Zeichen besteht aus vier horizontal ineinandergreifenden Ringen.",
+    "taskType": "draw",
+    "selfCheck": true
+  },
+  {
+    "id": 508,
+    "category": "Kreativ",
+    "difficulty": "mittel",
+    "q": "Male den Mercedes-Stern aus dem Gedächtnis.",
+    "answer": "Selbsteinschätzung",
+    "explanation": "Das Mercedes-Benz-Zeichen zeigt einen dreizackigen Stern in einem Kreis.",
+    "taskType": "draw",
+    "selfCheck": true
+  },
+  {
+    "id": 509,
+    "category": "Kreativ",
+    "difficulty": "mittel",
+    "q": "Male den Nike-Swoosh aus dem Gedächtnis.",
+    "answer": "Selbsteinschätzung",
+    "explanation": "Der Nike-Swoosh ist ein geschwungener Haken.",
+    "taskType": "draw",
+    "selfCheck": true
+  },
+  {
+    "id": 510,
+    "category": "Kreativ",
+    "difficulty": "mittel",
+    "q": "Male die fünf olympischen Ringe aus dem Gedächtnis.",
+    "answer": "Selbsteinschätzung",
+    "explanation": "Das olympische Symbol besteht aus fünf ineinandergreifenden Ringen.",
+    "taskType": "draw",
+    "selfCheck": true
+  },
+  {
+    "id": 511,
+    "category": "Kreativ",
+    "difficulty": "mittel",
+    "q": "Male das Apple-Logo aus dem Gedächtnis.",
+    "answer": "Selbsteinschätzung",
+    "explanation": "Das Apple-Logo zeigt einen stilisierten angebissenen Apfel.",
+    "taskType": "draw",
+    "selfCheck": true
+  },
+  {
+    "id": 512,
+    "category": "Kreativ",
+    "difficulty": "mittel",
+    "q": "Male das McDonald’s-„M“ aus dem Gedächtnis.",
+    "answer": "Selbsteinschätzung",
+    "explanation": "Das McDonald’s-Zeichen besteht aus den sogenannten Golden Arches, die ein M formen.",
+    "taskType": "draw",
+    "selfCheck": true
   }
 ];
