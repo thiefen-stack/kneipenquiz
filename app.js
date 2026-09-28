@@ -330,7 +330,7 @@
 
   $('#exportBtn').onclick=()=>{
     const blob=new Blob([JSON.stringify(bank,null,2)],{type:'application/json'}); const a=document.createElement('a');
-    a.href=URL.createObjectURL(blob);a.download='kneipenquiz-fragenbank-v0.2.1-http.json';a.click();URL.revokeObjectURL(a.href);
+    a.href=URL.createObjectURL(blob);a.download='kneipenquiz-fragenbank-v0.3.json';a.click();URL.revokeObjectURL(a.href);
   };
   $('#importInput').addEventListener('change',async e=>{
     try{
@@ -354,6 +354,50 @@
       alert('Songfrage wurde lokal hinzugefügt. Der Audioclip bleibt in diesem Browser.');
     }catch{alert('Der Audioclip konnte in diesem Browser nicht lokal gespeichert werden.');}
   };
+
+  // PWA / Offline support. Requires HTTPS (or localhost).
+  let deferredInstallPrompt = null;
+  const installBtn = $('#installBtn');
+  const connectionPill = $('#connectionPill');
+
+  function updateConnectionState(){
+    if(!connectionPill) return;
+    if(navigator.onLine){
+      connectionPill.textContent='Online';
+      connectionPill.classList.remove('offline');
+    } else {
+      connectionPill.textContent='Offline';
+      connectionPill.classList.add('offline');
+    }
+  }
+  window.addEventListener('online', updateConnectionState);
+  window.addEventListener('offline', updateConnectionState);
+  updateConnectionState();
+
+  window.addEventListener('beforeinstallprompt', e=>{
+    e.preventDefault();
+    deferredInstallPrompt=e;
+    installBtn?.classList.remove('hidden');
+  });
+
+  installBtn?.addEventListener('click', async()=>{
+    if(!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt=null;
+    installBtn.classList.add('hidden');
+  });
+
+  window.addEventListener('appinstalled',()=>{
+    deferredInstallPrompt=null;
+    installBtn?.classList.add('hidden');
+  });
+
+  if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1')){
+    window.addEventListener('load',()=>{
+      navigator.serviceWorker.register('./service-worker.js').catch(err=>console.warn('Service Worker konnte nicht registriert werden:',err));
+    });
+  }
 
   fillCategories(); updateStats(); updatePoolInfo(); updateAudioCount();
 })();

@@ -1,30 +1,31 @@
-BERLINER KNEIPENQUIZ TRAINER v0.2.1 HTTP
-========================================
+BERLINER KNEIPENQUIZ TRAINER v0.3 PWA
+=========================================
 
-Diese Version ist speziell fuer:
-http://www.5mw.de/quiz/
+Ziel:
+https://quiz.thiefen.de/
 
-Installation
+GitHub Pages
 ------------
-1. Den INHALT dieses ZIP-Archivs direkt in den Ordner /quiz/ auf dem Webspace kopieren.
-2. Danach aufrufen:
-   http://www.5mw.de/quiz/
-3. Alternativ funktioniert:
-   http://www.5mw.de/quiz/index.html
+- Repository: thiefen-stack/kneipenquiz
+- Veröffentlichung: main / (root)
+- Custom Domain: quiz.thiefen.de
+- CNAME-Datei ist enthalten.
 
-Wichtig
+Installation / Update
+---------------------
+1. Den INHALT dieses ZIP-Archivs direkt in die Wurzel des GitHub-Repositories laden.
+2. Vorhandene Dateien gleichen Namens ersetzen.
+3. Commit changes ausführen.
+4. GitHub Pages veröffentlicht die neue Version automatisch.
+
+PWA / Offline
+-------------
+- manifest.webmanifest und service-worker.js sind enthalten.
+- Die App kann über HTTPS installiert werden.
+- Der App-Kern und die mitgelieferten Bildfragen werden für Offline-Nutzung gecacht.
+- Statistik, Fehlerliste und importierte Fragen bleiben lokal im Browser.
+- Eigene Songclips bleiben lokal in IndexedDB und werden nicht ins Repository hochgeladen.
+
+Hinweis
 -------
-- Diese Ausgabe benoetigt KEIN HTTPS.
-- Service Worker und PWA-Installation sind bewusst entfernt.
-- Fragen, Fehlerstatistik und Fortschritt werden im Browser lokal gespeichert.
-- Eigene Audiofragen werden lokal per IndexedDB im verwendeten Browser gespeichert.
-- Die App laedt keine externen Bibliotheken, Fonts oder Skripte nach.
-- Die Dateien sollen DIREKT unter /quiz/ liegen, nicht in einem zusaetzlichen Unterordner.
-
-Erwartete Struktur auf dem Webspace:
-/quiz/index.html
-/quiz/app.js
-/quiz/questions.js
-/quiz/styles.css
-/quiz/.htaccess
-/quiz/assets/...
+Wenn quiz.thiefen.de auf GitHub Pages zeigt, haben Dateien auf einem separaten STRATO-Webspace keinen Einfluss auf diese Subdomain.

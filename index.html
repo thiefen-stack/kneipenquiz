@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#111318" />
   <meta name="description" content="Berliner Kneipenquiz-Trainer mit Freitext-, Multiple-Choice-, Bild-, Zeichen- und Audiofragen." />
+  <meta name="application-name" content="Kneipenquiz Trainer" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Kneipenquiz" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png" />
   <link rel="stylesheet" href="styles.css" />
   <title>Berliner Kneipenquiz Trainer</title>
 </head>
@@ -15,7 +22,7 @@
         <div class="eyebrow">TRAINING</div>
         <h1>Berliner Kneipenquiz</h1>
       </div>
-      <span class="pill muted">Web-Version</span>
+      <div class="top-actions"><span id="connectionPill" class="pill muted">Online</span><button id="installBtn" class="ghost small hidden" type="button">App installieren</button></div>
     </header>
 
     <section id="home" class="screen active">
@@ -93,7 +100,7 @@
       </div>
 
       <footer class="credits">
-        <span>Version 0.2.1 HTTP</span>
+        <span>Version 0.3 PWA</span>
         <span>•</span>
         <span>Hessen-Umriss: schematische Eigenzeichnung, nicht maßstabsgetreu.</span>
       </footer>

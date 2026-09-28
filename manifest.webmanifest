@@ -1,0 +1,17 @@
+{
+  "name": "Berliner Kneipenquiz Trainer",
+  "short_name": "Kneipenquiz",
+  "description": "Kneipenquiz-Training mit Freitext-, Auswahl-, Bild-, Zeichen- und Audiofragen.",
+  "lang": "de-DE",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0d0f13",
+  "theme_color": "#111318",
+  "icons": [
+    {"src":"assets/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"assets/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}
