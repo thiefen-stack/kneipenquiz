@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#111318" />
+  <meta name="description" content="Berliner Kneipenquiz-Trainer mit Freitext-, Multiple-Choice-, Bild-, Zeichen- und Audiofragen." />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Berliner Kneipenquiz Trainer</title>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">TRAINING</div>
+        <h1>Berliner Kneipenquiz</h1>
+      </div>
+      <span class="pill muted">Web-Version</span>
+    </header>
+
+    <section id="home" class="screen active">
+      <div class="hero card">
+        <div>
+          <span id="poolPill" class="pill">Fragenpool wird geladen …</span>
+          <h2>Mehr wissen. Weniger raten.</h2>
+          <p>Originalmix mit etwa 20 % Auswahlfragen, überwiegend Freitext – plus Bild-, Zeichen- und Audiofragen. Fehler und Fortschritt werden lokal im Browser gespeichert.</p>
+        </div>
+        <div class="score-ring" aria-label="Beste Trefferquote"><span id="bestRate">0%</span><small>Bestwert</small></div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat card"><strong id="statSessions">0</strong><span>Runden</span></div>
+        <div class="stat card"><strong id="statAnswered">0</strong><span>Antworten</span></div>
+        <div class="stat card"><strong id="statCorrect">0</strong><span>Richtig</span></div>
+        <div class="stat card"><strong id="statWrong">0</strong><span>Offene Fehler</span></div>
+      </div>
+
+      <div class="card setup">
+        <h3>Training starten</h3>
+        <label>Fragen pro Runde
+          <select id="questionCount">
+            <option value="10">10 Fragen</option>
+            <option value="20" selected>20 Fragen</option>
+            <option value="30">30 Fragen</option>
+            <option value="40">40 Fragen</option>
+            <option value="50">50 Fragen</option>
+            <option value="100">100 Fragen</option>
+            <option value="0">Alle verfügbaren</option>
+          </select>
+        </label>
+        <label>Kategorie
+          <select id="categorySelect"><option value="all">Alle Kategorien</option></select>
+        </label>
+        <label>Modus
+          <select id="modeSelect">
+            <option value="original" selected>Originalmix – ca. 20 % Auswahl</option>
+            <option value="text">Freitext bevorzugen</option>
+            <option value="choice">Nur Auswahlfragen</option>
+          </select>
+        </label>
+        <div class="actions">
+          <button id="startBtn" class="primary" type="button">Training starten</button>
+          <button id="mistakeBtn" class="secondary" type="button">Fehlertraining</button>
+        </div>
+      </div>
+
+      <div class="card import-card">
+        <h3>Fragenbank erweitern</h3>
+        <p>Zusätzliche Fragen kannst du als JSON importieren. Lokale Bilder werden über Dateipfade unterstützt; exportieren sichert die komplette aktuelle Fragenbank.</p>
+        <label class="file-btn">JSON importieren<input id="importInput" type="file" accept="application/json,.json" /></label>
+        <button id="exportBtn" class="ghost" type="button">Fragenbank exportieren</button>
+      </div>
+
+      <div class="card music-card">
+        <div class="card-headline">
+          <div>
+            <h3>Eigene Song-Erkennung</h3>
+            <p>Für moderne Songs speichert die App den Audioclip ausschließlich lokal in diesem Browser. Der Clip wird nicht mit der Web-App ausgeliefert und nicht hochgeladen.</p>
+          </div>
+          <span id="localAudioCount" class="pill muted">0 lokale Songs</span>
+        </div>
+        <div class="music-form">
+          <label>Künstler
+            <input id="audioArtist" type="text" placeholder="z. B. Queen" />
+          </label>
+          <label>Titel
+            <input id="audioTitle" type="text" placeholder="z. B. Bohemian Rhapsody" />
+          </label>
+          <label class="file-btn wide">Audio auswählen<input id="audioFile" type="file" accept="audio/*" /></label>
+          <button id="addAudioBtn" class="secondary" type="button">Songfrage lokal hinzufügen</button>
+        </div>
+        <p class="fineprint">Mitgeliefert sind nur selbst erzeugte Hörbeispiele gemeinfreier bzw. traditioneller Melodien – keine kommerziellen Originalaufnahmen.</p>
+      </div>
+
+      <footer class="credits">
+        <span>Version 0.2.1 HTTP</span>
+        <span>•</span>
+        <span>Hessen-Umriss: schematische Eigenzeichnung, nicht maßstabsgetreu.</span>
+      </footer>
+    </section>
+
+    <section id="quiz" class="screen">
+      <div class="quiz-head">
+        <button id="quitBtn" class="ghost small" type="button">← Beenden</button>
+        <div class="progress-wrap"><div id="progressBar" class="progress"></div></div>
+        <span id="progressText">1 / 10</span>
+      </div>
+      <article class="card question-card">
+        <div class="meta"><span id="categoryPill" class="pill"></span><span id="difficultyPill" class="pill muted"></span><span id="typePill" class="pill muted"></span><span id="originPill" class="pill muted hidden"></span></div>
+        <h2 id="questionText"></h2>
+        <div id="visualWrap" class="visual-wrap hidden"><img id="questionVisual" alt="" /></div>
+        <div id="audioWrap" class="audio-wrap hidden"></div>
+        <div id="answerArea"></div>
+        <div id="feedback" class="feedback hidden"></div>
+        <div class="quiz-actions">
+          <button id="checkBtn" class="primary" type="button">Antwort prüfen</button>
+          <button id="nextBtn" class="primary hidden" type="button">Nächste Frage</button>
+        </div>
+      </article>
+    </section>
+
+    <section id="results" class="screen">
+      <div class="card results-card">
+        <div class="result-score"><strong id="resultPercent">0%</strong><span>Trefferquote</span></div>
+        <h2 id="resultTitle">Runde beendet</h2>
+        <p id="resultText"></p>
+        <p id="bonusResult" class="bonus-result hidden"></p>
+        <div id="resultBreakdown" class="breakdown"></div>
+        <div class="actions centered">
+          <button id="againBtn" class="primary" type="button">Neue Runde</button>
+          <button id="resultMistakesBtn" class="secondary" type="button">Fehler wiederholen</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
