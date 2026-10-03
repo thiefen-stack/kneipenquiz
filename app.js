@@ -185,6 +185,14 @@
     }
   }
 
+  function focusAnswerIfDesktop(selector){
+    // On phones, autofocus opens the keyboard immediately and can trigger browser auto-zoom.
+    // Let the player tap the field when ready. Desktop keeps the quick keyboard workflow.
+    const isTouchDevice = window.matchMedia?.('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
+    if(isTouchDevice) return;
+    setTimeout(()=>document.querySelector(selector)?.focus(),50);
+  }
+
   function renderAnswerArea(q){
     const area=$('#answerArea');
     if(q.taskType==='draw'){
@@ -197,7 +205,7 @@
       area.innerHTML='<div class="audio-answer-grid"><label>Künstler<input id="artistAnswer" type="text" autocomplete="off" placeholder="Künstler …"></label><label>Titel<input id="titleAnswer" type="text" autocomplete="off" placeholder="Titel …"></label></div>';
       $('#artistAnswer').addEventListener('keydown',e=>{if(e.key==='Enter')$('#titleAnswer').focus();});
       $('#titleAnswer').addEventListener('keydown',e=>{if(e.key==='Enter')checkAnswer();});
-      setTimeout(()=>$('#artistAnswer')?.focus(),50);
+      focusAnswerIfDesktop('#artistAnswer');
       return;
     }
     if(q.renderType==='choice'){
@@ -210,7 +218,7 @@
     } else {
       area.innerHTML='<input id="textAnswer" type="text" autocomplete="off" autocapitalize="sentences" placeholder="Antwort eingeben …" aria-label="Antwort" />';
       $('#textAnswer').addEventListener('keydown',e=>{if(e.key==='Enter')checkAnswer();});
-      setTimeout(()=>$('#textAnswer')?.focus(),50);
+      focusAnswerIfDesktop('#textAnswer');
     }
     if(q.bonus){
       area.insertAdjacentHTML('beforeend',`<div class="bonus-box"><label>${escapeHtml(q.bonus.q)}<input id="bonusAnswer" type="text" autocomplete="off" placeholder="Bonusantwort (optional) …"></label></div>`);
@@ -406,7 +414,7 @@
 
   $('#exportBtn').onclick=()=>{
     const blob=new Blob([JSON.stringify(bank,null,2)],{type:'application/json'}); const a=document.createElement('a');
-    a.href=URL.createObjectURL(blob);a.download='kneipenquiz-fragenbank-v0.4.json';a.click();URL.revokeObjectURL(a.href);
+    a.href=URL.createObjectURL(blob);a.download='kneipenquiz-fragenbank-v0.5.json';a.click();URL.revokeObjectURL(a.href);
   };
   $('#importInput').addEventListener('change',async e=>{
     try{

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kneipenquiz-v0.4-20260928';
+const CACHE_NAME = 'kneipenquiz-v0.5-20261003';
 const APP_SHELL = [
   './',
   './index.html',

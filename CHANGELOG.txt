@@ -1,3 +1,11 @@
+v0.5 – 2026-10-03
+- Mobile Startseite auf Training reduziert: Fragenzahl, Kategorie, Schwierigkeit und Start/Fehlertraining.
+- Erweiterte Bereiche bleiben auf Desktop verfügbar.
+- Mobile Antwortfelder verwenden 16px und lösen keinen automatischen Browser-Zoom aus.
+- Auf Touch-Geräten kein automatisches Fokussieren des Antwortfeldes mehr; Tastatur öffnet erst nach Antippen.
+- Kompaktere Quizansicht und größere, gut erreichbare Antwortfelder auf Smartphones.
+- Service-Worker-Cache auf v0.5 aktualisiert.
+
 BERLINER KNEIPENQUIZ TRAINER v0.4
 =================================
 
