@@ -391,7 +391,12 @@
   }
   function next(){
     if(!checked || checked==='pending')return;
-    if(index<session.length-1){index++;renderQuestion();}
+    let upcoming=index+1;
+    if(sessionMode==='daily'){
+      const done=new Set(answers.map(a=>String(a.id)));
+      while(upcoming<session.length && done.has(String(session[upcoming].id)))upcoming++;
+    }
+    if(upcoming<session.length){index=upcoming;renderQuestion();}
     else finish();
   }
   function finish(){
@@ -576,24 +581,39 @@
     for(let i=pool.length-1;i>0;i--){let j=Math.floor(rand()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
     return pool.slice(0,10).map(q=>({...q,renderType:'choice'}));
   }
+  let dailyStarting=false;
   async function startDailyQuiz(){
+    if(dailyStarting)return;
     const btn=$('#dailyStartBtn');
     if(!profiles.getActive())throw Error('Bitte Spieler auswählen.');
     const status=profiles.getStatus();
-    if(!status.central||!status.online||status.version!=='0.7')throw Error('Das Tagesquiz benötigt eine aktive Google-Verbindung und das aktualisierte Apps Script 0.7.');
-    btn.disabled=true;btn.textContent='Tagesquiz wird reserviert …';
+    if(!status.central||!status.online||status.version!=='0.7'||status.build!=='0.7.1')throw Error('Das Tagesquiz benötigt eine aktive Google-Verbindung und Apps Script 0.7.1. Bitte den aktualisierten Backend-Code bereitstellen.');
+    dailyStarting=true;btn.disabled=true;btn.textContent='Tagesquiz wird reserviert …';
     try{
+      await profiles.flush();
       await profiles.refresh();
       const day=profiles.getDaily();
-      if(day.reservedSessionId)throw Error('Du hast dein heutiges Tagesquiz schon gestartet. Nächstes Quiz morgen!');
+      if(day.completed)throw Error('Du hast das heutige Tagesquiz bereits abgeschlossen. Morgen gibt es neue Fragen.');
       const questions=dailyQuestions(day.dayKey);
       if(questions.length!==10)throw Error('Für das Tagesquiz fehlen Auswahlfragen.');
       const newSession='s-daily-'+(crypto.randomUUID?crypto.randomUUID():Date.now());
-      const dayKey=await profiles.reserveDaily(newSession);
-      session=questions;sessionMode='daily';sessionDayKey=dayKey;limitMs=10000;
-      sessionId=newSession;index=0;answers=[];hintsRemaining=0;hintsUsed=0;
+      const reservation=await profiles.reserveDaily(newSession);
+      await profiles.refresh();
+      const saved=profiles.getDaily();
+      const previous=saved.result?.answers||[];
+      const answeredIds=new Set(previous.map(a=>String(a.id)));
+      const nextIndex=questions.findIndex(q=>!answeredIds.has(String(q.id)));
+      if(nextIndex<0)throw Error('Alle zehn Tagesfragen wurden bereits beantwortet. Die Auswertung wird synchronisiert.');
+      session=questions;sessionMode='daily';sessionDayKey=reservation.dayKey;limitMs=10000;
+      sessionId=reservation.sessionId;index=nextIndex;
+      answers=previous.map(a=>{
+        const q=questions.find(q=>String(q.id)===String(a.id));
+        return {id:a.id,correct:!!a.correct,given:'Bereits beantwortet',category:q?.category||'',bonus:null,
+          responseMs:Number(a.responseMs)||0,hintUsed:false};
+      });
+      hintsRemaining=0;hintsUsed=0;
       show('quiz');renderQuestion();
-    }finally {btn.disabled=false;renderDailyPanel();}
+    }finally {dailyStarting=false;renderDailyPanel();}
   }
   function renderDailyPanel(){
     const panel=$('#dailyNote'),btn=$('#dailyStartBtn'),ranking=$('#dailyRanking');
@@ -601,12 +621,13 @@
     const s=profiles.getStatus(),day=profiles.getDaily();
     if(!s.central){panel.textContent='Für das gemeinsame Tagesquiz muss der Google-Server verbunden sein.';btn.disabled=true;}
     else if(!s.online){panel.textContent='Offline: Das Tagesquiz startet nur bei aktiver Verbindung.';btn.disabled=true;}
-    else if(s.version!=='0.7'){panel.textContent='Zuerst das Google Apps Script auf Version 0.7 aktualisieren.';btn.disabled=true;}
+    else if(s.version!=='0.7'||s.build!=='0.7.1'){panel.textContent='Bitte zuerst Google Apps Script 0.7.1 als neue Web-App-Version bereitstellen.';btn.disabled=true;}
     else if(day.reservedSessionId){
-      panel.textContent=day.completed?`Heute bereits gespielt: ${day.result?.correct??'–'} von 10 richtig. Morgen gibt es ein neues Quiz.`:'Heute bereits gestartet. Pro Spieler gibt es einen Versuch pro Tag.';
-      btn.disabled=true;
+      panel.textContent=day.completed?`Heute bereits gespielt: ${day.result?.correct??'–'} von 10 richtig. Morgen gibt es ein neues Quiz.`:'Tagesquiz bereits reserviert. Du kannst dieselbe Runde fortsetzen.';
+      btn.disabled=!!day.completed;
     } else {panel.textContent=`${day.dayKey||'Heute'} · 10 gleiche Multiple-Choice-Fragen für alle · 10 Sekunden je Frage · keine Tipps.`;btn.disabled=false;}
-    btn.textContent=day.reservedSessionId?'Heute bereits gespielt':'Tagesquiz starten';
+    btn.textContent=day.reservedSessionId?(day.completed?'Heute bereits gespielt':'Tagesquiz fortsetzen'):'Tagesquiz starten';
+    if(dailyStarting){btn.disabled=true;btn.textContent='Tagesquiz wird reserviert …';}
     const entries=day.leaderboard||[];
     ranking.innerHTML=entries.length ? entries.slice(0,10).map((p,i)=>`<div class="daily-rank"><span>${i+1}. ${escapeHtml(p.name)}</span><strong>${p.correct}/10</strong><small>${(p.totalMs/1000).toFixed(1)} s</small></div>`).join('') : '<p class="fine-note">Heute hat noch niemand geantwortet.</p>';
   }

@@ -5,7 +5,7 @@
   const rawApi = String(window.BQ_CONFIG?.apiUrl || '').trim();
   const API = /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec(?:\?.*)?$/.test(rawApi) ? rawApi.split('?')[0] : '';
   const central = !!API;
-  const empty = () => ({ players: [], activeId: '', answers: [], rounds: [], queue: [], remoteStats: {}, remoteSeen: {}, remoteLeaderboard: [], remoteLoaded: false, legacyImport: null, remoteProgress: {}, remoteDaily: null, dayKey: "", backendVersion: "" });
+  const empty = () => ({ players: [], activeId: '', answers: [], rounds: [], queue: [], remoteStats: {}, remoteSeen: {}, remoteLeaderboard: [], remoteLoaded: false, legacyImport: null, remoteProgress: {}, remoteDaily: null, dayKey: "", backendVersion: "", backendBuild: "" });
   let state;
   try { state = Object.assign(empty(), JSON.parse(localStorage.getItem(KEY) || '{}')); }
   catch { state = empty(); }
@@ -23,7 +23,7 @@
   const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
   function getActive() { return state.players.find(p => p.id === state.activeId) || null; }
   function getPlayers() { return [...state.players].sort((a, b) => a.name.localeCompare(b.name, 'de')); }
-  function getStatus() { return { central, online, pending: state.queue.length, error: lastError, version: state.backendVersion || '', dayKey: state.dayKey || '' }; }
+  function getStatus() { return { central, online, pending: state.queue.length, error: lastError, version: state.backendVersion || '', build:state.backendBuild || '', dayKey: state.dayKey || '' }; }
   const zeroProgress = () => ({seen:0,correct:0,wrong:0,streak:0,lastAt:0,lastCorrect:false,hintEver:false,points:0,category:''});
   function earnedFor(prior, correct, hint, total) {
     if (!correct || total >= 1024) return 0;
@@ -127,6 +127,7 @@
         state.remoteDaily = data.daily || null;
         state.dayKey = data.dayKey || state.dayKey || '';
         state.backendVersion = data.version || '';
+        state.backendBuild = data.build || '';
         state.remoteLoaded = true;
         online = true; lastError = '';
         persist(); notify();
@@ -275,20 +276,21 @@
     return migrationPromise;
   }
   async function reserveDaily(sessionId) {
-    if (!central || !online || getBackendVersion() !== '0.7') throw new Error('Das Tagesquiz benötigt das aktualisierte Google Apps Script 0.7 und eine aktive Serververbindung.');
+    if (!central || !online || getBackendVersion() !== '0.7' || state.backendBuild !== '0.7.1') throw new Error('Tagesquiz benötigt Apps Script 0.7.1 und eine Serververbindung.');
     await refresh();
     const dayKey = state.dayKey;
     if (!dayKey) throw new Error('Kein gültiger Quiztag vom Server empfangen.');
-    if (state.remoteDaily?.reservedSessionId) throw new Error('Tagesquiz wurde heute bereits gestartet. Morgen gibt es neue Fragen.');
+    // Vorhandene Serverreservierung niemals duplizieren: dieselbe Runde fortsetzen.
+    if (state.remoteDaily?.reservedSessionId) return {dayKey,sessionId:state.remoteDaily.reservedSessionId};
     await send([{kind:'dailyStart',playerId:state.activeId,sessionId,dayKey}]);
     for (let i=0;i<7;i++) {
-      await wait(350+i*250);await refresh();
+      await wait(350+i*250);
+      await refresh();
       if (state.remoteDaily?.reservedSessionId) {
-        if (state.remoteDaily.reservedSessionId!==sessionId) throw new Error('Auf einem anderen Gerät wurde das Tagesquiz bereits gestartet.');
-        return dayKey;
+        return {dayKey,sessionId:state.remoteDaily.reservedSessionId};
       }
     }
-    throw new Error('Der Quizstart wurde vom Google-Server nicht bestätigt. Bitte erneut prüfen.');
+    throw new Error('Der Quizstart wurde nicht bestätigt. Bitte die Seite aktualisieren – keine weitere Reservierung erzeugen.');
   }
   async function init() {
     if (central) {
