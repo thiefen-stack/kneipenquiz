@@ -585,10 +585,15 @@
   const installBtn=$('#installBtn'),connectionPill=$('#connectionPill');
   const installGuide=$('#installGuide');
   const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches || navigator.standalone===true;
-  const isMobile=()=>/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.matchMedia('(max-width:700px)').matches;
-  const isIOS=()=>/iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const isMobile=()=>/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    window.matchMedia('(max-width:900px), (pointer:coarse)').matches ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isIOS=()=>/iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   function updateInstallVisibility(){
-    installBtn?.classList.toggle('hidden', isStandalone() || (!isMobile() && !deferredInstallPrompt));
+    const installed = isStandalone();
+    document.documentElement.classList.toggle('kq-installed', installed);
+    installBtn?.classList.toggle('hidden', installed || (!isMobile() && !deferredInstallPrompt));
   }
   function closeInstallGuide(){installGuide.classList.add('hidden');installBtn?.focus();}
   function openInstallGuide(){
@@ -615,15 +620,21 @@
   window.addEventListener('online',updateConnectionState);
   window.addEventListener('offline',updateConnectionState);
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;updateInstallVisibility();});
-  installBtn?.addEventListener('click',async()=>{
+  async function requestInstallation(){
+    if(isStandalone()) return;
     if(deferredInstallPrompt){
       try{
-        await deferredInstallPrompt.prompt();
-        await deferredInstallPrompt.userChoice;
+        const prompt = deferredInstallPrompt;
+        deferredInstallPrompt=null;
+        await prompt.prompt();
+        const result=await prompt.userChoice;
+        if(result?.outcome !== 'accepted') openInstallGuide();
       }catch(err){console.warn('Installation:',err);openInstallGuide();}
-      deferredInstallPrompt=null;updateInstallVisibility();
+      updateInstallVisibility();
     }else openInstallGuide();
-  });
+  }
+  installBtn?.addEventListener('click',requestInstallation);
+  $('#installMobileBtn')?.addEventListener('click',requestInstallation);
   $('#installGuideCloseBtn').onclick=closeInstallGuide;
   $('#installGuideDoneBtn').onclick=closeInstallGuide;
   installGuide.addEventListener('click',e=>{if(e.target===installGuide)closeInstallGuide();});

@@ -113,3 +113,15 @@ input[type=text],textarea,select{font-size:16px;}
 .install-panel{width:min(480px,100%);padding:24px;display:grid;gap:18px;line-height:1.5}
 .install-head{display:flex;align-items:center;gap:10px;justify-content:space-between}.install-head h2{font-size:1.3rem;margin:0}.install-panel p{margin:0;color:var(--muted)}
 @media(max-width:700px){.topbar{gap:6px}.top-actions{gap:5px;flex-wrap:nowrap}.top-actions #connectionPill{max-width:105px;font-size:.59rem;text-align:center}.install-panel{padding:18px}.topbar h1{font-size:1rem}}
+
+/* v0.6.3: Installationsoption auf Telefonen und Tablets sichtbar halten. */
+.mobile-install-action{display:none}
+@media (max-width:700px), (pointer:coarse){
+  .top-actions #installBtn:not(.hidden){display:inline-flex!important;align-items:center;justify-content:center;white-space:nowrap;min-height:38px}
+  .mobile-install-action{display:block;width:100%;margin:14px 0 2px;min-height:46px;border-color:#7b6a42;color:#fff1d6}
+  html.kq-installed .top-actions #installBtn, html.kq-installed .mobile-install-action{display:none!important}
+}
+@media (max-width:370px){
+  .topbar{flex-wrap:wrap}
+  .top-actions{margin-left:auto}
+}
