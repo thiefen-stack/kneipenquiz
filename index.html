@@ -12,11 +12,11 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png" />
   <link rel="apple-touch-icon" href="assets/icon-192.png" />
-  <link rel="stylesheet" href="styles.css?v=064" />
+  <link rel="stylesheet" href="styles.css?v=070" />
   <title>Berliner Kneipenquiz Trainer</title>
 </head>
 <body>
-  <main class="shell" data-version="KNEIPENQUIZ_V064">
+  <main class="shell" data-version="KNEIPENQUIZ_V070">
     <header class="topbar">
       <div>
         <div class="eyebrow">TRAINING</div>
@@ -35,7 +35,7 @@
 
     <section id="playerGate" class="screen active">
       <div class="card player-gate">
-        <span class="pill">VERSION 0.6.4 · SPIELERPROFILE</span>
+        <span class="pill">VERSION 0.7 · INTELLIGENTES TRAINING</span>
         <h2>Wer trainiert heute?</h2>
         <p>Wähle deinen Spielernamen. Keine E-Mail-Adresse, kein Passwort.</p>
         <label>Spieler auswählen
@@ -71,7 +71,7 @@
         <div class="toolbar-buttons">
           <button id="switchPlayerBtn" class="ghost small" type="button">Spieler wechseln</button>
           <button id="viewStatsBtn" class="secondary small" type="button">Meine Statistik</button>
-          <button id="viewLeaderboardBtn" class="secondary small" type="button">Rangliste</button>
+          <button id="viewLeaderboardBtn" class="secondary small" type="button">Rangliste</button><button id="viewAchievementsBtn" class="secondary small" type="button">Abzeichen</button>
         </div>
       </div>
       <div class="stats-grid">
@@ -81,9 +81,24 @@
         <div class="stat card"><strong id="statWrong">0</strong><span>Offene Fehler</span></div>
       </div>
 
+      <div class="card daily-card">
+        <div class="daily-title"><div><span class="pill">TÄGLICHE CHALLENGE</span><h3>🎯 Tagesquiz</h3></div><span class="daily-clock">10 × 10 s</span></div>
+        <p id="dailyNote">Lade Tagesquiz …</p>
+        <button id="dailyStartBtn" class="primary" type="button">Tagesquiz starten</button>
+        <div class="daily-ranking-title">Heutige Rangliste</div>
+        <div id="dailyRanking"></div>
+      </div>
       <div class="card setup">
         <h3>Training starten</h3>
         <label class="unseen-option"><input id="unseenOnly" type="checkbox" /> Nur Fragen, die ich noch nicht hatte</label>
+        <label>Intelligentes Training
+          <select id="trainFocus">
+            <option value="adaptive" selected>Adaptiv – mein Wissensstand entscheidet</option>
+            <option value="weak">Meine Schwächen – bisher falsch beantwortet</option>
+            <option value="due">Wiederholung – nach Lernintervall fällig</option>
+            <option value="unseen">Nur neue Fragen</option>
+          </select>
+        </label>
         <label>Fragen pro Runde
           <select id="questionCount">
             <option value="10">10 Fragen</option>
@@ -180,7 +195,7 @@ Antwort D"></textarea></label>
       </div>
 
       <footer class="credits">
-        <span>Version 0.6.3 • 512 Fragen</span>
+        <span>Version 0.7 • 512 Fragen • 1024 Punkte möglich</span>
         <span>•</span>
         <span>Hessen-Umriss: schematische Eigenzeichnung, nicht maßstabsgetreu.</span>
       </footer>
@@ -192,6 +207,7 @@ Antwort D"></textarea></label>
         <div class="progress-wrap"><div id="progressBar" class="progress"></div></div>
         <span id="progressText">1 / 10</span>
       </div>
+      <div class="question-time"><div><span>⏱ Antwortzeit</span><strong id="timeLeft" role="timer" aria-live="off">30.0 s</strong></div><div class="time-track"><div id="timeBar" class="time-bar"></div></div></div>
       <article class="card question-card">
         <div class="meta"><span id="categoryPill" class="pill"></span><span id="difficultyPill" class="pill muted"></span><span id="typePill" class="pill muted"></span><span id="originPill" class="pill muted hidden"></span></div>
         <h2 id="questionText"></h2>
@@ -224,7 +240,14 @@ Antwort D"></textarea></label>
     <section id="playerStats" class="screen">
       <div class="section-head"><button id="backStatsBtn" class="ghost small" type="button">← Zurück</button><h2>Meine Statistik</h2></div>
       <div id="playerStatsGrid" class="stats-detail-grid"></div>
-      <div class="card stats-explanation"><h3>Trainingsfortschritt</h3><p id="seenCount"></p><p>Die Antwortzeit wird von der Anzeige einer Frage bis zur Abgabe gemessen. Mit Tipp gibt eine richtige Antwort einen Ranglistenpunkt, ohne Tipp zwei.</p></div>
+      <div class="card stats-explanation"><h3>Trainingsfortschritt</h3><p id="seenCount"></p><p>Pro Basisfrage sind höchstens 2 Ranglistenpunkte möglich. Bei einer richtig gelösten Frage mit Tipp bleibt der zweite Punkt für eine spätere richtige Antwort ohne Tipp offen. Nach 30 Sekunden wird die Antwort falsch gewertet.</p></div>
+    </section>
+
+    <section id="achievements" class="screen">
+      <div class="section-head"><button id="backAchievementsBtn" class="ghost small" type="button">← Zurück</button><h2>Erfolge &amp; Abzeichen</h2></div>
+      <p id="achievementIntro" class="leaderboard-note">Deine Abzeichen werden geladen …</p>
+      <div id="badgeGrid" class="badge-grid"></div>
+      <p class="fine-note">Abzeichen für beantwortete Fragen zählen unterschiedliche Basisfragen. Kategorie-Abzeichen gibt es, wenn alle Fragen einer Kategorie mindestens einmal richtig beantwortet wurden.</p>
     </section>
 
     <section id="leaderboard" class="screen">
@@ -235,8 +258,8 @@ Antwort D"></textarea></label>
   </main>
 
   <script src="questions.js"></script>
-  <script src="config.js?v=064"></script>
-  <script src="profiles.js?v=064"></script>
-  <script src="app.js?v=064"></script>
+  <script src="config.js?v=070"></script>
+  <script src="profiles.js?v=070"></script>
+  <script src="app.js?v=070"></script>
 </body>
 </html>

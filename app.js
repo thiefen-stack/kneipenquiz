@@ -1,4 +1,4 @@
-/* KNEIPENQUIZ_V06 */
+/* KNEIPENQUIZ_V070 */
 (() => {
   const BASE = window.QUIZ_QUESTIONS || [];
   let imported = JSON.parse(localStorage.getItem('bq_imported') || '[]');
@@ -13,10 +13,12 @@
 
   const $ = s => document.querySelector(s);
   const profiles = window.BQProfiles;
-  const screens = ['playerGate','home','quiz','results','playerStats','leaderboard'];
+  const screens = ['playerGate','home','quiz','results','playerStats','leaderboard','achievements'];
   let mistakes = new Set();
   let mastery = {};
   let sessionId = '', hintsRemaining = 0, hintsUsed = 0, questionStartedAt = 0;
+  let sessionMode='original', sessionDayKey='',timerHandle=null,limitMs=30000,submittedMs=0;
+  let trainingProgressCache={};
   const progressKey = name => `bq_v06_${profiles.getActive()?.id || 'none'}_${name}`;
   function loadPlayerProgress(){
     try { mistakes = new Set(JSON.parse(localStorage.getItem(progressKey('mistakes')) || '[]')); }
@@ -32,8 +34,8 @@
   function shuffle(a){ return [...a].sort(()=>Math.random()-.5); }
   function masteryFor(id){ return mastery[String(id)] || {seen:0,correct:0,wrong:0,streak:0}; }
   function questionWeight(q){
-    const m=masteryFor(q.id);
-    if(mistakes.has(q.id)) return 10 + Math.min(5,m.wrong||0);
+    const m=trainingProgressCache[String(q.id)] || masteryFor(q.id);
+    if(mistakes.has(q.id) || (m.wrong>0 && !m.lastCorrect)) return 10 + Math.min(5,m.wrong||0);
     if(!m.seen) return 5;
     const accuracy=(m.correct||0)/Math.max(1,m.seen||1);
     return Math.max(.7, 4.5-(accuracy*2.4)-Math.min(4,m.streak||0)*.45);
@@ -130,17 +132,31 @@
   function pickQuestions({mistakeOnly=false}={}){
     if (!profiles.getActive()) { show('playerGate'); return false; }
     const cat=$('#categorySelect').value;
+    const focus=mistakeOnly?'weak':$('#trainFocus').value;
+    trainingProgressCache=profiles.getQuestionProgress();
     const diff=$('#difficultySelect')?.value||'all';
-    let pool=bank.filter(q=>(cat==='all'||q.category===cat) && (diff==='all'||q.difficulty===diff) && (!mistakeOnly || mistakes.has(q.id)));
-    const onlyNew = !mistakeOnly && $('#unseenOnly').checked;
+    let pool=bank.filter(q=>(cat==='all'||q.category===cat) && (diff==='all'||q.difficulty===diff) && (!mistakeOnly || mistakes.has(q.id) || (trainingProgressCache[String(q.id)]?.wrong||0)>0));
+    const onlyNew = !mistakeOnly && ($('#unseenOnly').checked || focus==='unseen');
     if (onlyNew) {
       const seen = profiles.getSeenIds();
       pool = pool.filter(q => !seen.has(String(q.id)) && !(masteryFor(q.id).seen > 0));
     }
-    if(!pool.length){ alert(onlyNew ? 'Für diese Auswahl hast du bereits alle Fragen gesehen. Deaktiviere „Nur neue Fragen“ oder wähle eine andere Kategorie.' : mistakeOnly ? 'Aktuell sind keine Fehler zum Wiederholen gespeichert.' : 'Für diese Auswahl gibt es keine Fragen.'); return false; }
+    if (focus==='weak' && !onlyNew) {
+      pool=pool.filter(q=>{const h=trainingProgressCache[String(q.id)];return h&&h.wrong>0;});
+    } else if(focus==='due' && !onlyNew) {
+      const now=Date.now();
+      pool=pool.filter(q=>{
+        const h=trainingProgressCache[String(q.id)];
+        if(!h||!h.seen||!h.lastAt) return false;
+        const interval=h.streak<1?1:h.streak===1?2:h.streak===2?5:h.streak===3?10:21;
+        return now-h.lastAt >= interval*86400000;
+      });
+    }
+    if(!pool.length){ alert(focus==='weak'?'Du hast in dieser Auswahl noch keine falsch beantworteten Fragen.':focus==='due'?'Aktuell stehen keine Wiederholungsfragen an. Probiere „Adaptiv“ oder „Meine Schwächen“.':onlyNew ? 'Für diese Auswahl hast du bereits alle Fragen gesehen. Deaktiviere „Nur neue Fragen“ oder wähle eine andere Kategorie.' : mistakeOnly ? 'Aktuell sind keine Fehler zum Wiederholen gespeichert.' : 'Für diese Auswahl gibt es keine Fragen.'); return false; }
     const requested=Number($('#questionCount').value);
     const desired=requested===0?pool.length:Math.min(requested,pool.length);
     session=weightedSample(pool,desired);
+    if(focus==='weak')session.sort((a,b)=> (trainingProgressCache[String(b.id)]?.wrong||0)-(trainingProgressCache[String(a.id)]?.wrong||0));
     const mode=$('#modeSelect').value;
     if(mode==='original'){
       const eligible=shuffle(session.filter(q=>Array.isArray(q.choices)&&q.choices.length>=2&&!q.taskType&&!q.audioLocal));
@@ -151,14 +167,14 @@
       session=session.filter(q=>q.choices?.length>=2&&!q.taskType&&!q.audioLocal).map(q=>({...q,renderType:'choice'}));
       if(!session.length){alert('Für diese Auswahl stehen keine Auswahlfragen zur Verfügung.');return false;}
     } else session=session.map(q=>({...q,renderType:'text'}));
-    index=0; answers=[];
+    index=0; answers=[]; sessionMode=mode;sessionDayKey='';limitMs=30000;
     sessionId = 's-' + (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random());
     hintsRemaining = Math.floor(session.length / 10); hintsUsed = 0;
     renderQuestion(); show('quiz'); return true;
   }
 
   async function renderQuestion(){
-    checked=false; selected=[]; drawTouched=false;
+    stopTimer();checked=false; selected=[]; drawTouched=false;submittedMs=0;
     revokeCurrentAudio();
     const q=session[index];
     $('#progressText').textContent=`${index+1} / ${session.length}`;
@@ -180,6 +196,7 @@
     renderAnswerArea(q);
     questionStartedAt = performance.now();
     renderHintUI(q);
+    startTimer();
   }
 
   function typeName(q){
@@ -243,7 +260,7 @@
       $('#textAnswer').addEventListener('keydown',e=>{if(e.key==='Enter')checkAnswer();});
       focusAnswerIfDesktop('#textAnswer');
     }
-    if(q.bonus){
+    if(q.bonus && sessionMode!=='daily'){
       area.insertAdjacentHTML('beforeend',`<div class="bonus-box"><label>${escapeHtml(q.bonus.q)}<input id="bonusAnswer" type="text" autocomplete="off" placeholder="Bonusantwort (optional) …"></label></div>`);
     }
   }
@@ -267,14 +284,14 @@
     return values.length === 4 ? shuffle(values) : [];
   }
   function renderHintUI(q){
-    const canHint = !checked && hintsRemaining > 0 && q.renderType === 'text' && !q.hintUsed &&
+    const canHint = sessionMode!=='daily' && !checked && hintsRemaining > 0 && q.renderType === 'text' && !q.hintUsed &&
       !q.taskType && !q.audioLocal && !q.selfCheck && !q.multi;
     $('#hintBtn').classList.toggle('hidden', !canHint);
-    $('#hintCounter').textContent = `Tipps übrig: ${hintsRemaining}`;
+    $('#hintCounter').textContent = sessionMode==='daily' ? 'Tagesquiz · keine Tipps' : `Tipps übrig: ${hintsRemaining}`;
   }
   function useHint(){
     const q = session[index];
-    if (checked || hintsRemaining < 1 || q.renderType !== 'text' || q.taskType || q.audioLocal || q.selfCheck || q.multi) return;
+    if (sessionMode==='daily' || checked || hintsRemaining < 1 || q.renderType !== 'text' || q.taskType || q.audioLocal || q.selfCheck || q.multi) return;
     const choices = buildHintChoices(q);
     if (choices.length !== 4) { alert('Für diese Frage stehen keine geeigneten Auswahlantworten zur Verfügung. Dein Tipp bleibt erhalten.'); return; }
     q.choices = choices; q.renderType = 'choice'; q.hintUsed = true;
@@ -286,6 +303,7 @@
 
   function checkAnswer(){
     if(checked)return;
+    if(performance.now()-questionStartedAt>limitMs){timeExpired();return;}
     const q=session[index];
     if(q.selfCheck){ return beginSelfCheck(q); }
     let correct=false, given='', bonusStatus=null;
@@ -316,7 +334,8 @@
 
   function beginSelfCheck(q){
     if(!drawTouched){ alert('Zeichne zuerst etwas auf die Fläche.'); return; }
-    checked='pending';
+    submittedMs=Math.max(100,Math.round(performance.now()-questionStartedAt));
+    stopTimer();checked='pending';
     $('#checkBtn').classList.add('hidden');
     const fb=$('#feedback'); fb.className='feedback neutral';
     fb.innerHTML=`<strong>Jetzt selbst vergleichen.</strong>${escapeHtml(q.explanation||'')}<div class="self-actions"><button id="selfYes" class="primary" type="button">Passt ungefähr</button><button id="selfNo" class="secondary" type="button">Nochmal üben</button></div>`;
@@ -328,12 +347,14 @@
     finalizeAnswer(q,correct,'Zeichenaufgabe',null,true);
   }
 
-  function finalizeAnswer(q,correct,given,bonusStatus=null,self=false){
-    checked=true;
-    const responseMs = Math.max(100, Math.round(performance.now() - questionStartedAt));
+  function finalizeAnswer(q,correct,given,bonusStatus=null,self=false,expired=false){
+    if(checked===true)return;
+    const responseMs = Math.max(100, self&&submittedMs?submittedMs:Math.round(performance.now() - questionStartedAt));
+    if(responseMs>limitMs) {correct=false;expired=true;}
+    checked=true;stopTimer();
     answers.push({id:q.id,correct,given,category:q.category,bonus:bonusStatus,responseMs,hintUsed:!!q.hintUsed});
     profiles.recordAnswer({sessionId,questionId:q.id,category:q.category,correct,hintUsed:!!q.hintUsed,
-      responseMs,mode:$('#modeSelect').value});
+      responseMs,mode:sessionMode,dayKey:sessionDayKey});
     const mk=String(q.id), m=masteryFor(q.id);
     m.seen=(m.seen||0)+1;
     if(correct){ m.correct=(m.correct||0)+1; m.streak=(m.streak||0)+1; if(m.streak>=2) mistakes.delete(q.id); }
@@ -345,25 +366,43 @@
     const answerLine=!correct&&!self?`Richtige Antwort: <b>${escapeHtml(q.answer)}</b><br>`:'';
     const bonusLine=q.bonus&&bonusStatus!==null?`<br><b>Bonus:</b> ${bonusStatus?'richtig':'nicht ganz'} – ${escapeHtml(q.bonus.answer)}`:'';
     const currentNote=q.volatile?`<div class="volatile-note">Aktualitätsfrage – Stand ${escapeHtml(q.asOf||'laut Fragenbank')}.</div>`:'';
-    fb.innerHTML=`<strong>${correct?'Richtig.':'Nicht ganz.'}</strong>${answerLine}${escapeHtml(q.explanation||'')}${bonusLine}${currentNote}`;
+    fb.innerHTML=`<strong>${expired?'⏱ Zeit abgelaufen – falsch.':correct?'Richtig.':'Nicht ganz.'}</strong>${answerLine}${escapeHtml(q.explanation||'')}${bonusLine}${currentNote}`;
     $('#checkBtn').classList.add('hidden'); $('#nextBtn').classList.remove('hidden');
     $('#progressBar').style.width=`${((index+1)/session.length)*100}%`;
   }
 
+  function timeExpired(){
+    if(checked || !session[index])return;
+    finalizeAnswer(session[index],false,'Zeit abgelaufen',null,false,true);
+  }
+  function stopTimer(){if(timerHandle!==null){clearInterval(timerHandle);timerHandle=null;}}
+  function startTimer(){
+    stopTimer();
+    const update=()=>{
+      if(checked || !$('#quiz').classList.contains('active')){if(checked)stopTimer();return;}
+      const ms=Math.max(0,limitMs-(performance.now()-questionStartedAt));
+      const pct=Math.max(0,ms/limitMs*100);
+      $('#timeLeft').textContent=(ms/1000).toFixed(1)+' s';
+      $('#timeLeft').classList.toggle('urgent',ms<=5000);
+      $('#timeBar').style.width=pct+'%';
+      if(performance.now()-questionStartedAt>limitMs)timeExpired();
+    };
+    update();timerHandle=setInterval(update,90);
+  }
   function next(){
     if(!checked || checked==='pending')return;
     if(index<session.length-1){index++;renderQuestion();}
     else finish();
   }
   function finish(){
-    revokeCurrentAudio();
+    stopTimer();revokeCurrentAudio();
     const right=answers.filter(a=>a.correct).length, total=answers.length, rate=total?right/total*100:0;
     profiles.finishRound({sessionId,total,correct:right,hintsUsed,
-      durationMs:answers.reduce((sum,a)=>sum+a.responseMs,0)});
+      durationMs:answers.reduce((sum,a)=>sum+a.responseMs,0),mode:sessionMode,dayKey:sessionDayKey});
     updateStats();
     $('#resultPercent').textContent=Math.round(rate)+'%';
     $('#resultTitle').textContent=rate>=80?'Starke Runde.':rate>=60?'Solide – da geht noch was.':'Perfekt fürs Fehlertraining.';
-    $('#resultText').textContent=`${right} von ${total} Fragen richtig beantwortet.`;
+    $('#resultText').textContent=`${right} von ${total} Fragen richtig beantwortet. ${sessionMode==='daily'?'Tagesquiz abgeschlossen – morgen warten neue Fragen.':''}`;
     const bonusAnswered=answers.filter(a=>a.bonus!==null).length;
     const bonusRight=answers.filter(a=>a.bonus===true).length;
     const br=$('#bonusResult');
@@ -485,10 +524,10 @@
   function renderPersonalStats(){
     const s = profiles.getStats(), seen = profiles.getSeenIds();
     const items = [
-      ['Runden',s.sessions],['Beantwortete Fragen',s.answered],['Richtig',s.correct],
+      ['Runden',s.sessions],['Antworten gesamt',s.answered],['Verschiedene Fragen',s.uniqueAnswered||0],['Richtig',s.correct],
       ['Trefferquote',s.answered ? (100*s.correct/s.answered).toFixed(1)+'%' : '0%'],
       ['Ø Antwortzeit',s.answered ? (s.avgMs/1000).toFixed(1)+' s' : '–'],
-      ['Genutzte Tipps',s.hints],['Ranglistenpunkte',s.points],['Beste Runde',Math.round(s.best)+'%']
+      ['Genutzte Tipps',s.hints],['Ranglistenpunkte',(s.points||0)+' / 1024'],['Aktuelle Tages-Serie',(s.currentStreak||0)+' Tage'],['Längste Tages-Serie',(s.longestStreak||0)+' Tage'],['Beste Runde',Math.round(s.best)+'%']
     ];
     $('#playerStatsGrid').innerHTML = items.map(([label,value]) =>
       `<div class="stat card"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)}</span></div>`).join('');
@@ -499,7 +538,7 @@
     const rows = profiles.getLeaderboard();
     const status = profiles.getStatus();
     $('#leaderboardNote').textContent = !status.central ? 'Testbetrieb: Rangliste nur für dieses Gerät.' :
-      status.online ? 'Gemeinsame Rangliste · 2 Punkte pro richtiger Antwort, 1 Punkt mit Tipp.' :
+      status.online ? 'Bis 1024 Punkte: Jede neue Frage maximal 2 Punkte, nach Tipp ist später eine Aufwertung möglich. Wiederholungen ohne vorherigen Tipp bringen keine Punkte.' :
       'Offline: zuletzt gespeicherte Rangliste. Noch nicht synchronisierte Antworten fehlen.';
     $('#leaderboardBody').innerHTML = rows.length ? rows.map((p,i) =>
       `<div class="rank-row ${p.id===profiles.getActive()?.id?'rank-self':''}"><span><b>${i+1}.</b> ${escapeHtml(p.name)}</span><strong>${p.points||0}</strong><span>${p.correct||0}/${p.answered||0}</span><span>${p.answered?(p.avgMs/1000).toFixed(1)+' s':'–'}</span></div>`).join('') :
@@ -513,6 +552,81 @@
     await profiles.selectPlayer(id);
     loadPlayerProgress(); updateStats(); showProfileError(''); show('home');
   }
+  function checkBackend(){
+    const status=profiles.getStatus();
+    if(status.central && status.online && status.version!=='0.7'){
+      alert('Bitte zuerst Google Apps Script auf Version 0.7 aktualisieren und die Web-App als NEUE VERSION bereitstellen. Aktiver Server: '+(status.version||'unbekannt'));
+      return false;
+    }
+    return true;
+  }
+  function seededNumber(str){
+    let hash=2166136261;
+    for(let i=0;i<str.length;i++){hash^=str.charCodeAt(i);hash=Math.imul(hash,16777619);}
+    return hash>>>0;
+  }
+  function dailyQuestions(dayKey){
+    // Die 512 Basisfragen sind auf allen Geräten identisch. Identische Sortierung
+    // und deterministischer Zufall erzeugen für alle dasselbe Tagesquiz.
+    const pool=BASE.filter(q=>Array.isArray(q.choices)&&q.choices.length>=3 && !q.taskType &&
+      !q.audioLocal && !q.selfCheck && (q.multi ? Array.isArray(q.correctChoices)&&q.correctChoices.length>0 :
+        q.choices.some(c=>normalize(c)===normalize(q.answer)))).sort((a,b)=>Number(a.id)-Number(b.id));
+    let seed=seededNumber('Kneipenquiz-Tagesquiz-v1-'+dayKey);
+    const rand=()=>{seed+=0x6D2B79F5;let t=seed;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return ((t^(t>>>14))>>>0)/4294967296;};
+    for(let i=pool.length-1;i>0;i--){let j=Math.floor(rand()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+    return pool.slice(0,10).map(q=>({...q,renderType:'choice'}));
+  }
+  async function startDailyQuiz(){
+    const btn=$('#dailyStartBtn');
+    if(!profiles.getActive())throw Error('Bitte Spieler auswählen.');
+    const status=profiles.getStatus();
+    if(!status.central||!status.online||status.version!=='0.7')throw Error('Das Tagesquiz benötigt eine aktive Google-Verbindung und das aktualisierte Apps Script 0.7.');
+    btn.disabled=true;btn.textContent='Tagesquiz wird reserviert …';
+    try{
+      await profiles.refresh();
+      const day=profiles.getDaily();
+      if(day.reservedSessionId)throw Error('Du hast dein heutiges Tagesquiz schon gestartet. Nächstes Quiz morgen!');
+      const questions=dailyQuestions(day.dayKey);
+      if(questions.length!==10)throw Error('Für das Tagesquiz fehlen Auswahlfragen.');
+      const newSession='s-daily-'+(crypto.randomUUID?crypto.randomUUID():Date.now());
+      const dayKey=await profiles.reserveDaily(newSession);
+      session=questions;sessionMode='daily';sessionDayKey=dayKey;limitMs=10000;
+      sessionId=newSession;index=0;answers=[];hintsRemaining=0;hintsUsed=0;
+      show('quiz');renderQuestion();
+    }finally {btn.disabled=false;renderDailyPanel();}
+  }
+  function renderDailyPanel(){
+    const panel=$('#dailyNote'),btn=$('#dailyStartBtn'),ranking=$('#dailyRanking');
+    if(!panel||!btn||!ranking)return;
+    const s=profiles.getStatus(),day=profiles.getDaily();
+    if(!s.central){panel.textContent='Für das gemeinsame Tagesquiz muss der Google-Server verbunden sein.';btn.disabled=true;}
+    else if(!s.online){panel.textContent='Offline: Das Tagesquiz startet nur bei aktiver Verbindung.';btn.disabled=true;}
+    else if(s.version!=='0.7'){panel.textContent='Zuerst das Google Apps Script auf Version 0.7 aktualisieren.';btn.disabled=true;}
+    else if(day.reservedSessionId){
+      panel.textContent=day.completed?`Heute bereits gespielt: ${day.result?.correct??'–'} von 10 richtig. Morgen gibt es ein neues Quiz.`:'Heute bereits gestartet. Pro Spieler gibt es einen Versuch pro Tag.';
+      btn.disabled=true;
+    } else {panel.textContent=`${day.dayKey||'Heute'} · 10 gleiche Multiple-Choice-Fragen für alle · 10 Sekunden je Frage · keine Tipps.`;btn.disabled=false;}
+    btn.textContent=day.reservedSessionId?'Heute bereits gespielt':'Tagesquiz starten';
+    const entries=day.leaderboard||[];
+    ranking.innerHTML=entries.length ? entries.slice(0,10).map((p,i)=>`<div class="daily-rank"><span>${i+1}. ${escapeHtml(p.name)}</span><strong>${p.correct}/10</strong><small>${(p.totalMs/1000).toFixed(1)} s</small></div>`).join('') : '<p class="fine-note">Heute hat noch niemand geantwortet.</p>';
+  }
+  function renderAchievements(){
+    const s=profiles.getStats(),h=profiles.getQuestionProgress();
+    const categories=[...new Set(BASE.map(q=>q.category))].sort((a,b)=>a.localeCompare(b,'de'));
+    const badges=[
+      ...[100,250,500,1024].map(n=>({icon:'🏆',title:n+' Punkte',done:(s.points||0)>=n,desc:'Ranglistenpunkte'})),
+      ...[100,250,512].map(n=>({icon:'📚',title:n+' Fragen',done:(s.uniqueAnswered||0)>=n,desc:'verschiedene Basisfragen beantwortet'})),
+      ...[3,10,30].map(n=>({icon:'🔥',title:n+' Tage in Folge',done:(s.longestStreak||0)>=n,desc:'an aufeinanderfolgenden Tagen trainiert'})),
+      ...categories.map(cat=>{
+        const qs=BASE.filter(q=>q.category===cat);
+        return {icon:'🎯',title:cat+' gemeistert',done:qs.length>0&&qs.every(q=>(h[String(q.id)]?.correct||0)>0),desc:'alle '+qs.length+' Fragen dieser Kategorie mindestens einmal richtig'};
+      })
+    ];
+    const completed=badges.filter(x=>x.done).length;
+    $('#achievementIntro').textContent=`${completed} von ${badges.length} Abzeichen freigeschaltet. Fortschritt ist spielerbezogen und wird auf mehreren Geräten synchronisiert.`;
+    $('#badgeGrid').innerHTML=badges.map(b=>`<div class="achievement-badge ${b.done?'earned':'locked'}"><span class="badge-icon" aria-hidden="true">${b.icon}</span><div><strong>${escapeHtml(b.title)}</strong><small>${escapeHtml(b.desc)}</small><span class="badge-status">${b.done?'Freigeschaltet':'Noch nicht erreicht'}</span></div></div>`).join('');
+  }
+
   $('#selectPlayerBtn').onclick = async () => {
     const id = $('#profileSelect').value;
     if (!id) { showProfileError('Bitte zuerst einen Spieler auswählen oder anlegen.'); return; }
@@ -540,17 +654,20 @@
   };
   $('#switchPlayerBtn').onclick = () => { renderGate(); show('playerGate'); };
   $('#viewStatsBtn').onclick = () => { renderPersonalStats(); show('playerStats'); };
+  $('#viewAchievementsBtn').onclick=()=>{renderAchievements();show('achievements');};
+  $('#backAchievementsBtn').onclick=()=>show('home');
   $('#viewLeaderboardBtn').onclick = () => { renderLeaderboard(); show('leaderboard');
     profiles.refresh().catch(()=>{}); };
   $('#backStatsBtn').onclick = () => show('home');
   $('#backLeaderboardBtn').onclick = () => show('home');
   $('#hintBtn').onclick = useHint;
 
-  $('#startBtn').onclick=()=>pickQuestions();
-  $('#mistakeBtn').onclick=()=>pickQuestions({mistakeOnly:true});
+  $('#startBtn').onclick=()=>{ if(checkBackend())pickQuestions(); };
+  $('#dailyStartBtn').onclick=()=>startDailyQuiz().catch(err=>{alert(err.message||err);renderDailyPanel();});
+  $('#mistakeBtn').onclick=()=>{if(checkBackend())pickQuestions({mistakeOnly:true});};
   $('#checkBtn').onclick=checkAnswer; $('#nextBtn').onclick=next;
-  $('#quitBtn').onclick=()=>{revokeCurrentAudio();show('home')};
-  $('#againBtn').onclick=()=>show('home');
+  $('#quitBtn').onclick=()=>{stopTimer();revokeCurrentAudio();renderDailyPanel();show('home')};
+  $('#againBtn').onclick=()=>{renderDailyPanel();show('home');};
   $('#resultMistakesBtn').onclick=()=>{show('home');setTimeout(()=>pickQuestions({mistakeOnly:true}),0)};
 
   $('#exportBtn').onclick=()=>{
@@ -663,7 +780,7 @@
   }
 
   fillCategories(); updatePoolInfo(); updateAudioCount(); renderCustomQuestions();
-  profiles.subscribe(() => { renderGate(); updateStats(); renderPersonalStats(); renderLeaderboard(); updateConnectionState(); });
+  profiles.subscribe(() => { renderGate(); updateStats(); renderPersonalStats(); renderLeaderboard();renderDailyPanel();updateConnectionState(); });
   profiles.init().then(() => {
     renderGate();
     show('playerGate');

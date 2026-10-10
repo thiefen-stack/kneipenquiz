@@ -5,13 +5,14 @@
   const rawApi = String(window.BQ_CONFIG?.apiUrl || '').trim();
   const API = /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec(?:\?.*)?$/.test(rawApi) ? rawApi.split('?')[0] : '';
   const central = !!API;
-  const empty = () => ({ players: [], activeId: '', answers: [], rounds: [], queue: [], remoteStats: {}, remoteSeen: {}, remoteLeaderboard: [], remoteLoaded: false, legacyImport: null });
+  const empty = () => ({ players: [], activeId: '', answers: [], rounds: [], queue: [], remoteStats: {}, remoteSeen: {}, remoteLeaderboard: [], remoteLoaded: false, legacyImport: null, remoteProgress: {}, remoteDaily: null, dayKey: "", backendVersion: "" });
   let state;
   try { state = Object.assign(empty(), JSON.parse(localStorage.getItem(KEY) || '{}')); }
   catch { state = empty(); }
   for (const k of ['players', 'answers', 'rounds', 'queue', 'remoteLeaderboard']) if (!Array.isArray(state[k])) state[k] = [];
   for (const k of ['remoteStats', 'remoteSeen']) if (!state[k] || typeof state[k] !== 'object') state[k] = {};
   let online = !central, lastError = '', flushing = false, refreshInFlight = null, flushTimer = 0;
+  if (!state.remoteProgress || typeof state.remoteProgress !== 'object') state.remoteProgress = {};
   let migrationPromise = null;
   const listeners = new Set();
   const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + '-' + Math.random().toString(36).slice(2));
@@ -22,11 +23,37 @@
   const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
   function getActive() { return state.players.find(p => p.id === state.activeId) || null; }
   function getPlayers() { return [...state.players].sort((a, b) => a.name.localeCompare(b.name, 'de')); }
-  function getStatus() { return { central, online, pending: state.queue.length, error: lastError }; }
-  function zero() { return { sessions: 0, answered: 0, correct: 0, best: 0, points: 0, hints: 0, totalMs: 0, avgMs: 0 }; }
+  function getStatus() { return { central, online, pending: state.queue.length, error: lastError, version: state.backendVersion || '', dayKey: state.dayKey || '' }; }
+  const zeroProgress = () => ({seen:0,correct:0,wrong:0,streak:0,lastAt:0,lastCorrect:false,hintEver:false,points:0,category:''});
+  function earnedFor(prior, correct, hint, total) {
+    if (!correct || total >= 1024) return 0;
+    const award = !prior.seen ? (hint ? 1 : 2) : prior.hintEver && !hint ? Math.max(0,2-prior.points) : 0;
+    return Math.min(award, 1024-total);
+  }
+  function getQuestionProgress(playerId=state.activeId) {
+    const base = central ? state.remoteProgress[playerId] || {} : {};
+    const p = Object.fromEntries(Object.entries(base).map(([k,v])=>[String(k),{...v}]));
+    const local = central ? state.queue : state.answers;
+    let score = central ? (state.remoteStats[playerId]?.points || 0) : 0;
+    local.forEach(a=>{
+      if (a.kind !== 'answer' || a.playerId !== playerId) return;
+      const id=String(a.questionId), q=p[id] || zeroProgress();
+      const duration = Math.max(0, Number(a.responseMs)||0);
+      const correct = !!a.correct && duration <= (a.mode==='daily'?10000:30000);
+      const hint = !!a.hintUsed, earned = earnedFor(q,correct,hint,score);
+      score += earned; q.seen++;q.correct+=correct?1:0;q.wrong+=correct?0:1;
+      q.streak=correct?q.streak+1:0;q.lastCorrect=correct;q.hintEver=q.hintEver||hint;
+      q.points=Math.min(2,q.points+earned);q.lastAt=a.at || Date.now();q.category=a.category||q.category;
+      p[id]=q;
+    });
+    return p;
+  }
+  function getDaily() { return state.remoteDaily || { dayKey:state.dayKey||'',reservedSessionId:'',completed:false,result:null,leaderboard:[] }; }
+  function getBackendVersion() { return String(state.backendVersion||''); }
+  function zero() { return { sessions:0,answered:0,uniqueAnswered:0,correct:0,best:0,points:0,hints:0,totalMs:0,avgMs:0,currentStreak:0,longestStreak:0 }; }
   function addAnswer(stat, a) {
     stat.answered++;
-    if (a.correct) { stat.correct++; stat.points += a.hintUsed ? 1 : 2; }
+    if (a.correct && Number(a.responseMs||0) <= (a.mode==='daily'?10000:30000)) stat.correct++;
     if (a.hintUsed) stat.hints++;
     stat.totalMs += Math.max(0, Number(a.responseMs) || 0);
   }
@@ -41,6 +68,8 @@
     const rounds = central ? state.queue.filter(x => x.kind === 'round' && x.playerId === playerId) : state.rounds.filter(x => x.playerId === playerId);
     answers.forEach(a => addAnswer(s, a));
     rounds.forEach(r => addRound(s, r));
+    s.uniqueAnswered = Object.keys(getQuestionProgress(playerId)).filter(id=>/^\d+$/.test(id)&&Number(id)>=1&&Number(id)<=512).length;
+    if (!central) s.points = Math.min(1024,Object.values(getQuestionProgress(playerId)).reduce((n,q)=>n+q.points,0));
     s.avgMs = s.answered ? Math.round(s.totalMs / s.answered) : 0;
     return s;
   }
@@ -91,7 +120,13 @@
         state.players = data.players || [];
         state.remoteStats = data.stats || {};
         state.remoteLeaderboard = data.leaderboard || [];
-        if (playerId) state.remoteSeen[playerId] = data.seen || [];
+        if (playerId) {
+          state.remoteSeen[playerId] = data.seen || [];
+          if (data.progress) state.remoteProgress[playerId] = data.progress;
+        }
+        state.remoteDaily = data.daily || null;
+        state.dayKey = data.dayKey || state.dayKey || '';
+        state.backendVersion = data.version || '';
         state.remoteLoaded = true;
         online = true; lastError = '';
         persist(); notify();
@@ -145,7 +180,7 @@
     const item = { kind: 'answer', eventId: 'a-' + uuid(), playerId: player.id,
       sessionId: String(a.sessionId), questionId: String(a.questionId), category: String(a.category || ''),
       correct: !!a.correct, hintUsed: !!a.hintUsed, responseMs: Math.round(a.responseMs || 0),
-      version: '0.6', mode: String(a.mode || 'original') };
+      version: '0.7', mode: String(a.mode || 'original'),dayKey:String(a.dayKey||''),at:Date.now() };
     if (central) { state.queue.push(item); queueFlush(); }
     else state.answers.push(item);
     persist(); notify();
@@ -154,7 +189,8 @@
     const player = getActive(); if (!player) return;
     const item = { kind: 'round', playerId: player.id, sessionId: String(r.sessionId),
       total: Number(r.total) || 0, correct: Number(r.correct) || 0,
-      hintsUsed: Number(r.hintsUsed) || 0, durationMs: Number(r.durationMs) || 0 };
+      hintsUsed: Number(r.hintsUsed) || 0, durationMs: Number(r.durationMs) || 0,
+      mode:String(r.mode||'original'),dayKey:String(r.dayKey||'') };
     if (central) {
       if (!state.queue.some(x => x.kind === 'round' && x.sessionId === item.sessionId)) state.queue.push(item);
       queueFlush();
@@ -238,6 +274,22 @@
     })().catch(err=>{online=false;lastError=String(err.message||err);notify();throw err;}).finally(()=>{migrationPromise=null;});
     return migrationPromise;
   }
+  async function reserveDaily(sessionId) {
+    if (!central || !online || getBackendVersion() !== '0.7') throw new Error('Das Tagesquiz benötigt das aktualisierte Google Apps Script 0.7 und eine aktive Serververbindung.');
+    await refresh();
+    const dayKey = state.dayKey;
+    if (!dayKey) throw new Error('Kein gültiger Quiztag vom Server empfangen.');
+    if (state.remoteDaily?.reservedSessionId) throw new Error('Tagesquiz wurde heute bereits gestartet. Morgen gibt es neue Fragen.');
+    await send([{kind:'dailyStart',playerId:state.activeId,sessionId,dayKey}]);
+    for (let i=0;i<7;i++) {
+      await wait(350+i*250);await refresh();
+      if (state.remoteDaily?.reservedSessionId) {
+        if (state.remoteDaily.reservedSessionId!==sessionId) throw new Error('Auf einem anderen Gerät wurde das Tagesquiz bereits gestartet.');
+        return dayKey;
+      }
+    }
+    throw new Error('Der Quizstart wurde vom Google-Server nicht bestätigt. Bitte erneut prüfen.');
+  }
   async function init() {
     if (central) {
       captureLocalPlayers();
@@ -265,5 +317,6 @@
   window.addEventListener('visibilitychange', () => { if (!document.hidden && central) { refresh().then(()=>migrateLocalPlayers()).catch(() => {}); flush().catch(() => {}); } });
   window.BQProfiles = { init, getActive, getPlayers, getStatus, getStats, getSeenIds, getLeaderboard,
     createPlayer, selectPlayer, recordAnswer, finishRound, refresh, flush, migrateLocalPlayers,
+    getQuestionProgress,getDaily,getBackendVersion,reserveDaily,
     subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn); } };
 })();

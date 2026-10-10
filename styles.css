@@ -133,3 +133,41 @@ input[type=text],textarea,select{font-size:16px;}
   .mobile-install-home-wrap .mobile-install-action{display:flex;width:100%;min-height:46px;margin:0}
   .player-gate .mobile-install-action{display:flex;align-items:center;justify-content:center}
 }
+
+
+/* KNEIPENQUIZ_V070 – Training, Tagesquiz, Abzeichen und Timer */
+.daily-card{padding:22px;margin:14px 0;background:linear-gradient(130deg,#211f29,#18222a 65%,#201b23)}
+.daily-title{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.daily-title h3{margin:8px 0 0;font-size:1.28rem}
+.daily-clock{font-variant-numeric:tabular-nums;font-weight:800;color:#ffc176;white-space:nowrap}
+.daily-card>p{color:var(--muted);font-size:.92rem;line-height:1.5;margin:14px 0}
+.daily-card>button{width:100%;min-height:46px}
+.daily-card button:disabled{opacity:.6;cursor:not-allowed}
+.daily-ranking-title{font-size:.82rem;font-weight:800;color:var(--muted);margin:18px 0 8px}
+.daily-rank{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:12px;padding:8px 1px;border-bottom:1px solid var(--line);font-size:.86rem}
+.daily-rank strong{color:#ffd18a}.daily-rank small{color:var(--muted)}
+.fine-note{font-size:.83rem;line-height:1.5;color:var(--muted)}
+.question-time{margin:0 0 8px;padding:0 3px}
+.question-time>div:first-child{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 6px;font-size:.83rem;color:var(--muted)}
+#timeLeft{color:#a8e5c2;font-variant-numeric:tabular-nums;font-size:1.13rem}
+#timeLeft.urgent{color:#ff7d81}
+.time-track{height:7px;background:#41424a;border-radius:8px;overflow:hidden}
+.time-bar{height:100%;width:100%;background:linear-gradient(90deg,#d92327,#ffc176);transition:width .09s linear}
+.badge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.achievement-badge{display:flex;gap:12px;align-items:flex-start;padding:15px;border-radius:15px;border:1px solid var(--line);background:var(--card,#1b2028)}
+.achievement-badge .badge-icon{font-size:1.85rem;line-height:1.2}
+.achievement-badge>div{display:grid;gap:5px}
+.achievement-badge strong{line-height:1.26;font-size:.95rem}
+.achievement-badge small{font-size:.77rem;color:var(--muted)}
+.achievement-badge .badge-status{font-size:.75rem;font-weight:800;color:#f4c986}
+.achievement-badge.locked{opacity:.58;filter:saturate(.45)}
+.achievement-badge.locked .badge-status{color:var(--muted)}
+.achievement-badge.earned{border-color:rgba(105,179,142,.5);background:rgba(30,91,65,.19)}
+@media(max-width:700px){
+ .toolbar-buttons{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+ .toolbar-buttons button{font-size:.67rem;min-height:40px;line-height:1.14;padding:8px 4px}
+ .daily-card{margin:8px 0;padding:17px 15px}
+ .badge-grid{grid-template-columns:1fr;gap:8px}
+ .question-time{margin-top:-1px}
+ .question-time>div:first-child{font-size:.76rem}
+}
