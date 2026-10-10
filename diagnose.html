@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111318">
+<title>Kneipenquiz 0.6.2 – Verbindungstest</title>
+<style>body{font:16px/1.55 system-ui,sans-serif;background:#111318;color:#f1f3f4;margin:0;padding:20px}main{max-width:690px;margin:auto}section{background:#20252c;padding:14px 18px;border-radius:12px;margin:14px 0}button,a{color:#f4b34d}button{background:#284c3b;border:0;border-radius:8px;padding:12px 16px;color:white;font-size:1rem}p{overflow-wrap:anywhere}code{color:#b7d0cc}.ok{color:#8bdfb0}.bad{color:#ff9b9b}.wait{color:#efdb8d}small{color:#acb7bb}pre{white-space:pre-wrap}</style></head>
+<body><main><h1>Kneipenquiz · Verbindungstest</h1><p>Version 0.6.2 · Prüft die Serveradresse und die Google-Spielerdatenbank. Es werden keine neuen Spieler angelegt.</p>
+<section><strong>1. Konfiguration</strong><p id="config">Prüfe …</p><small>Die Serveradresse muss der zuletzt veröffentlichten Google-Web-App entsprechen.</small></section>
+<section><strong>2. Google Web-App</strong><p id="ping" class="wait">Warte auf Antwort …</p></section>
+<section><strong>3. Gemeinsame Spielerdatenbank</strong><p id="snapshot" class="wait">Warte auf Antwort …</p></section>
+<section><strong>4. Auf diesem Gerät gespeicherte Profile</strong><p id="local">Prüfe …</p><small>Bitte nicht die Website-Daten löschen, solange lokal gespeicherte Spieler nicht übertragen sind.</small></section>
+<section><strong>5. Offline-App</strong><p id="worker">Prüfe …</p></section>
+<button id="reload" type="button">Erneut prüfen</button><p><a href="./">← Zurück zum Quiz</a></p><small>Für die Fehleranalyse kannst du einen Screenshot dieser Seite schicken. Die Seite zeigt keine privaten Antworttexte.</small></main>
+<script src="config.js?v=062"></script><script>
+(function(){
+ const $=id=>document.getElementById(id);
+ const api=String(window.BQ_CONFIG?.apiUrl||'').trim();
+ $('config').textContent=api?api:'FEHLER: config.js enthält keine Serveradresse – das Quiz läuft nur lokal.';
+ $('config').className=api?'ok':'bad';
+ try {const x=JSON.parse(localStorage.getItem('bq_profiles_v06')||'{}');
+  $('local').textContent=(Array.isArray(x.players)?x.players.length:0)+' lokale Profile, '+(Array.isArray(x.queue)?x.queue.length:0)+' offene Übertragungen'+(x.legacyImport?.players?.length?' und '+x.legacyImport.players.length+' zu übernehmende Altprofile':'')+'.';
+ } catch(e){$('local').textContent='Lokale Profildaten konnten nicht ausgewertet werden.';}
+ if('serviceWorker' in navigator){navigator.serviceWorker.getRegistration().then(r=>{$('worker').textContent=r?'Service Worker vorhanden. Bei einer alten Version die Quiz-Seite zweimal neu laden.':'Noch kein Service Worker aktiv (bei Erstinstallation normal).';}).catch(e=>{$('worker').textContent=String(e);});}
+ else $('worker').textContent='Kein Service Worker vorhanden.';
+ function jsonp(action){return new Promise((resolve,reject)=>{
+  if(!api){reject(Error('Keine Adresse in config.js'));return;}
+  let finished=false;const name='__kq_test_'+Math.random().toString(36).slice(2),s=document.createElement('script');
+  const cleanup=()=>{try{delete window[name];}catch{}s.remove();clearTimeout(timer)};
+  const fail=e=>{if(finished)return;finished=true;cleanup();reject(e)};
+  window[name]=v=>{if(finished)return;finished=true;cleanup();v?.ok===false?reject(Error(v.error||'Serverfehler')):resolve(v)};
+  const u=new URL(api);u.searchParams.set('action',action);u.searchParams.set('callback',name);u.searchParams.set('_',Date.now().toString());
+  const timer=setTimeout(()=>fail(Error('Nach 15 Sekunden keine Serverantwort')),15000);
+  s.onerror=()=>fail(Error('Apps Script antwortet nicht. Bitte Freigabe „Jeder“ prüfen.'));
+  s.src=u;document.head.appendChild(s);
+ });}
+ async function go(){for(const id of ['ping','snapshot']){$(id).textContent='Prüfung läuft …';$(id).className='wait'}
+  try{const ping=await jsonp('ping');$('ping').className='ok';$('ping').textContent='OK – Server erreichbar (Version '+(ping.version||'unbekannt')+').';}
+  catch(e){$('ping').className='bad';$('ping').textContent='FEHLER: '+e.message;}
+  try{const data=await jsonp('snapshot');if(!Array.isArray(data.players))throw Error('Ungültige Serverantwort');
+   $('snapshot').className='ok';$('snapshot').textContent='OK – '+data.players.length+' gemeinsame Spieler in dieser Google-Tabelle.'+
+    (data.players.length===0?' Noch keine Spieler auf dem Server: ggf. lokale Profile übertragen.':'');}
+  catch(e){$('snapshot').className='bad';$('snapshot').textContent='FEHLER: '+e.message+' – Apps Script könnte mit einer anderen Tabelle verbunden sein.';}
+ }
+ $('reload').onclick=go;go();
+})();
+</script></body></html>

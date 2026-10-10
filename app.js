@@ -477,8 +477,9 @@
       players.map(p => `<option value="${escapeHtml(p.id)}">${escapeHtml(p.name)}</option>`).join('');
     if (players.some(p => p.id === chosen)) select.value = chosen;
     const status = profiles.getStatus();
+    $('#retrySyncBtn').classList.toggle('hidden', !status.central);
     $('#gateNote').textContent = status.central ?
-      (status.online ? 'Spieler und Ergebnisse werden zentral gespeichert. Ohne Spielernamen sind keine weiteren Optionen verfügbar.' : 'Server nicht erreichbar. Bekannte Spieler können offline weitertrainieren.') :
+      (status.online ? 'Spieler und Ergebnisse werden zentral gespeichert. Ohne Spielernamen sind keine weiteren Optionen verfügbar.' : 'Server nicht erreichbar: ' + (status.error || 'Bitte Web-App-Freigabe und Verbindung prüfen.') + ' Bekannte Spieler können offline weitertrainieren.') :
       'Testbetrieb nur auf diesem Gerät. Für die gemeinsame Rangliste später die Apps-Script-URL eintragen.';
   }
   function renderPersonalStats(){
@@ -527,6 +528,16 @@
     finally { btn.disabled = false; }
   };
   $('#newPlayerName').addEventListener('keydown',e=>{if(e.key==='Enter')$('#createPlayerBtn').click();});
+  $('#retrySyncBtn').onclick = async()=>{
+    const btn=$('#retrySyncBtn');btn.disabled=true;btn.textContent='Verbindung wird geprüft …';
+    try{
+      await profiles.refresh();
+      await profiles.migrateLocalPlayers();
+      await profiles.flush();
+      showProfileError('');
+    }catch(err){showProfileError('Serverfehler: '+(err.message||err)+' · Prüfe die Apps-Script-Web-App-Freigabe „Jeder“ sowie setup().');}
+    finally{btn.disabled=false;btn.textContent='↻ Verbindung prüfen / Spieler übertragen';renderGate();}
+  };
   $('#switchPlayerBtn').onclick = () => { renderGate(); show('playerGate'); };
   $('#viewStatsBtn').onclick = () => { renderPersonalStats(); show('playerStats'); };
   $('#viewLeaderboardBtn').onclick = () => { renderLeaderboard(); show('leaderboard');
@@ -569,43 +580,56 @@
     }catch{alert('Der Audioclip konnte in diesem Browser nicht lokal gespeichert werden.');}
   };
 
-  // PWA / Offline support. Requires HTTPS (or localhost).
+  // PWA: Sichtbarer Installationsweg auf Android / iOS, auch ohne Prompt-Event.
   let deferredInstallPrompt = null;
-  const installBtn = $('#installBtn');
-  const connectionPill = $('#connectionPill');
-
+  const installBtn=$('#installBtn'),connectionPill=$('#connectionPill');
+  const installGuide=$('#installGuide');
+  const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches || navigator.standalone===true;
+  const isMobile=()=>/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.matchMedia('(max-width:700px)').matches;
+  const isIOS=()=>/iPhone|iPad|iPod/i.test(navigator.userAgent);
+  function updateInstallVisibility(){
+    installBtn?.classList.toggle('hidden', isStandalone() || (!isMobile() && !deferredInstallPrompt));
+  }
+  function closeInstallGuide(){installGuide.classList.add('hidden');installBtn?.focus();}
+  function openInstallGuide(){
+    $('#installGuideText').textContent=isIOS()
+      ? 'Öffne das Quiz in Safari. Tippe auf „Teilen“ (Quadrat mit Pfeil) und wähle „Zum Home-Bildschirm“. Bestätige mit „Hinzufügen“. Auf dem Startbildschirm erscheint dann die Quiz-App.'
+      : /Android/i.test(navigator.userAgent)
+        ? 'Öffne das Quiz in Chrome oder Edge. Öffne das Menü ⋮ und wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“. Falls der Eintrag fehlt: HTTPS-Adresse öffnen und Seite neu laden.'
+        : 'Öffne das Browsermenü. Wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“. Die Installation erfordert eine sichere HTTPS-Seite.';
+    installGuide.classList.remove('hidden');installGuide.focus();
+  }
   function updateConnectionState(){
     if(!connectionPill) return;
-    if(navigator.onLine){
-      connectionPill.textContent='Online';
-      connectionPill.classList.remove('offline');
-    } else {
-      connectionPill.textContent='Offline';
-      connectionPill.classList.add('offline');
+    const status=profiles.getStatus();
+    const offline=!navigator.onLine || (status.central && !status.online);
+    connectionPill.textContent=!navigator.onLine?'Offline': !status.central?'Nur lokal': status.online?'Server verbunden':'Server getrennt';
+    connectionPill.classList.toggle('offline',offline);
+    const activeNote=$('#syncStatus');
+    if(activeNote){
+      activeNote.textContent=!status.central?'Daten nur auf diesem Gerät':status.online
+       ? (status.pending?status.pending+' Antwort(en) warten auf Übertragung':'Synchronisiert mit Google Sheets')
+       : 'Keine Serververbindung – '+(status.error||'Bitte Verbindung prüfen');
     }
   }
-  window.addEventListener('online', updateConnectionState);
-  window.addEventListener('offline', updateConnectionState);
-  updateConnectionState();
-
-  window.addEventListener('beforeinstallprompt', e=>{
-    e.preventDefault();
-    deferredInstallPrompt=e;
-    installBtn?.classList.remove('hidden');
+  window.addEventListener('online',updateConnectionState);
+  window.addEventListener('offline',updateConnectionState);
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;updateInstallVisibility();});
+  installBtn?.addEventListener('click',async()=>{
+    if(deferredInstallPrompt){
+      try{
+        await deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+      }catch(err){console.warn('Installation:',err);openInstallGuide();}
+      deferredInstallPrompt=null;updateInstallVisibility();
+    }else openInstallGuide();
   });
-
-  installBtn?.addEventListener('click', async()=>{
-    if(!deferredInstallPrompt) return;
-    deferredInstallPrompt.prompt();
-    await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt=null;
-    installBtn.classList.add('hidden');
-  });
-
-  window.addEventListener('appinstalled',()=>{
-    deferredInstallPrompt=null;
-    installBtn?.classList.add('hidden');
-  });
+  $('#installGuideCloseBtn').onclick=closeInstallGuide;
+  $('#installGuideDoneBtn').onclick=closeInstallGuide;
+  installGuide.addEventListener('click',e=>{if(e.target===installGuide)closeInstallGuide();});
+  window.addEventListener('keydown',e=>{if(e.key==='Escape'&&!installGuide.classList.contains('hidden'))closeInstallGuide();});
+  window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;updateInstallVisibility();});
+  updateInstallVisibility();updateConnectionState();
 
   if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1')){
     window.addEventListener('load',()=>{
@@ -614,7 +638,7 @@
   }
 
   fillCategories(); updatePoolInfo(); updateAudioCount(); renderCustomQuestions();
-  profiles.subscribe(() => { renderGate(); updateStats(); renderPersonalStats(); renderLeaderboard(); });
+  profiles.subscribe(() => { renderGate(); updateStats(); renderPersonalStats(); renderLeaderboard(); updateConnectionState(); });
   profiles.init().then(() => {
     renderGate();
     show('playerGate');

@@ -1,17 +1,18 @@
-/* Berliner Kneipenquiz v0.6 – Spielerprofile, lokale Offline-Warteschlange, Google Sheets */
+/* Berliner Kneipenquiz v0.6.2 – Spielerprofile, lokale Offline-Warteschlange, Google Sheets */
 (() => {
   'use strict';
   const KEY = 'bq_profiles_v06';
   const rawApi = String(window.BQ_CONFIG?.apiUrl || '').trim();
   const API = /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec(?:\?.*)?$/.test(rawApi) ? rawApi.split('?')[0] : '';
   const central = !!API;
-  const empty = () => ({ players: [], activeId: '', answers: [], rounds: [], queue: [], remoteStats: {}, remoteSeen: {}, remoteLeaderboard: [], remoteLoaded: false });
+  const empty = () => ({ players: [], activeId: '', answers: [], rounds: [], queue: [], remoteStats: {}, remoteSeen: {}, remoteLeaderboard: [], remoteLoaded: false, legacyImport: null });
   let state;
   try { state = Object.assign(empty(), JSON.parse(localStorage.getItem(KEY) || '{}')); }
   catch { state = empty(); }
   for (const k of ['players', 'answers', 'rounds', 'queue', 'remoteLeaderboard']) if (!Array.isArray(state[k])) state[k] = [];
   for (const k of ['remoteStats', 'remoteSeen']) if (!state[k] || typeof state[k] !== 'object') state[k] = {};
   let online = !central, lastError = '', flushing = false, refreshInFlight = null, flushTimer = 0;
+  let migrationPromise = null;
   const listeners = new Set();
   const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + '-' + Math.random().toString(36).slice(2));
   const normalize = s => String(s || '').trim().replace(/\s+/g, ' ').normalize('NFKC').toLocaleLowerCase('de-DE');
@@ -189,16 +190,80 @@
       throw err;
     } finally { flushing = false; }
   }
+  // Spieler, die in der vorherigen Testversion nur auf dem PC angelegt wurden,
+  // müssen VOR dem ersten Remote-Snapshot gesichert werden.
+  function captureLocalPlayers(){
+    if(!central || state.legacyImport || state.remoteLoaded || !state.players.length) return;
+    state.legacyImport={players:[...state.players],answers:[...state.answers],rounds:[...state.rounds],activeId:state.activeId};
+    persist();
+  }
+  async function migrateLocalPlayers(){
+    if(!central || !state.legacyImport || !online) return false;
+    if(migrationPromise) return migrationPromise;
+    migrationPromise = (async()=>{
+      const legacy = state.legacyImport;
+      const mapping={};
+      for(const player of legacy.players){
+        let remote=state.players.find(p=>p.id===player.id)||state.players.find(p=>normalize(p.name)===normalize(player.name));
+        if(!remote){
+          // Atomare Namensvergabe bleibt im Apps Script (LockService).
+          await send([{kind:'player',playerId:player.id,name:player.name}]);
+          for(let attempt=0;attempt<6;attempt++){
+            await wait(650 + attempt * 250);
+            await refresh();
+            remote=state.players.find(p=>p.id===player.id)||state.players.find(p=>normalize(p.name)===normalize(player.name));
+            if(remote) break;
+          }
+        }
+        if(!remote) throw new Error('Lokaler Spieler '+player.name+' konnte nicht zum Server übertragen werden.');
+        mapping[player.id]=remote.id;
+      }
+      // Frühere Offline-Antworten mit stabilen Ereignis-IDs in die Warteschlange.
+      const queued=new Set(state.queue.map(x=>x.eventId||x.sessionId));
+      for(const a of legacy.answers){
+        const eid=a.eventId||('m-a-'+uuid());
+        if(!mapping[a.playerId]||queued.has(eid)) continue;
+        state.queue.push({...a,kind:'answer',eventId:eid,playerId:mapping[a.playerId]});queued.add(eid);
+      }
+      for(const r of legacy.rounds){
+        const rid=r.sessionId||('m-r-'+uuid());
+        if(!mapping[r.playerId]||queued.has(rid)) continue;
+        state.queue.push({...r,kind:'round',sessionId:rid,playerId:mapping[r.playerId]});queued.add(rid);
+      }
+      if(mapping[legacy.activeId]) state.activeId=mapping[legacy.activeId];
+      state.legacyImport=null;persist();notify();
+      if(state.activeId) await refresh();
+      if(state.queue.length) await flush();
+      return true;
+    })().catch(err=>{online=false;lastError=String(err.message||err);notify();throw err;}).finally(()=>{migrationPromise=null;});
+    return migrationPromise;
+  }
   async function init() {
     if (central) {
-      try { await refresh(); } catch { /* Gespeicherte Profile und Offline-Fragen bleiben nutzbar. */ }
-      if (state.queue.length) flush().catch(() => {});
+      captureLocalPlayers();
+      try {
+        await refresh();
+        await migrateLocalPlayers();
+      } catch (err) {
+        // Bei gescheiterter Übertragung die nur lokal vorhandenen Spieler weiterhin
+        // zur Auswahl anbieten. Lokaldaten niemals automatisch verwerfen.
+        if(state.legacyImport?.players?.length){
+          const known=new Set(state.players.map(p=>normalize(p.name)));
+          for(const p of state.legacyImport.players){
+            if(!known.has(normalize(p.name))){state.players.push(p);known.add(normalize(p.name));}
+          }
+          if(!getActive() && state.legacyImport.activeId){state.activeId=state.legacyImport.activeId;}
+          persist();
+        }
+        online=false; lastError=String(err.message||err);
+      }
+      if (state.queue.length && online) flush().catch(() => {});
     }
     notify();
   }
-  window.addEventListener('online', () => { refresh().catch(() => {}); flush().catch(() => {}); });
-  window.addEventListener('visibilitychange', () => { if (!document.hidden && central) { refresh().catch(() => {}); flush().catch(() => {}); } });
+  window.addEventListener('online', () => { refresh().then(()=>migrateLocalPlayers()).catch(() => {}); flush().catch(() => {}); });
+  window.addEventListener('visibilitychange', () => { if (!document.hidden && central) { refresh().then(()=>migrateLocalPlayers()).catch(() => {}); flush().catch(() => {}); } });
   window.BQProfiles = { init, getActive, getPlayers, getStatus, getStats, getSeenIds, getLeaderboard,
-    createPlayer, selectPlayer, recordAnswer, finishRound, refresh, flush,
+    createPlayer, selectPlayer, recordAnswer, finishRound, refresh, flush, migrateLocalPlayers,
     subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn); } };
 })();

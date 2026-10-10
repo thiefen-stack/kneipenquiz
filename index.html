@@ -12,22 +12,30 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png" />
   <link rel="apple-touch-icon" href="assets/icon-192.png" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=062" />
   <title>Berliner Kneipenquiz Trainer</title>
 </head>
 <body>
-  <main class="shell" data-version="KNEIPENQUIZ_V06">
+  <main class="shell" data-version="KNEIPENQUIZ_V062">
     <header class="topbar">
       <div>
         <div class="eyebrow">TRAINING</div>
         <h1>Berliner Kneipenquiz</h1>
       </div>
-      <div class="top-actions"><span id="connectionPill" class="pill muted">Online</span><button id="installBtn" class="ghost small hidden" type="button">App installieren</button></div>
+      <div class="top-actions"><span id="connectionPill" class="pill muted">Online</span><button id="installBtn" class="ghost small hidden" type="button">⬇ App</button></div>
     </header>
+
+    <div id="installGuide" class="install-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="installGuideTitle" tabindex="-1">
+      <div class="install-panel card">
+        <div class="install-head"><h2 id="installGuideTitle">Quiz als App installieren</h2><button id="installGuideCloseBtn" type="button" class="ghost small" aria-label="Schließen">✕</button></div>
+        <p id="installGuideText"></p>
+        <button id="installGuideDoneBtn" type="button" class="primary">Verstanden</button>
+      </div>
+    </div>
 
     <section id="playerGate" class="screen active">
       <div class="card player-gate">
-        <span class="pill">VERSION 0.6 · SPIELERPROFILE</span>
+        <span class="pill">VERSION 0.6.2 · SPIELERPROFILE</span>
         <h2>Wer trainiert heute?</h2>
         <p>Wähle deinen Spielernamen. Keine E-Mail-Adresse, kein Passwort.</p>
         <label>Spieler auswählen
@@ -41,6 +49,8 @@
         <button id="createPlayerBtn" class="secondary" type="button">Spieler anlegen</button>
         <p id="profileError" class="profile-error hidden" role="alert"></p>
         <p id="gateNote" class="gate-note">Ohne Spielernamen stehen keine weiteren Optionen zur Verfügung.</p>
+        <button id="retrySyncBtn" class="ghost small hidden" type="button">↻ Verbindung prüfen / Spieler übertragen</button>
+        <p class="gate-note"><a href="diagnose.html" target="_blank" rel="noopener">Verbindung und Spielerdaten testen</a></p>
       </div>
     </section>
 
@@ -168,7 +178,7 @@ Antwort D"></textarea></label>
       </div>
 
       <footer class="credits">
-        <span>Version 0.6 • 512 Fragen</span>
+        <span>Version 0.6.2 • 512 Fragen</span>
         <span>•</span>
         <span>Hessen-Umriss: schematische Eigenzeichnung, nicht maßstabsgetreu.</span>
       </footer>
@@ -223,8 +233,8 @@ Antwort D"></textarea></label>
   </main>
 
   <script src="questions.js"></script>
-  <script src="config.js"></script>
-  <script src="profiles.js"></script>
-  <script src="app.js"></script>
+  <script src="config.js?v=062"></script>
+  <script src="profiles.js?v=062"></script>
+  <script src="app.js?v=062"></script>
 </body>
 </html>

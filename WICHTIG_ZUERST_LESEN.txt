@@ -1,0 +1,45 @@
+KNEIPENQUIZ 0.6.2 – REPARATUR – 10.10.2026
+
+Das bisherige KQ06.zip war leer (22 Byte).
+Dieses ZIP enthält die VOLLSTÄNDIGEN App-Dateien direkt auf oberster ZIP-Ebene.
+
+A) INSTALLIEREN
+1. ZIP auf dem PC entpacken.
+2. ALLE entpackten Dateien und den Ordner assets direkt in deinen lokalen
+   GitHub-Desktop-Repository-Ordner "kneipenquiz" kopieren und ersetzen.
+   WICHTIG: index.html und config.js müssen danach direkt im REPO-HAUPTORDNER liegen.
+3. GitHub Desktop: Änderungen überprüfen, unten links Commit und oben Push origin.
+4. Anschließend die Datei im Browser online aufrufen:
+   https://github.com/thiefen-stack/kneipenquiz/blob/main/config.js
+   Dort muss die Adresse endend auf /exec stehen – NICHT apiUrl: ''.
+5. Öffne https://quiz.thiefen.de/diagnose.html und lies die Ergebnisse.
+6. Öffne https://quiz.thiefen.de neu (ggf. ein zweites Mal).
+   Wähle „Verbindung prüfen / Spieler übertragen“.
+7. Erst wenn auf PC und Handy dieselben Spieler auftauchen, ist die
+   gemeinsame Spielerliste bestätigt.
+
+B) GOOGLE SCRIPT
+- Web-App muss „Ausführen als: ICH“ und „Zugriff: JEDER“ haben.
+- Das Script muss der korrekten Google-Tabelle zugeordnet sein.
+- Eine ausgeführte setup()-Funktion beweist noch nicht, dass doGet/doPost
+  nach der Bereitstellung auf die Tabelle zugreifen können.
+- Bei jeder Änderung am Apps-Script-Code: Bereitstellungen verwalten,
+  neue Version auswählen und wieder bereitstellen.
+
+Aktuell verwendete URL:
+https://script.google.com/macros/s/AKfycbxYwqvgZWG72gNy5dId8MAsMf6M6dC9pK1DiGpyDrzFmA_raSjFWuk-CmxUsRTTzzYS/exec
+
+C) LOKALE DATEN SCHÜTZEN
+- NIEMALS Browserdaten/Sitedaten löschen, bevor lokale Spieler synchronisiert sind.
+- Das neue Update bewahrt alte Namen und Antworten im lokalen Speicher.
+
+D) TESTSEITE
+- https://quiz.thiefen.de/diagnose.html prüft Web-App und Spielerdaten.
+- Wenn Ping OK aber Snapshot FEHLER meldet, ist die Script-Tabelle/Freigabe
+  vermutlich falsch konfiguriert.
+- Wenn beides OK aber 0 Spieler, zuerst „Verbindung prüfen / Spieler übertragen“.
+- Wenn dort „Konfiguration FEHLER“ steht, wurde config.js nicht aktualisiert.
+
+E) APP INSTALLIEREN
+Auf dem Handy ist die Schaltfläche „⬇ App“ sichtbar, sofern die App
+noch nicht installiert ist; alternativ zeigt sie die Browser-Anleitung.

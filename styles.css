@@ -17,7 +17,7 @@ input[type=text],textarea,select{font-size:16px;}
   .eyebrow{font-size:.62rem}
   .topbar h1{font-size:1.05rem;margin:1px 0 0}
   .top-actions .pill{padding:5px 8px;font-size:.66rem}
-  .top-actions #installBtn{display:none!important}
+  .top-actions #installBtn:not(.hidden){display:inline-flex!important;align-items:center;justify-content:center;padding:7px 9px;font-size:.72rem;white-space:nowrap}
 
   /* Home: only the training setup stays visible on a phone. */
   #home .hero{padding:14px 15px;display:block;border-radius:16px;margin-bottom:8px}
@@ -106,3 +106,10 @@ input[type=text],textarea,select{font-size:16px;}
   .leaderboard-head,.rank-row{grid-template-columns:minmax(0,1.5fr) .6fr .75fr .65fr;gap:5px;padding:12px 9px;font-size:.75rem}
   .leaderboard-head{font-size:.67rem}
 }
+
+/* v0.6.1 installation and connection feedback */
+#retrySyncBtn{margin-top:2px}#installBtn{white-space:nowrap}
+.install-overlay{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.78);padding:20px;display:flex;align-items:center;justify-content:center}
+.install-panel{width:min(480px,100%);padding:24px;display:grid;gap:18px;line-height:1.5}
+.install-head{display:flex;align-items:center;gap:10px;justify-content:space-between}.install-head h2{font-size:1.3rem;margin:0}.install-panel p{margin:0;color:var(--muted)}
+@media(max-width:700px){.topbar{gap:6px}.top-actions{gap:5px;flex-wrap:nowrap}.top-actions #connectionPill{max-width:105px;font-size:.59rem;text-align:center}.install-panel{padding:18px}.topbar h1{font-size:1rem}}
