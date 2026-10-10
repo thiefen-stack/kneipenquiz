@@ -1,0 +1,102 @@
+{
+  "index.html": [
+    {
+      "find": "<main class=\"shell\">",
+      "replace": "<main class=\"shell\" data-version=\"KNEIPENQUIZ_V06\">"
+    },
+    {
+      "find": "<section id=\"home\" class=\"screen active\">",
+      "replace": "<section id=\"playerGate\" class=\"screen active\">\n      <div class=\"card player-gate\">\n        <span class=\"pill\">VERSION 0.6 · SPIELERPROFILE</span>\n        <h2>Wer trainiert heute?</h2>\n        <p>Wähle deinen Spielernamen. Keine E-Mail-Adresse, kein Passwort.</p>\n        <label>Spieler auswählen\n          <select id=\"profileSelect\"><option value=\"\">Bitte Spieler auswählen …</option></select>\n        </label>\n        <button id=\"selectPlayerBtn\" class=\"primary\" type=\"button\">Weiter zum Training</button>\n        <div class=\"gate-divider\">oder neuen Spieler anlegen</div>\n        <label>Neuer Spielername\n          <input id=\"newPlayerName\" type=\"text\" maxlength=\"60\" autocomplete=\"off\" placeholder=\"Dein Quizname …\" />\n        </label>\n        <button id=\"createPlayerBtn\" class=\"secondary\" type=\"button\">Spieler anlegen</button>\n        <p id=\"profileError\" class=\"profile-error hidden\" role=\"alert\"></p>\n        <p id=\"gateNote\" class=\"gate-note\">Ohne Spielernamen stehen keine weiteren Optionen zur Verfügung.</p>\n      </div>\n    </section>\n\n    <section id=\"home\" class=\"screen\">"
+    },
+    {
+      "find": "      <div class=\"stats-grid\">",
+      "replace": "      <div class=\"player-toolbar card\">\n        <div><span class=\"toolbar-label\">Aktiver Spieler</span><strong id=\"activePlayerName\">–</strong><small id=\"syncStatus\">Spielerdaten werden geladen …</small></div>\n        <div class=\"toolbar-buttons\">\n          <button id=\"switchPlayerBtn\" class=\"ghost small\" type=\"button\">Spieler wechseln</button>\n          <button id=\"viewStatsBtn\" class=\"secondary small\" type=\"button\">Meine Statistik</button>\n          <button id=\"viewLeaderboardBtn\" class=\"secondary small\" type=\"button\">Rangliste</button>\n        </div>\n      </div>\n      <div class=\"stats-grid\">"
+    },
+    {
+      "find": "        <h3>Training starten</h3>",
+      "replace": "        <h3>Training starten</h3>\n        <label class=\"unseen-option\"><input id=\"unseenOnly\" type=\"checkbox\" /> Nur Fragen, die ich noch nicht hatte</label>"
+    },
+    {
+      "find": "<span>Version 0.5 • 512 Fragen</span>",
+      "replace": "<span>Version 0.6 • 512 Fragen</span>"
+    },
+    {
+      "find": "        <div id=\"answerArea\"></div>",
+      "replace": "        <div id=\"answerArea\"></div>\n        <div class=\"hint-row\"><span id=\"hintCounter\">Tipps: 0</span><button id=\"hintBtn\" class=\"ghost small hidden\" type=\"button\">Tipp verwenden</button></div>"
+    },
+    {
+      "find": "    </section>\n  </main>\n\n  <script src=\"questions.js\"></script>\n  <script src=\"app.js\"></script>",
+      "replace": "    </section>\n\n    <section id=\"playerStats\" class=\"screen\">\n      <div class=\"section-head\"><button id=\"backStatsBtn\" class=\"ghost small\" type=\"button\">← Zurück</button><h2>Meine Statistik</h2></div>\n      <div id=\"playerStatsGrid\" class=\"stats-detail-grid\"></div>\n      <div class=\"card stats-explanation\"><h3>Trainingsfortschritt</h3><p id=\"seenCount\"></p><p>Die Antwortzeit wird von der Anzeige einer Frage bis zur Abgabe gemessen. Mit Tipp gibt eine richtige Antwort einen Ranglistenpunkt, ohne Tipp zwei.</p></div>\n    </section>\n\n    <section id=\"leaderboard\" class=\"screen\">\n      <div class=\"section-head\"><button id=\"backLeaderboardBtn\" class=\"ghost small\" type=\"button\">← Zurück</button><h2>Rangliste</h2></div>\n      <p id=\"leaderboardNote\" class=\"leaderboard-note\"></p>\n      <div class=\"card leaderboard-card\"><div class=\"leaderboard-head\"><span>Platz / Spieler</span><span>Punkte</span><span>Richtig</span><span>Ø Zeit</span></div><div id=\"leaderboardBody\"></div></div>\n    </section>\n  </main>\n\n  <script src=\"questions.js\"></script>\n  <script src=\"config.js\"></script>\n  <script src=\"profiles.js\"></script>\n  <script src=\"app.js\"></script>"
+    }
+  ],
+  "app.js": [
+    {
+      "find": "(() => {",
+      "replace": "/* KNEIPENQUIZ_V06 */\n(() => {"
+    },
+    {
+      "find": "  const $ = s => document.querySelector(s);\n  const screens = ['home','quiz','results'];\n  const statsKey = 'bq_stats_v2';\n  const mistakesKey = 'bq_mistakes_v2';\n  const masteryKey = 'bq_mastery_v1';\n  const stats = Object.assign({sessions:0,answered:0,correct:0,best:0}, JSON.parse(localStorage.getItem(statsKey)||'{}'));\n  let mistakes = new Set(JSON.parse(localStorage.getItem(mistakesKey)||'[]'));\n  let mastery = JSON.parse(localStorage.getItem(masteryKey)||'{}');",
+      "replace": "  const $ = s => document.querySelector(s);\n  const profiles = window.BQProfiles;\n  const screens = ['playerGate','home','quiz','results','playerStats','leaderboard'];\n  let mistakes = new Set();\n  let mastery = {};\n  let sessionId = '', hintsRemaining = 0, hintsUsed = 0, questionStartedAt = 0;\n  const progressKey = name => `bq_v06_${profiles.getActive()?.id || 'none'}_${name}`;\n  function loadPlayerProgress(){\n    try { mistakes = new Set(JSON.parse(localStorage.getItem(progressKey('mistakes')) || '[]')); }\n    catch { mistakes = new Set(); }\n    try { mastery = JSON.parse(localStorage.getItem(progressKey('mastery')) || '{}'); }\n    catch { mastery = {}; }\n  }"
+    },
+    {
+      "find": "  function updateStats(){\n    $('#statSessions').textContent=stats.sessions;\n    $('#statAnswered').textContent=stats.answered;\n    $('#statCorrect').textContent=stats.correct;\n    $('#statWrong').textContent=mistakes.size;\n    $('#bestRate').textContent=Math.round(stats.best||0)+'%';\n  }",
+      "replace": "  function updateStats(){\n    const s = profiles.getStats();\n    $('#statSessions').textContent = s.sessions;\n    $('#statAnswered').textContent = s.answered;\n    $('#statCorrect').textContent = s.correct;\n    $('#statWrong').textContent = mistakes.size;\n    $('#bestRate').textContent = Math.round(s.best || 0) + '%';\n    $('#activePlayerName').textContent = profiles.getActive()?.name || '–';\n    const status = profiles.getStatus();\n    $('#syncStatus').textContent = !status.central ? 'Testbetrieb: nur auf diesem Gerät' :\n      status.online ? (status.pending ? `${status.pending} Einträge warten auf Abgleich` : 'Mit Google Sheets synchronisiert') :\n      'Offline – Ergebnisse werden später übertragen';\n  }"
+    },
+    {
+      "find": "  function pickQuestions({mistakeOnly=false}={}){\n    const cat=$('#categorySelect').value;\n    const diff=$('#difficultySelect')?.value||'all';\n    let pool=bank.filter(q=>(cat==='all'||q.category===cat) && (diff==='all'||q.difficulty===diff) && (!mistakeOnly || mistakes.has(q.id)));\n    if(!pool.length){ alert(mistakeOnly?'Aktuell sind keine Fehler zum Wiederholen gespeichert.':'Für diese Auswahl gibt es keine Fragen.'); return false; }",
+      "replace": "  function pickQuestions({mistakeOnly=false}={}){\n    if (!profiles.getActive()) { show('playerGate'); return false; }\n    const cat=$('#categorySelect').value;\n    const diff=$('#difficultySelect')?.value||'all';\n    let pool=bank.filter(q=>(cat==='all'||q.category===cat) && (diff==='all'||q.difficulty===diff) && (!mistakeOnly || mistakes.has(q.id)));\n    const onlyNew = !mistakeOnly && $('#unseenOnly').checked;\n    if (onlyNew) {\n      const seen = profiles.getSeenIds();\n      pool = pool.filter(q => !seen.has(String(q.id)) && !(masteryFor(q.id).seen > 0));\n    }\n    if(!pool.length){ alert(onlyNew ? 'Für diese Auswahl hast du bereits alle Fragen gesehen. Deaktiviere „Nur neue Fragen“ oder wähle eine andere Kategorie.' : mistakeOnly ? 'Aktuell sind keine Fehler zum Wiederholen gespeichert.' : 'Für diese Auswahl gibt es keine Fragen.'); return false; }"
+    },
+    {
+      "find": "    index=0; answers=[]; renderQuestion(); show('quiz'); return true;",
+      "replace": "    index=0; answers=[];\n    sessionId = 's-' + (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random());\n    hintsRemaining = Math.floor(session.length / 10); hintsUsed = 0;\n    renderQuestion(); show('quiz'); return true;"
+    },
+    {
+      "find": "    await renderAudio(q);\n    renderAnswerArea(q);\n  }",
+      "replace": "    await renderAudio(q);\n    renderAnswerArea(q);\n    questionStartedAt = performance.now();\n    renderHintUI(q);\n  }"
+    },
+    {
+      "find": "  function checkAnswer(){",
+      "replace": "  function buildHintChoices(q){\n    const correct = String(q.answer || '').trim();\n    if (!correct) return [];\n    const values = [correct];\n    const candidates = [\n      ...(Array.isArray(q.choices) ? q.choices : []),\n      ...shuffle(bank.filter(x => x.id !== q.id && x.category === q.category).map(x => x.answer)),\n      ...shuffle(bank.filter(x => x.id !== q.id).map(x => x.answer))\n    ];\n    for (const c of candidates) {\n      const v = String(c || '').trim();\n      if (!v || v.length > 75 || /selbsteinschätzung/i.test(v) || values.some(x => normalize(x) === normalize(v))) continue;\n      if (/^\\d+(?:[.,]\\d+)?$/.test(correct) !== /^\\d+(?:[.,]\\d+)?$/.test(v)) continue;\n      values.push(v);\n      if (values.length === 4) break;\n    }\n    return values.length === 4 ? shuffle(values) : [];\n  }\n  function renderHintUI(q){\n    const canHint = !checked && hintsRemaining > 0 && q.renderType === 'text' && !q.hintUsed &&\n      !q.taskType && !q.audioLocal && !q.selfCheck && !q.multi;\n    $('#hintBtn').classList.toggle('hidden', !canHint);\n    $('#hintCounter').textContent = `Tipps übrig: ${hintsRemaining}`;\n  }\n  function useHint(){\n    const q = session[index];\n    if (checked || hintsRemaining < 1 || q.renderType !== 'text' || q.taskType || q.audioLocal || q.selfCheck || q.multi) return;\n    const choices = buildHintChoices(q);\n    if (choices.length !== 4) { alert('Für diese Frage stehen keine geeigneten Auswahlantworten zur Verfügung. Dein Tipp bleibt erhalten.'); return; }\n    q.choices = choices; q.renderType = 'choice'; q.hintUsed = true;\n    hintsRemaining--; hintsUsed++;\n    selected = []; renderAnswerArea(q);\n    $('#typePill').textContent = 'Auswahl · Tipp';\n    renderHintUI(q);\n  }\n\n  function checkAnswer(){"
+    },
+    {
+      "find": "    answers.push({id:q.id,correct,given,category:q.category,bonus:bonusStatus});",
+      "replace": "    const responseMs = Math.max(100, Math.round(performance.now() - questionStartedAt));\n    answers.push({id:q.id,correct,given,category:q.category,bonus:bonusStatus,responseMs,hintUsed:!!q.hintUsed});\n    profiles.recordAnswer({sessionId,questionId:q.id,category:q.category,correct,hintUsed:!!q.hintUsed,\n      responseMs,mode:$('#modeSelect').value});"
+    },
+    {
+      "find": "    localStorage.setItem(masteryKey,JSON.stringify(mastery));\n    localStorage.setItem(mistakesKey,JSON.stringify([...mistakes]));",
+      "replace": "    localStorage.setItem(progressKey('mastery'),JSON.stringify(mastery));\n    localStorage.setItem(progressKey('mistakes'),JSON.stringify([...mistakes]));"
+    },
+    {
+      "find": "    stats.sessions++; stats.answered+=total; stats.correct+=right; stats.best=Math.max(stats.best||0,rate); localStorage.setItem(statsKey,JSON.stringify(stats)); updateStats();",
+      "replace": "    profiles.finishRound({sessionId,total,correct:right,hintsUsed,\n      durationMs:answers.reduce((sum,a)=>sum+a.responseMs,0)});\n    updateStats();"
+    },
+    {
+      "find": "  $('#startBtn').onclick=()=>pickQuestions();",
+      "replace": "  function renderGate(){\n    const select = $('#profileSelect');\n    const chosen = select.value || profiles.getActive()?.id || '';\n    const players = profiles.getPlayers();\n    select.innerHTML = '<option value=\"\">Bitte Spieler auswählen …</option>' +\n      players.map(p => `<option value=\"${escapeHtml(p.id)}\">${escapeHtml(p.name)}</option>`).join('');\n    if (players.some(p => p.id === chosen)) select.value = chosen;\n    const status = profiles.getStatus();\n    $('#gateNote').textContent = status.central ?\n      (status.online ? 'Spieler und Ergebnisse werden zentral gespeichert. Ohne Spielernamen sind keine weiteren Optionen verfügbar.' : 'Server nicht erreichbar. Bekannte Spieler können offline weitertrainieren.') :\n      'Testbetrieb nur auf diesem Gerät. Für die gemeinsame Rangliste später die Apps-Script-URL eintragen.';\n  }\n  function renderPersonalStats(){\n    const s = profiles.getStats(), seen = profiles.getSeenIds();\n    const items = [\n      ['Runden',s.sessions],['Beantwortete Fragen',s.answered],['Richtig',s.correct],\n      ['Trefferquote',s.answered ? (100*s.correct/s.answered).toFixed(1)+'%' : '0%'],\n      ['Ø Antwortzeit',s.answered ? (s.avgMs/1000).toFixed(1)+' s' : '–'],\n      ['Genutzte Tipps',s.hints],['Ranglistenpunkte',s.points],['Beste Runde',Math.round(s.best)+'%']\n    ];\n    $('#playerStatsGrid').innerHTML = items.map(([label,value]) =>\n      `<div class=\"stat card\"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)}</span></div>`).join('');\n    const seenBase = BASE.filter(q => seen.has(String(q.id))).length;\n    $('#seenCount').textContent = `${seenBase} von ${BASE.length} Basisfragen bereits gesehen.`;\n  }\n  function renderLeaderboard(){\n    const rows = profiles.getLeaderboard();\n    const status = profiles.getStatus();\n    $('#leaderboardNote').textContent = !status.central ? 'Testbetrieb: Rangliste nur für dieses Gerät.' :\n      status.online ? 'Gemeinsame Rangliste · 2 Punkte pro richtiger Antwort, 1 Punkt mit Tipp.' :\n      'Offline: zuletzt gespeicherte Rangliste. Noch nicht synchronisierte Antworten fehlen.';\n    $('#leaderboardBody').innerHTML = rows.length ? rows.map((p,i) =>\n      `<div class=\"rank-row ${p.id===profiles.getActive()?.id?'rank-self':''}\"><span><b>${i+1}.</b> ${escapeHtml(p.name)}</span><strong>${p.points||0}</strong><span>${p.correct||0}/${p.answered||0}</span><span>${p.answered?(p.avgMs/1000).toFixed(1)+' s':'–'}</span></div>`).join('') :\n      '<p class=\"empty-leaderboard\">Noch keine Spieler vorhanden.</p>';\n  }\n  function showProfileError(message){\n    $('#profileError').textContent = message;\n    $('#profileError').classList.toggle('hidden', !message);\n  }\n  async function enterProfile(id){\n    await profiles.selectPlayer(id);\n    loadPlayerProgress(); updateStats(); showProfileError(''); show('home');\n  }\n  $('#selectPlayerBtn').onclick = async () => {\n    const id = $('#profileSelect').value;\n    if (!id) { showProfileError('Bitte zuerst einen Spieler auswählen oder anlegen.'); return; }\n    try { await enterProfile(id); } catch (err) { showProfileError(err.message); }\n  };\n  $('#createPlayerBtn').onclick = async () => {\n    const btn = $('#createPlayerBtn'); btn.disabled = true; showProfileError('');\n    try {\n      const player = await profiles.createPlayer($('#newPlayerName').value);\n      $('#newPlayerName').value = '';\n      await enterProfile(player.id);\n    } catch (err) { showProfileError(err.message); }\n    finally { btn.disabled = false; }\n  };\n  $('#newPlayerName').addEventListener('keydown',e=>{if(e.key==='Enter')$('#createPlayerBtn').click();});\n  $('#switchPlayerBtn').onclick = () => { renderGate(); show('playerGate'); };\n  $('#viewStatsBtn').onclick = () => { renderPersonalStats(); show('playerStats'); };\n  $('#viewLeaderboardBtn').onclick = () => { renderLeaderboard(); show('leaderboard');\n    profiles.refresh().catch(()=>{}); };\n  $('#backStatsBtn').onclick = () => show('home');\n  $('#backLeaderboardBtn').onclick = () => show('home');\n  $('#hintBtn').onclick = useHint;\n\n  $('#startBtn').onclick=()=>pickQuestions();"
+    },
+    {
+      "find": "a.download='kneipenquiz-fragenbank-v0.5.json'",
+      "replace": "a.download='kneipenquiz-fragenbank-v0.6.json'"
+    },
+    {
+      "find": "  fillCategories(); updateStats(); updatePoolInfo(); updateAudioCount(); renderCustomQuestions();",
+      "replace": "  fillCategories(); updatePoolInfo(); updateAudioCount(); renderCustomQuestions();\n  profiles.subscribe(() => { renderGate(); updateStats(); renderPersonalStats(); renderLeaderboard(); });\n  profiles.init().then(() => {\n    renderGate();\n    show('playerGate');\n  });"
+    }
+  ],
+  "styles.css": [
+    {
+      "find": "@media (min-width:701px){\n  input[type=text],textarea,select{font-size:inherit}\n}",
+      "replace": "@media (min-width:701px){\n  input[type=text],textarea,select{font-size:inherit}\n}\n/* KNEIPENQUIZ_V06 */\n.player-gate{max-width:540px;margin:24px auto;padding:30px;display:grid;gap:13px}\n.player-gate h2{font-size:clamp(1.65rem,4vw,2.45rem);margin:4px 0 0}\n.player-gate p{color:var(--muted);margin:0;line-height:1.5}\n.player-gate label{display:grid;gap:7px;color:var(--muted);font-size:.91rem}\n.player-gate button{width:100%;min-height:46px}\n.gate-divider{text-align:center;color:var(--muted);font-size:.83rem;margin:5px 0}\n.player-gate .profile-error{color:#ff9292;background:rgba(255,100,100,.09);border:1px solid rgba(255,100,100,.35);padding:11px;border-radius:12px}\n.player-gate .gate-note{font-size:.79rem;color:var(--muted)}\n.player-toolbar{padding:15px 19px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0}\n.player-toolbar .toolbar-label{font-size:.76rem;color:var(--muted);display:block}\n.player-toolbar strong{font-size:1.16rem;display:block}\n.player-toolbar small{display:block;color:var(--muted);margin-top:3px}\n.toolbar-buttons{display:flex;gap:8px;flex-wrap:wrap}\n.setup label.unseen-option{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--text);font-weight:700}\n.unseen-option input{width:21px;height:21px;accent-color:var(--accent)}\n.hint-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:13px;color:var(--muted);font-size:.85rem}\n.hint-row button{padding:9px 13px}\n.section-head{display:flex;align-items:center;gap:18px;margin:4px 0 18px}.section-head h2{margin:0}\n.stats-detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}\n.stats-explanation{margin-top:14px;padding:20px;color:var(--muted);line-height:1.55}\n.stats-explanation h3{color:var(--text);margin:0 0 8px}.stats-explanation p{margin:8px 0}\n.leaderboard-note{color:var(--muted);font-size:.86rem;line-height:1.5}\n.leaderboard-card{overflow:hidden}.leaderboard-head,.rank-row{display:grid;grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr));gap:10px;padding:14px 18px;align-items:center}\n.leaderboard-head{background:#222831;color:var(--muted);font-size:.78rem;font-weight:800}\n.rank-row{border-top:1px solid var(--line);font-size:.94rem}.rank-row>span:first-child{min-width:0;overflow-wrap:anywhere}\n.rank-row>span:first-child b{color:var(--accent2);margin-right:8px}.rank-row strong{color:#f9c17b}\n.rank-row.rank-self{background:rgba(227,27,35,.10)}.empty-leaderboard{padding:20px;color:var(--muted)}\n@media(max-width:700px){\n  .player-gate{padding:18px 16px;margin:8px auto;border-radius:17px}\n  .player-toolbar{padding:12px 14px;margin:8px 0;display:block;border-radius:15px}\n  .toolbar-buttons{margin-top:10px;display:grid;grid-template-columns:repeat(3,1fr)}\n  .toolbar-buttons button{padding:9px 6px;font-size:.75rem;min-height:40px}\n  .stats-detail-grid{grid-template-columns:1fr 1fr;gap:8px}.stats-detail-grid .stat{padding:14px}\n  .leaderboard-head,.rank-row{grid-template-columns:minmax(0,1.5fr) .6fr .75fr .65fr;gap:5px;padding:12px 9px;font-size:.75rem}\n  .leaderboard-head{font-size:.67rem}\n}"
+    }
+  ],
+  "service-worker.js": [
+    {
+      "find": "const CACHE_NAME = 'kneipenquiz-v0.5-20261003';",
+      "replace": "// KNEIPENQUIZ_V06\nconst CACHE_NAME = 'kneipenquiz-v0.6-20261010';"
+    },
+    {
+      "find": "  './app.js',",
+      "replace": "  './app.js',\n  './config.js',\n  './profiles.js',"
+    }
+  ]
+}

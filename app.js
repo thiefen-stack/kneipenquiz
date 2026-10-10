@@ -1,3 +1,4 @@
+/* KNEIPENQUIZ_V06 */
 (() => {
   const BASE = window.QUIZ_QUESTIONS || [];
   let imported = JSON.parse(localStorage.getItem('bq_imported') || '[]');
@@ -11,13 +12,18 @@
   let currentAudioUrl = null;
 
   const $ = s => document.querySelector(s);
-  const screens = ['home','quiz','results'];
-  const statsKey = 'bq_stats_v2';
-  const mistakesKey = 'bq_mistakes_v2';
-  const masteryKey = 'bq_mastery_v1';
-  const stats = Object.assign({sessions:0,answered:0,correct:0,best:0}, JSON.parse(localStorage.getItem(statsKey)||'{}'));
-  let mistakes = new Set(JSON.parse(localStorage.getItem(mistakesKey)||'[]'));
-  let mastery = JSON.parse(localStorage.getItem(masteryKey)||'{}');
+  const profiles = window.BQProfiles;
+  const screens = ['playerGate','home','quiz','results','playerStats','leaderboard'];
+  let mistakes = new Set();
+  let mastery = {};
+  let sessionId = '', hintsRemaining = 0, hintsUsed = 0, questionStartedAt = 0;
+  const progressKey = name => `bq_v06_${profiles.getActive()?.id || 'none'}_${name}`;
+  function loadPlayerProgress(){
+    try { mistakes = new Set(JSON.parse(localStorage.getItem(progressKey('mistakes')) || '[]')); }
+    catch { mistakes = new Set(); }
+    try { mastery = JSON.parse(localStorage.getItem(progressKey('mastery')) || '{}'); }
+    catch { mastery = {}; }
+  }
 
   function show(id){
     screens.forEach(x=>$('#'+x).classList.toggle('active',x===id));
@@ -92,11 +98,17 @@
   function saveImported(){ localStorage.setItem('bq_imported',JSON.stringify(imported)); }
   function refreshBank(){ bank=[...BASE,...imported]; fillCategories(); updatePoolInfo(); updateAudioCount(); renderCustomQuestions(); }
   function updateStats(){
-    $('#statSessions').textContent=stats.sessions;
-    $('#statAnswered').textContent=stats.answered;
-    $('#statCorrect').textContent=stats.correct;
-    $('#statWrong').textContent=mistakes.size;
-    $('#bestRate').textContent=Math.round(stats.best||0)+'%';
+    const s = profiles.getStats();
+    $('#statSessions').textContent = s.sessions;
+    $('#statAnswered').textContent = s.answered;
+    $('#statCorrect').textContent = s.correct;
+    $('#statWrong').textContent = mistakes.size;
+    $('#bestRate').textContent = Math.round(s.best || 0) + '%';
+    $('#activePlayerName').textContent = profiles.getActive()?.name || '–';
+    const status = profiles.getStatus();
+    $('#syncStatus').textContent = !status.central ? 'Testbetrieb: nur auf diesem Gerät' :
+      status.online ? (status.pending ? `${status.pending} Einträge warten auf Abgleich` : 'Mit Google Sheets synchronisiert') :
+      'Offline – Ergebnisse werden später übertragen';
   }
   function updatePoolInfo(){
     const visual=bank.filter(q=>q.visual).length;
@@ -116,10 +128,16 @@
   }
 
   function pickQuestions({mistakeOnly=false}={}){
+    if (!profiles.getActive()) { show('playerGate'); return false; }
     const cat=$('#categorySelect').value;
     const diff=$('#difficultySelect')?.value||'all';
     let pool=bank.filter(q=>(cat==='all'||q.category===cat) && (diff==='all'||q.difficulty===diff) && (!mistakeOnly || mistakes.has(q.id)));
-    if(!pool.length){ alert(mistakeOnly?'Aktuell sind keine Fehler zum Wiederholen gespeichert.':'Für diese Auswahl gibt es keine Fragen.'); return false; }
+    const onlyNew = !mistakeOnly && $('#unseenOnly').checked;
+    if (onlyNew) {
+      const seen = profiles.getSeenIds();
+      pool = pool.filter(q => !seen.has(String(q.id)) && !(masteryFor(q.id).seen > 0));
+    }
+    if(!pool.length){ alert(onlyNew ? 'Für diese Auswahl hast du bereits alle Fragen gesehen. Deaktiviere „Nur neue Fragen“ oder wähle eine andere Kategorie.' : mistakeOnly ? 'Aktuell sind keine Fehler zum Wiederholen gespeichert.' : 'Für diese Auswahl gibt es keine Fragen.'); return false; }
     const requested=Number($('#questionCount').value);
     const desired=requested===0?pool.length:Math.min(requested,pool.length);
     session=weightedSample(pool,desired);
@@ -133,7 +151,10 @@
       session=session.filter(q=>q.choices?.length>=2&&!q.taskType&&!q.audioLocal).map(q=>({...q,renderType:'choice'}));
       if(!session.length){alert('Für diese Auswahl stehen keine Auswahlfragen zur Verfügung.');return false;}
     } else session=session.map(q=>({...q,renderType:'text'}));
-    index=0; answers=[]; renderQuestion(); show('quiz'); return true;
+    index=0; answers=[];
+    sessionId = 's-' + (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random());
+    hintsRemaining = Math.floor(session.length / 10); hintsUsed = 0;
+    renderQuestion(); show('quiz'); return true;
   }
 
   async function renderQuestion(){
@@ -157,6 +178,8 @@
 
     await renderAudio(q);
     renderAnswerArea(q);
+    questionStartedAt = performance.now();
+    renderHintUI(q);
   }
 
   function typeName(q){
@@ -225,6 +248,42 @@
     }
   }
 
+  function buildHintChoices(q){
+    const correct = String(q.answer || '').trim();
+    if (!correct) return [];
+    const values = [correct];
+    const candidates = [
+      ...(Array.isArray(q.choices) ? q.choices : []),
+      ...shuffle(bank.filter(x => x.id !== q.id && x.category === q.category).map(x => x.answer)),
+      ...shuffle(bank.filter(x => x.id !== q.id).map(x => x.answer))
+    ];
+    for (const c of candidates) {
+      const v = String(c || '').trim();
+      if (!v || v.length > 75 || /selbsteinschätzung/i.test(v) || values.some(x => normalize(x) === normalize(v))) continue;
+      if (/^\d+(?:[.,]\d+)?$/.test(correct) !== /^\d+(?:[.,]\d+)?$/.test(v)) continue;
+      values.push(v);
+      if (values.length === 4) break;
+    }
+    return values.length === 4 ? shuffle(values) : [];
+  }
+  function renderHintUI(q){
+    const canHint = !checked && hintsRemaining > 0 && q.renderType === 'text' && !q.hintUsed &&
+      !q.taskType && !q.audioLocal && !q.selfCheck && !q.multi;
+    $('#hintBtn').classList.toggle('hidden', !canHint);
+    $('#hintCounter').textContent = `Tipps übrig: ${hintsRemaining}`;
+  }
+  function useHint(){
+    const q = session[index];
+    if (checked || hintsRemaining < 1 || q.renderType !== 'text' || q.taskType || q.audioLocal || q.selfCheck || q.multi) return;
+    const choices = buildHintChoices(q);
+    if (choices.length !== 4) { alert('Für diese Frage stehen keine geeigneten Auswahlantworten zur Verfügung. Dein Tipp bleibt erhalten.'); return; }
+    q.choices = choices; q.renderType = 'choice'; q.hintUsed = true;
+    hintsRemaining--; hintsUsed++;
+    selected = []; renderAnswerArea(q);
+    $('#typePill').textContent = 'Auswahl · Tipp';
+    renderHintUI(q);
+  }
+
   function checkAnswer(){
     if(checked)return;
     const q=session[index];
@@ -271,14 +330,17 @@
 
   function finalizeAnswer(q,correct,given,bonusStatus=null,self=false){
     checked=true;
-    answers.push({id:q.id,correct,given,category:q.category,bonus:bonusStatus});
+    const responseMs = Math.max(100, Math.round(performance.now() - questionStartedAt));
+    answers.push({id:q.id,correct,given,category:q.category,bonus:bonusStatus,responseMs,hintUsed:!!q.hintUsed});
+    profiles.recordAnswer({sessionId,questionId:q.id,category:q.category,correct,hintUsed:!!q.hintUsed,
+      responseMs,mode:$('#modeSelect').value});
     const mk=String(q.id), m=masteryFor(q.id);
     m.seen=(m.seen||0)+1;
     if(correct){ m.correct=(m.correct||0)+1; m.streak=(m.streak||0)+1; if(m.streak>=2) mistakes.delete(q.id); }
     else { m.wrong=(m.wrong||0)+1; m.streak=0; mistakes.add(q.id); }
     m.lastSeen=Date.now(); mastery[mk]=m;
-    localStorage.setItem(masteryKey,JSON.stringify(mastery));
-    localStorage.setItem(mistakesKey,JSON.stringify([...mistakes]));
+    localStorage.setItem(progressKey('mastery'),JSON.stringify(mastery));
+    localStorage.setItem(progressKey('mistakes'),JSON.stringify([...mistakes]));
     const fb=$('#feedback'); fb.className='feedback '+(correct?'good':'bad');
     const answerLine=!correct&&!self?`Richtige Antwort: <b>${escapeHtml(q.answer)}</b><br>`:'';
     const bonusLine=q.bonus&&bonusStatus!==null?`<br><b>Bonus:</b> ${bonusStatus?'richtig':'nicht ganz'} – ${escapeHtml(q.bonus.answer)}`:'';
@@ -296,7 +358,9 @@
   function finish(){
     revokeCurrentAudio();
     const right=answers.filter(a=>a.correct).length, total=answers.length, rate=total?right/total*100:0;
-    stats.sessions++; stats.answered+=total; stats.correct+=right; stats.best=Math.max(stats.best||0,rate); localStorage.setItem(statsKey,JSON.stringify(stats)); updateStats();
+    profiles.finishRound({sessionId,total,correct:right,hintsUsed,
+      durationMs:answers.reduce((sum,a)=>sum+a.responseMs,0)});
+    updateStats();
     $('#resultPercent').textContent=Math.round(rate)+'%';
     $('#resultTitle').textContent=rate>=80?'Starke Runde.':rate>=60?'Solide – da geht noch was.':'Perfekt fürs Fehlertraining.';
     $('#resultText').textContent=`${right} von ${total} Fragen richtig beantwortet.`;
@@ -405,6 +469,72 @@
   async function getAudio(key){ try{const db=await openAudioDB();return await new Promise((res,rej)=>{const tx=db.transaction('clips','readonly');const r=tx.objectStore('clips').get(key);r.onsuccess=()=>{db.close();res(r.result||null)};r.onerror=()=>{db.close();rej(r.error)}})}catch{return null} }
   function revokeCurrentAudio(){ if(currentAudioUrl){URL.revokeObjectURL(currentAudioUrl);currentAudioUrl=null;} }
 
+  function renderGate(){
+    const select = $('#profileSelect');
+    const chosen = select.value || profiles.getActive()?.id || '';
+    const players = profiles.getPlayers();
+    select.innerHTML = '<option value="">Bitte Spieler auswählen …</option>' +
+      players.map(p => `<option value="${escapeHtml(p.id)}">${escapeHtml(p.name)}</option>`).join('');
+    if (players.some(p => p.id === chosen)) select.value = chosen;
+    const status = profiles.getStatus();
+    $('#gateNote').textContent = status.central ?
+      (status.online ? 'Spieler und Ergebnisse werden zentral gespeichert. Ohne Spielernamen sind keine weiteren Optionen verfügbar.' : 'Server nicht erreichbar. Bekannte Spieler können offline weitertrainieren.') :
+      'Testbetrieb nur auf diesem Gerät. Für die gemeinsame Rangliste später die Apps-Script-URL eintragen.';
+  }
+  function renderPersonalStats(){
+    const s = profiles.getStats(), seen = profiles.getSeenIds();
+    const items = [
+      ['Runden',s.sessions],['Beantwortete Fragen',s.answered],['Richtig',s.correct],
+      ['Trefferquote',s.answered ? (100*s.correct/s.answered).toFixed(1)+'%' : '0%'],
+      ['Ø Antwortzeit',s.answered ? (s.avgMs/1000).toFixed(1)+' s' : '–'],
+      ['Genutzte Tipps',s.hints],['Ranglistenpunkte',s.points],['Beste Runde',Math.round(s.best)+'%']
+    ];
+    $('#playerStatsGrid').innerHTML = items.map(([label,value]) =>
+      `<div class="stat card"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)}</span></div>`).join('');
+    const seenBase = BASE.filter(q => seen.has(String(q.id))).length;
+    $('#seenCount').textContent = `${seenBase} von ${BASE.length} Basisfragen bereits gesehen.`;
+  }
+  function renderLeaderboard(){
+    const rows = profiles.getLeaderboard();
+    const status = profiles.getStatus();
+    $('#leaderboardNote').textContent = !status.central ? 'Testbetrieb: Rangliste nur für dieses Gerät.' :
+      status.online ? 'Gemeinsame Rangliste · 2 Punkte pro richtiger Antwort, 1 Punkt mit Tipp.' :
+      'Offline: zuletzt gespeicherte Rangliste. Noch nicht synchronisierte Antworten fehlen.';
+    $('#leaderboardBody').innerHTML = rows.length ? rows.map((p,i) =>
+      `<div class="rank-row ${p.id===profiles.getActive()?.id?'rank-self':''}"><span><b>${i+1}.</b> ${escapeHtml(p.name)}</span><strong>${p.points||0}</strong><span>${p.correct||0}/${p.answered||0}</span><span>${p.answered?(p.avgMs/1000).toFixed(1)+' s':'–'}</span></div>`).join('') :
+      '<p class="empty-leaderboard">Noch keine Spieler vorhanden.</p>';
+  }
+  function showProfileError(message){
+    $('#profileError').textContent = message;
+    $('#profileError').classList.toggle('hidden', !message);
+  }
+  async function enterProfile(id){
+    await profiles.selectPlayer(id);
+    loadPlayerProgress(); updateStats(); showProfileError(''); show('home');
+  }
+  $('#selectPlayerBtn').onclick = async () => {
+    const id = $('#profileSelect').value;
+    if (!id) { showProfileError('Bitte zuerst einen Spieler auswählen oder anlegen.'); return; }
+    try { await enterProfile(id); } catch (err) { showProfileError(err.message); }
+  };
+  $('#createPlayerBtn').onclick = async () => {
+    const btn = $('#createPlayerBtn'); btn.disabled = true; showProfileError('');
+    try {
+      const player = await profiles.createPlayer($('#newPlayerName').value);
+      $('#newPlayerName').value = '';
+      await enterProfile(player.id);
+    } catch (err) { showProfileError(err.message); }
+    finally { btn.disabled = false; }
+  };
+  $('#newPlayerName').addEventListener('keydown',e=>{if(e.key==='Enter')$('#createPlayerBtn').click();});
+  $('#switchPlayerBtn').onclick = () => { renderGate(); show('playerGate'); };
+  $('#viewStatsBtn').onclick = () => { renderPersonalStats(); show('playerStats'); };
+  $('#viewLeaderboardBtn').onclick = () => { renderLeaderboard(); show('leaderboard');
+    profiles.refresh().catch(()=>{}); };
+  $('#backStatsBtn').onclick = () => show('home');
+  $('#backLeaderboardBtn').onclick = () => show('home');
+  $('#hintBtn').onclick = useHint;
+
   $('#startBtn').onclick=()=>pickQuestions();
   $('#mistakeBtn').onclick=()=>pickQuestions({mistakeOnly:true});
   $('#checkBtn').onclick=checkAnswer; $('#nextBtn').onclick=next;
@@ -414,7 +544,7 @@
 
   $('#exportBtn').onclick=()=>{
     const blob=new Blob([JSON.stringify(bank,null,2)],{type:'application/json'}); const a=document.createElement('a');
-    a.href=URL.createObjectURL(blob);a.download='kneipenquiz-fragenbank-v0.5.json';a.click();URL.revokeObjectURL(a.href);
+    a.href=URL.createObjectURL(blob);a.download='kneipenquiz-fragenbank-v0.6.json';a.click();URL.revokeObjectURL(a.href);
   };
   $('#importInput').addEventListener('change',async e=>{
     try{
@@ -483,5 +613,10 @@
     });
   }
 
-  fillCategories(); updateStats(); updatePoolInfo(); updateAudioCount(); renderCustomQuestions();
+  fillCategories(); updatePoolInfo(); updateAudioCount(); renderCustomQuestions();
+  profiles.subscribe(() => { renderGate(); updateStats(); renderPersonalStats(); renderLeaderboard(); });
+  profiles.init().then(() => {
+    renderGate();
+    show('playerGate');
+  });
 })();

@@ -1,9 +1,12 @@
-const CACHE_NAME = 'kneipenquiz-v0.5-20261003';
+// KNEIPENQUIZ_V06
+const CACHE_NAME = 'kneipenquiz-v0.6-20261010';
 const APP_SHELL = [
   './',
   './index.html',
   './styles.css',
   './app.js',
+  './config.js',
+  './profiles.js',
   './questions.js',
   './manifest.webmanifest',
   './assets/brandenburger-tor.svg',

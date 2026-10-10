@@ -16,7 +16,7 @@
   <title>Berliner Kneipenquiz Trainer</title>
 </head>
 <body>
-  <main class="shell">
+  <main class="shell" data-version="KNEIPENQUIZ_V06">
     <header class="topbar">
       <div>
         <div class="eyebrow">TRAINING</div>
@@ -25,7 +25,26 @@
       <div class="top-actions"><span id="connectionPill" class="pill muted">Online</span><button id="installBtn" class="ghost small hidden" type="button">App installieren</button></div>
     </header>
 
-    <section id="home" class="screen active">
+    <section id="playerGate" class="screen active">
+      <div class="card player-gate">
+        <span class="pill">VERSION 0.6 · SPIELERPROFILE</span>
+        <h2>Wer trainiert heute?</h2>
+        <p>Wähle deinen Spielernamen. Keine E-Mail-Adresse, kein Passwort.</p>
+        <label>Spieler auswählen
+          <select id="profileSelect"><option value="">Bitte Spieler auswählen …</option></select>
+        </label>
+        <button id="selectPlayerBtn" class="primary" type="button">Weiter zum Training</button>
+        <div class="gate-divider">oder neuen Spieler anlegen</div>
+        <label>Neuer Spielername
+          <input id="newPlayerName" type="text" maxlength="60" autocomplete="off" placeholder="Dein Quizname …" />
+        </label>
+        <button id="createPlayerBtn" class="secondary" type="button">Spieler anlegen</button>
+        <p id="profileError" class="profile-error hidden" role="alert"></p>
+        <p id="gateNote" class="gate-note">Ohne Spielernamen stehen keine weiteren Optionen zur Verfügung.</p>
+      </div>
+    </section>
+
+    <section id="home" class="screen">
       <div class="hero card">
         <div>
           <span id="poolPill" class="pill">Fragenpool wird geladen …</span>
@@ -35,6 +54,14 @@
         <div class="score-ring" aria-label="Beste Trefferquote"><span id="bestRate">0%</span><small>Bestwert</small></div>
       </div>
 
+      <div class="player-toolbar card">
+        <div><span class="toolbar-label">Aktiver Spieler</span><strong id="activePlayerName">–</strong><small id="syncStatus">Spielerdaten werden geladen …</small></div>
+        <div class="toolbar-buttons">
+          <button id="switchPlayerBtn" class="ghost small" type="button">Spieler wechseln</button>
+          <button id="viewStatsBtn" class="secondary small" type="button">Meine Statistik</button>
+          <button id="viewLeaderboardBtn" class="secondary small" type="button">Rangliste</button>
+        </div>
+      </div>
       <div class="stats-grid">
         <div class="stat card"><strong id="statSessions">0</strong><span>Runden</span></div>
         <div class="stat card"><strong id="statAnswered">0</strong><span>Antworten</span></div>
@@ -44,6 +71,7 @@
 
       <div class="card setup">
         <h3>Training starten</h3>
+        <label class="unseen-option"><input id="unseenOnly" type="checkbox" /> Nur Fragen, die ich noch nicht hatte</label>
         <label>Fragen pro Runde
           <select id="questionCount">
             <option value="10">10 Fragen</option>
@@ -140,7 +168,7 @@ Antwort D"></textarea></label>
       </div>
 
       <footer class="credits">
-        <span>Version 0.5 • 512 Fragen</span>
+        <span>Version 0.6 • 512 Fragen</span>
         <span>•</span>
         <span>Hessen-Umriss: schematische Eigenzeichnung, nicht maßstabsgetreu.</span>
       </footer>
@@ -158,6 +186,7 @@ Antwort D"></textarea></label>
         <div id="visualWrap" class="visual-wrap hidden"><img id="questionVisual" alt="" /></div>
         <div id="audioWrap" class="audio-wrap hidden"></div>
         <div id="answerArea"></div>
+        <div class="hint-row"><span id="hintCounter">Tipps: 0</span><button id="hintBtn" class="ghost small hidden" type="button">Tipp verwenden</button></div>
         <div id="feedback" class="feedback hidden"></div>
         <div class="quiz-actions">
           <button id="checkBtn" class="primary" type="button">Antwort prüfen</button>
@@ -179,9 +208,23 @@ Antwort D"></textarea></label>
         </div>
       </div>
     </section>
+
+    <section id="playerStats" class="screen">
+      <div class="section-head"><button id="backStatsBtn" class="ghost small" type="button">← Zurück</button><h2>Meine Statistik</h2></div>
+      <div id="playerStatsGrid" class="stats-detail-grid"></div>
+      <div class="card stats-explanation"><h3>Trainingsfortschritt</h3><p id="seenCount"></p><p>Die Antwortzeit wird von der Anzeige einer Frage bis zur Abgabe gemessen. Mit Tipp gibt eine richtige Antwort einen Ranglistenpunkt, ohne Tipp zwei.</p></div>
+    </section>
+
+    <section id="leaderboard" class="screen">
+      <div class="section-head"><button id="backLeaderboardBtn" class="ghost small" type="button">← Zurück</button><h2>Rangliste</h2></div>
+      <p id="leaderboardNote" class="leaderboard-note"></p>
+      <div class="card leaderboard-card"><div class="leaderboard-head"><span>Platz / Spieler</span><span>Punkte</span><span>Richtig</span><span>Ø Zeit</span></div><div id="leaderboardBody"></div></div>
+    </section>
   </main>
 
   <script src="questions.js"></script>
+  <script src="config.js"></script>
+  <script src="profiles.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
