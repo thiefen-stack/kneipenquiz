@@ -582,7 +582,7 @@
 
   // PWA: Sichtbarer Installationsweg auf Android / iOS, auch ohne Prompt-Event.
   let deferredInstallPrompt = null;
-  const installBtn=$('#installBtn'),connectionPill=$('#connectionPill');
+  const installBtn=$('#installBtn'),installMobileBtn=$('#installMobileBtn'),installHomeBtn=$('#installHomeBtn'),connectionPill=$('#connectionPill');
   const installGuide=$('#installGuide');
   const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches || navigator.standalone===true;
   const isMobile=()=>/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
@@ -591,17 +591,30 @@
   const isIOS=()=>/iPhone|iPad|iPod/i.test(navigator.userAgent) ||
     (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   function updateInstallVisibility(){
-    const installed = isStandalone();
-    document.documentElement.classList.toggle('kq-installed', installed);
-    installBtn?.classList.toggle('hidden', installed || (!isMobile() && !deferredInstallPrompt));
+    // Android-PWA / Safari-Home-Screen: kein zweiter Installationsversuch möglich.
+    // Status ausdrücklich anzeigen, statt die Schaltflächen verschwinden zu lassen.
+    const appMode = isStandalone();
+    document.documentElement.classList.toggle('kq-installed', appMode);
+    for (const button of [installBtn, installMobileBtn, installHomeBtn]) {
+      if (!button) continue;
+      button.classList.remove('hidden');
+      button.textContent = appMode
+        ? (button === installBtn ? '✓ App' : '✓ App-Modus aktiv')
+        : (button === installBtn ? '⬇ App' : '⬇ Quiz als App installieren');
+      button.setAttribute('aria-label', appMode ? 'App-Modus aktiv – Informationen anzeigen' : 'Kneipenquiz als App installieren');
+    }
   }
   function closeInstallGuide(){installGuide.classList.add('hidden');installBtn?.focus();}
   function openInstallGuide(){
-    $('#installGuideText').textContent=isIOS()
-      ? 'Öffne das Quiz in Safari. Tippe auf „Teilen“ (Quadrat mit Pfeil) und wähle „Zum Home-Bildschirm“. Bestätige mit „Hinzufügen“. Auf dem Startbildschirm erscheint dann die Quiz-App.'
-      : /Android/i.test(navigator.userAgent)
-        ? 'Öffne das Quiz in Chrome oder Edge. Öffne das Menü ⋮ und wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“. Falls der Eintrag fehlt: HTTPS-Adresse öffnen und Seite neu laden.'
-        : 'Öffne das Browsermenü. Wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“. Die Installation erfordert eine sichere HTTPS-Seite.';
+    const appMode = isStandalone();
+    $('#installGuideTitle').textContent = appMode ? 'Quiz läuft bereits im App-Modus' : 'Quiz als App installieren';
+    $('#installGuideText').textContent = appMode
+      ? 'Das Quiz läuft auf diesem Gerät bereits im App-Modus ohne Browserleiste. Eine erneute Installation aus dieser Ansicht ist nicht nötig. Um es auf einem anderen Gerät zu installieren, öffne dort https://quiz.thiefen.de in Chrome, Edge oder Safari.'
+      : isIOS()
+        ? 'Öffne das Quiz in Safari. Tippe auf „Teilen“ (Quadrat mit Pfeil) und wähle „Zum Home-Bildschirm“. Bestätige mit „Hinzufügen“. Auf dem Startbildschirm erscheint dann die Quiz-App.'
+        : /Android/i.test(navigator.userAgent)
+          ? 'Öffne das Quiz in Chrome oder Edge. Öffne das Menü ⋮ und wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“. Falls der Eintrag fehlt: HTTPS-Adresse öffnen und Seite neu laden.'
+          : 'Öffne das Browsermenü. Wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“. Die Installation erfordert eine sichere HTTPS-Seite.';
     installGuide.classList.remove('hidden');installGuide.focus();
   }
   function updateConnectionState(){
@@ -621,7 +634,7 @@
   window.addEventListener('offline',updateConnectionState);
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;updateInstallVisibility();});
   async function requestInstallation(){
-    if(isStandalone()) return;
+    if(isStandalone()) { openInstallGuide(); return; }
     if(deferredInstallPrompt){
       try{
         const prompt = deferredInstallPrompt;
@@ -634,7 +647,8 @@
     }else openInstallGuide();
   }
   installBtn?.addEventListener('click',requestInstallation);
-  $('#installMobileBtn')?.addEventListener('click',requestInstallation);
+  installMobileBtn?.addEventListener('click',requestInstallation);
+  installHomeBtn?.addEventListener('click',requestInstallation);
   $('#installGuideCloseBtn').onclick=closeInstallGuide;
   $('#installGuideDoneBtn').onclick=closeInstallGuide;
   installGuide.addEventListener('click',e=>{if(e.target===installGuide)closeInstallGuide();});

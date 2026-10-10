@@ -1,14 +1,26 @@
-KNEIPENQUIZ 0.6.3 – INSTALLATION AUF MOBILGERAETEN
+Kneipenquiz 0.6.4 – App-Installation / App-Modus
+================================================
 
-1. ZIP entpacken. Dateien und assets-Ordner direkt ins GitHub-Desktop-Repository kneipenquiz kopieren; vorhandene Dateien ersetzen.
-2. In GitHub Desktop COMMIT und PUSH.
-3. Auf dem Mobiltelefon https://quiz.thiefen.de/ im Browser oeffnen und neu laden.
-4. Sowohl oben rechts als auch auf der Spielerauswahl ist die Installationsfunktion zugaenglich.
-5. Android (Chrome/Edge): Schaltflaeche kann den nativen Installationsdialog starten. Wenn nicht, zeigt sie den Weg ueber das Browsermenue an.
-6. iPhone/iPad: Safari > Teilen > Zum Home-Bildschirm.
-7. Wenn die App schon im Standalone-Modus gestartet ist, wird der Installieren-Knopf ausgeblendet.
-8. Die zentrale Google-Adresse in config.js bleibt unveraendert.
-9. Es werden KEINE Spielerprofile oder Browserdaten geloescht.
-10. Der Diagnosebereich wird separat ueber /diagnose.html geoeffnet, dort ist ein Ruecklink zur Quizstartseite vorhanden.
+Dieses ZIP enthält nur VIER geänderte Programmdateien:
+index.html, app.js, styles.css, service-worker.js.
+Die config.js und die Google-Sheets-Verbindung bleiben UNVERÄNDERT.
 
-WICHTIG: Das Update ist statisch geprueft, die echte Mobilinstallation muss auf dem Geraet getestet werden.
+Installation:
+1. ZIP entpacken.
+2. Die 4 Dateien direkt in den lokalen GitHub-Ordner kneipenquiz kopieren.
+   Vorhandene Dateien ersetzen, andere Dateien behalten.
+3. In GitHub Desktop committen und Push origin ausführen.
+4. quiz.thiefen.de neu laden; bei bereits installierter PWA App schließen und neu starten.
+   Falls die alte Anzeige bleibt: in Chrome/Edge im Browser aktualisieren
+   und anschließend die installierte App erneut öffnen.
+
+Was wurde geändert?
+- Im normalen Mobilbrowser sind Installationsbuttons in der Spielerauswahl UND
+  auf der Trainingsstartseite sichtbar.
+- Wird das Quiz bereits ohne Browserleiste als App ausgeführt, erscheint
+  stattdessen 'App-Modus aktiv'. Tippen erklärt den Zustand.
+- Die alte automatische Ausblendung im Standalone-Modus ist entfernt.
+- Cache-Kennung und Ressourcen-Version auf 0.6.4 erhöht.
+
+Es werden weder Spieler- noch Trainingsdaten oder das Google Script verändert.
+Bitte die App NICHT deinstallieren und keine Website-Daten löschen.

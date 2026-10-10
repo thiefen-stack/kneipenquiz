@@ -1,12 +1,12 @@
-// KNEIPENQUIZ_V063
-const CACHE_NAME = 'kneipenquiz-v0.6.3-20261010';
+// KNEIPENQUIZ_V064
+const CACHE_NAME = 'kneipenquiz-v0.6.4-20261010';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css?v=063',
-  './app.js?v=063',
-  './config.js?v=063',
-  './profiles.js?v=063',
+  './styles.css?v=064',
+  './app.js?v=064',
+  './config.js?v=064',
+  './profiles.js?v=064',
   './diagnose.html',
   './questions.js',
   './manifest.webmanifest',

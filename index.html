@@ -12,11 +12,11 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png" />
   <link rel="apple-touch-icon" href="assets/icon-192.png" />
-  <link rel="stylesheet" href="styles.css?v=063" />
+  <link rel="stylesheet" href="styles.css?v=064" />
   <title>Berliner Kneipenquiz Trainer</title>
 </head>
 <body>
-  <main class="shell" data-version="KNEIPENQUIZ_V063">
+  <main class="shell" data-version="KNEIPENQUIZ_V064">
     <header class="topbar">
       <div>
         <div class="eyebrow">TRAINING</div>
@@ -35,7 +35,7 @@
 
     <section id="playerGate" class="screen active">
       <div class="card player-gate">
-        <span class="pill">VERSION 0.6.3 · SPIELERPROFILE</span>
+        <span class="pill">VERSION 0.6.4 · SPIELERPROFILE</span>
         <h2>Wer trainiert heute?</h2>
         <p>Wähle deinen Spielernamen. Keine E-Mail-Adresse, kein Passwort.</p>
         <label>Spieler auswählen
@@ -65,6 +65,7 @@
         <div class="score-ring" aria-label="Beste Trefferquote"><span id="bestRate">0%</span><small>Bestwert</small></div>
       </div>
 
+      <div class="mobile-install-home-wrap"><button id="installHomeBtn" class="ghost mobile-install-action" type="button">⬇ Quiz als App installieren</button></div>
       <div class="player-toolbar card">
         <div><span class="toolbar-label">Aktiver Spieler</span><strong id="activePlayerName">–</strong><small id="syncStatus">Spielerdaten werden geladen …</small></div>
         <div class="toolbar-buttons">
@@ -234,8 +235,8 @@ Antwort D"></textarea></label>
   </main>
 
   <script src="questions.js"></script>
-  <script src="config.js?v=063"></script>
-  <script src="profiles.js?v=063"></script>
-  <script src="app.js?v=063"></script>
+  <script src="config.js?v=064"></script>
+  <script src="profiles.js?v=064"></script>
+  <script src="app.js?v=064"></script>
 </body>
 </html>

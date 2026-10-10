@@ -119,9 +119,17 @@ input[type=text],textarea,select{font-size:16px;}
 @media (max-width:700px), (pointer:coarse){
   .top-actions #installBtn:not(.hidden){display:inline-flex!important;align-items:center;justify-content:center;white-space:nowrap;min-height:38px}
   .mobile-install-action{display:block;width:100%;margin:14px 0 2px;min-height:46px;border-color:#7b6a42;color:#fff1d6}
-  html.kq-installed .top-actions #installBtn, html.kq-installed .mobile-install-action{display:none!important}
+  html.kq-installed .top-actions #installBtn, html.kq-installed .mobile-install-action{display:inline-flex!important;align-items:center;justify-content:center;background:#153127;color:#a4f1c3;border-color:#377355}
 }
 @media (max-width:370px){
   .topbar{flex-wrap:wrap}
   .top-actions{margin-left:auto}
+}
+
+/* v0.6.4: App-Zustand statt unsichtbarem Installationsbutton anzeigen. */
+.mobile-install-home-wrap{display:none}
+@media (max-width:700px), (pointer:coarse){
+  .mobile-install-home-wrap{display:block;margin:8px 0}
+  .mobile-install-home-wrap .mobile-install-action{display:flex;width:100%;min-height:46px;margin:0}
+  .player-gate .mobile-install-action{display:flex;align-items:center;justify-content:center}
 }
