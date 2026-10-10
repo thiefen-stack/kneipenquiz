@@ -12,11 +12,11 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png" />
   <link rel="apple-touch-icon" href="assets/icon-192.png" />
-  <link rel="stylesheet" href="styles.css?v=072" />
+  <link rel="stylesheet" href="styles.css?v=073" />
   <title>Berliner Kneipenquiz Trainer</title>
 </head>
 <body>
-  <main class="shell" data-version="KNEIPENQUIZ_V072">
+  <main class="shell" data-version="KNEIPENQUIZ_V073">
     <header class="topbar">
       <div>
         <div class="eyebrow">TRAINING</div>
@@ -35,7 +35,7 @@
 
     <section id="playerGate" class="screen active">
       <div class="card player-gate">
-        <span class="pill">VERSION 0.7.2 · INTELLIGENTES TRAINING</span>
+        <span class="pill">VERSION 0.7.3 · INTELLIGENTES TRAINING</span>
         <h2>Wer trainiert heute?</h2>
         <p>Wähle deinen Spielernamen. Keine E-Mail-Adresse, kein Passwort.</p>
         <label>Spieler auswählen
@@ -73,6 +73,11 @@
           <button id="viewStatsBtn" class="secondary small" type="button">Meine Statistik</button>
           <button id="viewLeaderboardBtn" class="secondary small" type="button">Rangliste</button><button id="viewAchievementsBtn" class="secondary small" type="button">Abzeichen</button>
         </div>
+      </div>
+      <div id="resumeRoundCard" class="card hidden" style="margin:14px 0;padding:16px" role="status">
+        <strong>⏯ Laufende Runde</strong>
+        <p id="resumeRoundText" style="margin:8px 0 12px">Deine Runde läuft noch.</p>
+        <button id="resumeRoundBtn" class="primary" type="button">Runde fortsetzen</button>
       </div>
       <div class="stats-grid">
         <div class="stat card"><strong id="statSessions">0</strong><span>Runden</span></div>
@@ -195,7 +200,7 @@ Antwort D"></textarea></label>
       </div>
 
       <footer class="credits">
-        <span>Version 0.7.2 • 512 Fragen • 1024 Punkte möglich</span>
+        <span>Version 0.7.3 • 512 Fragen • 1024 Punkte möglich</span>
         <span>•</span>
         <span>Hessen-Umriss: schematische Eigenzeichnung, nicht maßstabsgetreu.</span>
       </footer>
@@ -203,11 +208,11 @@ Antwort D"></textarea></label>
 
     <section id="quiz" class="screen">
       <div class="quiz-head">
-        <button id="quitBtn" class="ghost small" type="button">← Beenden</button>
+        <button id="quitBtn" class="ghost small" type="button">← Startseite</button>
         <div class="progress-wrap"><div id="progressBar" class="progress"></div></div>
         <span id="progressText">1 / 10</span>
       </div>
-      <div class="question-time"><div><span>⏱ Antwortzeit</span><strong id="timeLeft" role="timer" aria-live="off">30.0 s</strong></div><div class="time-track"><div id="timeBar" class="time-bar"></div></div></div>
+      <div class="question-time"><div><span>⏱ Antwortzeit</span><strong id="timeLeft" role="timer" aria-live="off">60.0 s</strong></div><div class="time-track"><div id="timeBar" class="time-bar"></div></div></div>
       <article class="card question-card">
         <div class="meta"><span id="categoryPill" class="pill"></span><span id="difficultyPill" class="pill muted"></span><span id="typePill" class="pill muted"></span><span id="originPill" class="pill muted hidden"></span></div>
         <h2 id="questionText"></h2>
@@ -258,8 +263,8 @@ Antwort D"></textarea></label>
   </main>
 
   <script src="questions.js"></script>
-  <script src="config.js?v=072"></script>
-  <script src="profiles.js?v=072"></script>
-  <script src="app.js?v=072"></script>
+  <script src="config.js?v=073"></script>
+  <script src="profiles.js?v=073"></script>
+  <script src="app.js?v=073"></script>
 </body>
 </html>

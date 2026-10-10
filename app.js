@@ -1,4 +1,4 @@
-/* KNEIPENQUIZ_V072 */
+/* KNEIPENQUIZ_V073: interne Zurueck-Navigation in Browser und PWA */
 (() => {
   const BASE = window.QUIZ_QUESTIONS || [];
   let imported = JSON.parse(localStorage.getItem('bq_imported') || '[]');
@@ -19,6 +19,41 @@
   let sessionId = '', hintsRemaining = 0, hintsUsed = 0, questionStartedAt = 0;
   let sessionMode='original', sessionDayKey='',timerHandle=null,limitMs=60000,submittedMs=0;
   let trainingProgressCache={};
+  // Eine gestartete Runde bleibt beim Wechsel zur Startseite erhalten.
+  // Wir nutzen echte History-Eintraege, damit Browser-Back und Android-Back
+  // innerhalb der installierten PWA zuerst auf die Startseite gehen.
+  const NAV_KEY = 'kneipenquiz_view_v073';
+  let currentScreen = 'playerGate';
+  let roundInProgress = false;
+  let roundPlayerId = '';
+  let questionStartedWall = 0;
+  let navigationEnabled = false;
+  try {
+    history.replaceState({ ...(history.state || {}), [NAV_KEY]: 'playerGate' }, '', location.href);
+    navigationEnabled = true;
+  } catch (err) { console.warn('Browser-Navigation nicht verfuegbar:', err); }
+  const answerElapsedMs = () => Math.max(0,
+    performance.now() - questionStartedAt, Date.now() - questionStartedWall);
+  function updateResumeButton() {
+    const btn = $('#resumeRoundBtn'), card = $('#resumeRoundCard');
+    if (!btn || !card) return;
+    const available = roundInProgress && session.length > 0 &&
+      roundPlayerId === profiles.getActive()?.id;
+    card.classList.toggle('hidden', !available);
+    if (available) {
+      $('#resumeRoundText').textContent =
+        `${sessionMode === 'daily' ? 'Tagesquiz' : 'Training'} · Frage ${index + 1} von ${session.length}` +
+        (checked === true ? ' · Nächste Frage bereit' : ' · Timer läuft weiter');
+    }
+  }
+  function resumeRound() {
+    if (!roundInProgress || roundPlayerId !== profiles.getActive()?.id) return;
+    show('quiz');
+    if (checked !== true && checked !== 'pending') {
+      if (answerElapsedMs() > limitMs) timeExpired();
+      else startTimer();
+    }
+  }
   const progressKey = name => `bq_v06_${profiles.getActive()?.id || 'none'}_${name}`;
   function loadPlayerProgress(){
     try { mistakes = new Set(JSON.parse(localStorage.getItem(progressKey('mistakes')) || '[]')); }
@@ -27,10 +62,37 @@
     catch { mastery = {}; }
   }
 
-  function show(id){
-    screens.forEach(x=>$('#'+x).classList.toggle('active',x===id));
+  function show(id, { fromHistory = false } = {}) {
+    const previous = currentScreen;
+    currentScreen = id;
+    screens.forEach(x=>$('#'+x).classList.toggle('active', x===id));
+    if (!fromHistory && navigationEnabled && id !== previous) {
+      try {
+        const state = { ...(history.state || {}), [NAV_KEY]: id };
+        // Ergebnisse ersetzen die Quiz-History: Back geht direkt zur Startseite.
+        // Startseite ersetzt den aktuellen Eintrag, statt weitere Seiten anzuhaufen.
+        if (id === 'home' || id === 'playerGate' || (id === 'results' && previous === 'quiz')) {
+          history.replaceState(state, '', location.href);
+        } else {
+          history.pushState(state, '', location.href);
+        }
+      } catch (err) { console.warn('History-Eintrag nicht moeglich:', err); }
+    }
+    updateResumeButton();
     window.scrollTo({top:0,behavior:'smooth'});
   }
+  window.addEventListener('popstate', event => {
+    // Bei Browser-Back / Android-PWA-Back wird innerhalb der gleichen App navigiert.
+    const requested = event.state?.[NAV_KEY] || 'home';
+    let target = screens.includes(requested) ? requested : 'home';
+    if (!profiles.getActive()) target = 'playerGate';
+    if (target === 'quiz' && (!roundInProgress || roundPlayerId !== profiles.getActive()?.id)) target = 'home';
+    show(target, { fromHistory:true });
+    if (target === 'quiz' && checked !== true && checked !== 'pending') {
+      if (answerElapsedMs() > limitMs) timeExpired();
+      else startTimer();
+    }
+  });
   function shuffle(a){ return [...a].sort(()=>Math.random()-.5); }
   function masteryFor(id){ return mastery[String(id)] || {seen:0,correct:0,wrong:0,streak:0}; }
   function questionWeight(q){
@@ -168,6 +230,7 @@
       if(!session.length){alert('Für diese Auswahl stehen keine Auswahlfragen zur Verfügung.');return false;}
     } else session=session.map(q=>({...q,renderType:'text'}));
     index=0; answers=[]; sessionMode=mode;sessionDayKey='';limitMs=60000;
+    roundInProgress=true;roundPlayerId=profiles.getActive()?.id || '';
     sessionId = 's-' + (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random());
     hintsRemaining = Math.floor(session.length / 10); hintsUsed = 0;
     renderQuestion(); show('quiz'); return true;
@@ -195,6 +258,7 @@
     await renderAudio(q);
     renderAnswerArea(q);
     questionStartedAt = performance.now();
+    questionStartedWall = Date.now();
     renderHintUI(q);
     startTimer();
   }
@@ -303,7 +367,7 @@
 
   function checkAnswer(){
     if(checked)return;
-    if(performance.now()-questionStartedAt>limitMs){timeExpired();return;}
+    if(answerElapsedMs()>limitMs){timeExpired();return;}
     const q=session[index];
     if(q.selfCheck){ return beginSelfCheck(q); }
     let correct=false, given='', bonusStatus=null;
@@ -334,7 +398,7 @@
 
   function beginSelfCheck(q){
     if(!drawTouched){ alert('Zeichne zuerst etwas auf die Fläche.'); return; }
-    submittedMs=Math.max(100,Math.round(performance.now()-questionStartedAt));
+    submittedMs=Math.max(100,Math.round(answerElapsedMs()));
     stopTimer();checked='pending';
     $('#checkBtn').classList.add('hidden');
     const fb=$('#feedback'); fb.className='feedback neutral';
@@ -349,7 +413,7 @@
 
   function finalizeAnswer(q,correct,given,bonusStatus=null,self=false,expired=false){
     if(checked===true)return;
-    const responseMs = Math.max(100, self&&submittedMs?submittedMs:Math.round(performance.now() - questionStartedAt));
+    const responseMs = Math.max(100, self&&submittedMs?submittedMs:Math.round(answerElapsedMs()));
     if(responseMs>limitMs) {correct=false;expired=true;}
     checked=true;stopTimer();
     answers.push({id:q.id,correct,given,category:q.category,bonus:bonusStatus,responseMs,hintUsed:!!q.hintUsed});
@@ -379,13 +443,16 @@
   function startTimer(){
     stopTimer();
     const update=()=>{
-      if(checked || !$('#quiz').classList.contains('active')){if(checked)stopTimer();return;}
-      const ms=Math.max(0,limitMs-(performance.now()-questionStartedAt));
+      if(checked){stopTimer();return;}
+      // Auch auf der Startseite weiterzaehlen: Back darf keine Extrazeit geben.
+      const elapsed=answerElapsedMs();
+      if(elapsed>limitMs){timeExpired();updateResumeButton();return;}
+      if(!$('#quiz').classList.contains('active'))return;
+      const ms=Math.max(0,limitMs-elapsed);
       const pct=Math.max(0,ms/limitMs*100);
       $('#timeLeft').textContent=(ms/1000).toFixed(1)+' s';
       $('#timeLeft').classList.toggle('urgent',ms<=5000);
       $('#timeBar').style.width=pct+'%';
-      if(performance.now()-questionStartedAt>limitMs)timeExpired();
     };
     update();timerHandle=setInterval(update,90);
   }
@@ -401,6 +468,7 @@
   }
   function finish(){
     stopTimer();revokeCurrentAudio();
+    roundInProgress=false;roundPlayerId='';
     const right=answers.filter(a=>a.correct).length, total=answers.length, rate=total?right/total*100:0;
     profiles.finishRound({sessionId,total,correct:right,hintsUsed,
       durationMs:answers.reduce((sum,a)=>sum+a.responseMs,0),mode:sessionMode,dayKey:sessionDayKey});
@@ -554,6 +622,10 @@
     $('#profileError').classList.toggle('hidden', !message);
   }
   async function enterProfile(id){
+    if(roundInProgress && roundPlayerId && roundPlayerId !== id){
+      // Profile nie waehrend einer anderen Runde vermischen.
+      stopTimer();roundInProgress=false;roundPlayerId='';session=[];
+    }
     await profiles.selectPlayer(id);
     loadPlayerProgress(); updateStats(); showProfileError(''); show('home');
   }
@@ -605,6 +677,7 @@
       const nextIndex=questions.findIndex(q=>!answeredIds.has(String(q.id)));
       if(nextIndex<0)throw Error('Alle zehn Tagesfragen wurden bereits beantwortet. Die Auswertung wird synchronisiert.');
       session=questions;sessionMode='daily';sessionDayKey=reservation.dayKey;limitMs=20000;
+      roundInProgress=true;roundPlayerId=profiles.getActive()?.id || '';
       sessionId=reservation.sessionId;index=nextIndex;
       answers=previous.map(a=>{
         const q=questions.find(q=>String(q.id)===String(a.id));
@@ -687,7 +760,8 @@
   $('#dailyStartBtn').onclick=()=>startDailyQuiz().catch(err=>{alert(err.message||err);renderDailyPanel();});
   $('#mistakeBtn').onclick=()=>{if(checkBackend())pickQuestions({mistakeOnly:true});};
   $('#checkBtn').onclick=checkAnswer; $('#nextBtn').onclick=next;
-  $('#quitBtn').onclick=()=>{stopTimer();revokeCurrentAudio();renderDailyPanel();show('home')};
+  $('#quitBtn').onclick=()=>{renderDailyPanel();show('home');};
+  $('#resumeRoundBtn').onclick=resumeRound;
   $('#againBtn').onclick=()=>{renderDailyPanel();show('home');};
   $('#resultMistakesBtn').onclick=()=>{show('home');setTimeout(()=>pickQuestions({mistakeOnly:true}),0)};
 

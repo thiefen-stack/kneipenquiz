@@ -1,13 +1,13 @@
-// KNEIPENQUIZ_V072
-const CACHE_NAME = 'kneipenquiz-v0.7.2-20261010-times';
+// KNEIPENQUIZ_V073
+const CACHE_NAME = 'kneipenquiz-v0.7.3-20261010-back-navigation';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css?v=072',
-  './app.js?v=072',
-  './config.js?v=072',
-  './profiles.js?v=072',
-  './diagnose.html?v=072',
+  './styles.css?v=073',
+  './app.js?v=073',
+  './config.js?v=073',
+  './profiles.js?v=073',
+  './diagnose.html?v=073',
   './questions.js',
   './manifest.webmanifest',
   './assets/brandenburger-tor.svg',
