@@ -23,7 +23,7 @@ function setup() {
     sheet.getRange(1,1,1,d.headers.length).setBackground('#1C4D3A').setFontColor('#FFFFFF').setFontWeight('bold');
     sheet.setFrozenRows(1);
   });
-  return 'Kneipenquiz 0.7.1 eingerichtet – vorhandene Spieler/Antworten bleiben erhalten. Bitte Web-App als neue Version bereitstellen.';
+  return 'Kneipenquiz 0.7.2 eingerichtet – vorhandene Spieler/Antworten bleiben erhalten. Bitte Web-App als neue Version bereitstellen.';
 }
 function getSheet_(key) {
   const s = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(QUIZ_TABS[key].name);
@@ -68,7 +68,7 @@ function doGet(e) {
   const p=e&&e.parameter||{};
   try {
     const a=String(p.action||'snapshot');
-    if(a==='ping') return out_({ok:true,version:'0.7',build:'0.7.1',dayKey:today_()},p.callback);
+    if(a==='ping') return out_({ok:true,version:'0.7',build:'0.7.2',dayKey:today_()},p.callback);
     if(a==='snapshot') return out_(snapshot_(id_(p.playerId)),p.callback);
     if(a==='ack') return out_(ack_(String(p.ids||'').split(',').map(id_).filter(Boolean).slice(0,40)),p.callback);
     return out_({ok:false,error:'Unbekannte Aktion'},p.callback);
@@ -80,7 +80,7 @@ function doPost(e) {
     if(data.action!=='batch'||!Array.isArray(data.items)||data.items.length>40)throw Error('Ungültige Anfrage');
     const lock=LockService.getScriptLock();lock.waitLock(20000);
     try { writeBatch_(data.items); } finally {lock.releaseLock();}
-    return out_({ok:true,version:'0.7',build:'0.7.1'});
+    return out_({ok:true,version:'0.7',build:'0.7.2'});
   }catch(err){return out_({ok:false,error:String(err.message||err)});}
 }
 function emptyStats_(){return {sessions:0,answered:0,uniqueAnswered:0,correct:0,best:0,points:0,hints:0,totalMs:0,avgMs:0,currentStreak:0,longestStreak:0};}
@@ -98,7 +98,7 @@ function award_(old,correct,hint) {
   return 0;
 }
 function validCorrect_(raw,mode,time) {
-  return bool_(raw)&&num_(time,3600000) <= (String(mode)==='daily'?10000:30000);
+  return bool_(raw)&&num_(time,3600000) <= (String(mode)==='daily'?20000:60000);
 }
 // Bewertet alle bisherigen Ereignisse in Tabellenreihenfolge (append-only).
 // Liefert zugleich Stand je Frage, Kategorie, Trainingstage und Tagesrangliste.
@@ -236,14 +236,14 @@ function ack_(ids) {
   rows_('rounds').forEach(r=>all.add(id_(r[0])));
   rows_('players').forEach(r=>all.add(id_(r[0])));
   rows_('daily').forEach(r=>all.add(id_(r[2])));
-  return {ok:true,version:'0.7',build:'0.7.1',ids:ids.filter(id=>all.has(id))};
+  return {ok:true,version:'0.7',build:'0.7.2',ids:ids.filter(id=>all.has(id))};
 }
 function snapshot_(selectedId) {
   const players=rows_('players').filter(r=>r[0]&&r[1]).map(r=>({id:String(r[0]),name:String(r[1])}));
   const a=rows_('answers'),r=rows_('rounds'),d=rows_('daily'),x=calculate_(players,a,r,d,selectedId);
   const today=today_(),sessions=x.dailySessions[selectedId]||{},sid=sessions[today]||'';
   const dailyResult=x.dailyResults[today+'|'+selectedId]||null;
-  return {ok:true,version:'0.7',build:'0.7.1',dayKey:today,players,stats:x.stats,seen:Array.from(x.seen[selectedId]||[]),
+  return {ok:true,version:'0.7',build:'0.7.2',dayKey:today,players,stats:x.stats,seen:Array.from(x.seen[selectedId]||[]),
     progress:x.progress[selectedId]||{},leaderboard:x.leaderboard,
     daily:{dayKey:today,reservedSessionId:sid,completed:!!r.some(row=>id_(row[1])===selectedId && id_(row[0])===sid&&sid),
       result:dailyResult?{correct:dailyResult.correct,answered:dailyResult.answered,totalMs:dailyResult.totalMs,

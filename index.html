@@ -12,11 +12,11 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png" />
   <link rel="apple-touch-icon" href="assets/icon-192.png" />
-  <link rel="stylesheet" href="styles.css?v=071" />
+  <link rel="stylesheet" href="styles.css?v=072" />
   <title>Berliner Kneipenquiz Trainer</title>
 </head>
 <body>
-  <main class="shell" data-version="KNEIPENQUIZ_V071">
+  <main class="shell" data-version="KNEIPENQUIZ_V072">
     <header class="topbar">
       <div>
         <div class="eyebrow">TRAINING</div>
@@ -35,7 +35,7 @@
 
     <section id="playerGate" class="screen active">
       <div class="card player-gate">
-        <span class="pill">VERSION 0.7.1 · INTELLIGENTES TRAINING</span>
+        <span class="pill">VERSION 0.7.2 · INTELLIGENTES TRAINING</span>
         <h2>Wer trainiert heute?</h2>
         <p>Wähle deinen Spielernamen. Keine E-Mail-Adresse, kein Passwort.</p>
         <label>Spieler auswählen
@@ -82,7 +82,7 @@
       </div>
 
       <div class="card daily-card">
-        <div class="daily-title"><div><span class="pill">TÄGLICHE CHALLENGE</span><h3>🎯 Tagesquiz</h3></div><span class="daily-clock">10 × 10 s</span></div>
+        <div class="daily-title"><div><span class="pill">TÄGLICHE CHALLENGE</span><h3>🎯 Tagesquiz</h3></div><span class="daily-clock">10 × 20 s</span></div>
         <p id="dailyNote">Lade Tagesquiz …</p>
         <button id="dailyStartBtn" class="primary" type="button">Tagesquiz starten</button>
         <div class="daily-ranking-title">Heutige Rangliste</div>
@@ -195,7 +195,7 @@ Antwort D"></textarea></label>
       </div>
 
       <footer class="credits">
-        <span>Version 0.7.1 • 512 Fragen • 1024 Punkte möglich</span>
+        <span>Version 0.7.2 • 512 Fragen • 1024 Punkte möglich</span>
         <span>•</span>
         <span>Hessen-Umriss: schematische Eigenzeichnung, nicht maßstabsgetreu.</span>
       </footer>
@@ -240,7 +240,7 @@ Antwort D"></textarea></label>
     <section id="playerStats" class="screen">
       <div class="section-head"><button id="backStatsBtn" class="ghost small" type="button">← Zurück</button><h2>Meine Statistik</h2></div>
       <div id="playerStatsGrid" class="stats-detail-grid"></div>
-      <div class="card stats-explanation"><h3>Trainingsfortschritt</h3><p id="seenCount"></p><p>Pro Basisfrage sind höchstens 2 Ranglistenpunkte möglich. Bei einer richtig gelösten Frage mit Tipp bleibt der zweite Punkt für eine spätere richtige Antwort ohne Tipp offen. Nach 30 Sekunden wird die Antwort falsch gewertet.</p></div>
+      <div class="card stats-explanation"><h3>Trainingsfortschritt</h3><p id="seenCount"></p><p>Pro Basisfrage sind höchstens 2 Ranglistenpunkte möglich. Bei einer richtig gelösten Frage mit Tipp bleibt der zweite Punkt für eine spätere richtige Antwort ohne Tipp offen. Nach 60 Sekunden wird die Antwort falsch gewertet.</p></div>
     </section>
 
     <section id="achievements" class="screen">
@@ -258,8 +258,8 @@ Antwort D"></textarea></label>
   </main>
 
   <script src="questions.js"></script>
-  <script src="config.js?v=071"></script>
-  <script src="profiles.js?v=071"></script>
-  <script src="app.js?v=071"></script>
+  <script src="config.js?v=072"></script>
+  <script src="profiles.js?v=072"></script>
+  <script src="app.js?v=072"></script>
 </body>
 </html>

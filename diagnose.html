@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111318">
-<title>Kneipenquiz 0.7.1 – Verbindungstest</title>
+<title>Kneipenquiz 0.7.2 – Verbindungstest</title>
 <style>body{font:16px/1.55 system-ui,sans-serif;background:#111318;color:#f1f3f4;margin:0;padding:20px}main{max-width:690px;margin:auto}section{background:#20252c;padding:14px 18px;border-radius:12px;margin:14px 0}button,a{color:#f4b34d}button{background:#284c3b;border:0;border-radius:8px;padding:12px 16px;color:white;font-size:1rem}p{overflow-wrap:anywhere}code{color:#b7d0cc}.ok{color:#8bdfb0}.bad{color:#ff9b9b}.wait{color:#efdb8d}small{color:#acb7bb}pre{white-space:pre-wrap}</style></head>
-<body><main><h1>Kneipenquiz · Verbindungstest</h1><p>Version 0.7.1 · Prüft die Serveradresse und die Google-Spielerdatenbank. Es werden keine neuen Spieler angelegt.</p>
+<body><main><h1>Kneipenquiz · Verbindungstest</h1><p>Version 0.7.2 · Prüft die Serveradresse und die Google-Spielerdatenbank. Es werden keine neuen Spieler angelegt.</p>
 <section><strong>1. Konfiguration</strong><p id="config">Prüfe …</p><small>Die Serveradresse muss der zuletzt veröffentlichten Google-Web-App entsprechen.</small></section>
 <section><strong>2. Google Web-App</strong><p id="ping" class="wait">Warte auf Antwort …</p></section>
 <section><strong>3. Gemeinsame Spielerdatenbank</strong><p id="snapshot" class="wait">Warte auf Antwort …</p></section>
 <section><strong>4. Auf diesem Gerät gespeicherte Profile</strong><p id="local">Prüfe …</p><small>Bitte nicht die Website-Daten löschen, solange lokal gespeicherte Spieler nicht übertragen sind.</small></section>
 <section><strong>5. Offline-App</strong><p id="worker">Prüfe …</p></section>
 <button id="reload" type="button">Erneut prüfen</button><p><a href="./">← Zurück zum Quiz</a></p><small>Für die Fehleranalyse kannst du einen Screenshot dieser Seite schicken. Die Seite zeigt keine privaten Antworttexte.</small></main>
-<script src="config.js?v=071"></script><script>
+<script src="config.js?v=072"></script><script>
 (function(){
  const $=id=>document.getElementById(id);
  const api=String(window.BQ_CONFIG?.apiUrl||'').trim();
@@ -32,7 +32,7 @@
   s.src=u;document.head.appendChild(s);
  });}
  async function go(){for(const id of ['ping','snapshot']){$(id).textContent='Prüfung läuft …';$(id).className='wait'}
-  try{const ping=await jsonp('ping');const fixed=ping.version==='0.7'&&ping.build==='0.7.1';$('ping').className=fixed?'ok':'bad';$('ping').textContent=(fixed?'OK – ':'BITTE BACKEND AUF 0.7.1 AKTUALISIEREN – ')+'Server erreichbar (Version '+(ping.version||'unbekannt')+', Reparatur '+(ping.build||'fehlt')+').';}
+  try{const ping=await jsonp('ping');const fixed=ping.version==='0.7'&&ping.build==='0.7.2';$('ping').className=fixed?'ok':'bad';$('ping').textContent=(fixed?'OK – ':'BITTE BACKEND AUF 0.7.2 AKTUALISIEREN – ')+'Server erreichbar (Version '+(ping.version||'unbekannt')+', Reparatur '+(ping.build||'fehlt')+').';}
   catch(e){$('ping').className='bad';$('ping').textContent='FEHLER: '+e.message;}
   try{const data=await jsonp('snapshot');if(!Array.isArray(data.players))throw Error('Ungültige Serverantwort');
    $('snapshot').className='ok';$('snapshot').textContent='OK – '+data.players.length+' gemeinsame Spieler in dieser Google-Tabelle.'+

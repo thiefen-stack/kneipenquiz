@@ -39,7 +39,7 @@
       if (a.kind !== 'answer' || a.playerId !== playerId) return;
       const id=String(a.questionId), q=p[id] || zeroProgress();
       const duration = Math.max(0, Number(a.responseMs)||0);
-      const correct = !!a.correct && duration <= (a.mode==='daily'?10000:30000);
+      const correct = !!a.correct && duration <= (a.mode==='daily'?20000:60000);
       const hint = !!a.hintUsed, earned = earnedFor(q,correct,hint,score);
       score += earned; q.seen++;q.correct+=correct?1:0;q.wrong+=correct?0:1;
       q.streak=correct?q.streak+1:0;q.lastCorrect=correct;q.hintEver=q.hintEver||hint;
@@ -53,7 +53,7 @@
   function zero() { return { sessions:0,answered:0,uniqueAnswered:0,correct:0,best:0,points:0,hints:0,totalMs:0,avgMs:0,currentStreak:0,longestStreak:0 }; }
   function addAnswer(stat, a) {
     stat.answered++;
-    if (a.correct && Number(a.responseMs||0) <= (a.mode==='daily'?10000:30000)) stat.correct++;
+    if (a.correct && Number(a.responseMs||0) <= (a.mode==='daily'?20000:60000)) stat.correct++;
     if (a.hintUsed) stat.hints++;
     stat.totalMs += Math.max(0, Number(a.responseMs) || 0);
   }
@@ -276,7 +276,7 @@
     return migrationPromise;
   }
   async function reserveDaily(sessionId) {
-    if (!central || !online || getBackendVersion() !== '0.7' || state.backendBuild !== '0.7.1') throw new Error('Tagesquiz benötigt Apps Script 0.7.1 und eine Serververbindung.');
+    if (!central || !online || getBackendVersion() !== '0.7' || state.backendBuild !== '0.7.2') throw new Error('Tagesquiz benötigt Apps Script 0.7.2 und eine Serververbindung.');
     await refresh();
     const dayKey = state.dayKey;
     if (!dayKey) throw new Error('Kein gültiger Quiztag vom Server empfangen.');

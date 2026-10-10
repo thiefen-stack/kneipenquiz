@@ -1,4 +1,4 @@
-/* KNEIPENQUIZ_V070 */
+/* KNEIPENQUIZ_V072 */
 (() => {
   const BASE = window.QUIZ_QUESTIONS || [];
   let imported = JSON.parse(localStorage.getItem('bq_imported') || '[]');
@@ -17,7 +17,7 @@
   let mistakes = new Set();
   let mastery = {};
   let sessionId = '', hintsRemaining = 0, hintsUsed = 0, questionStartedAt = 0;
-  let sessionMode='original', sessionDayKey='',timerHandle=null,limitMs=30000,submittedMs=0;
+  let sessionMode='original', sessionDayKey='',timerHandle=null,limitMs=60000,submittedMs=0;
   let trainingProgressCache={};
   const progressKey = name => `bq_v06_${profiles.getActive()?.id || 'none'}_${name}`;
   function loadPlayerProgress(){
@@ -167,7 +167,7 @@
       session=session.filter(q=>q.choices?.length>=2&&!q.taskType&&!q.audioLocal).map(q=>({...q,renderType:'choice'}));
       if(!session.length){alert('Für diese Auswahl stehen keine Auswahlfragen zur Verfügung.');return false;}
     } else session=session.map(q=>({...q,renderType:'text'}));
-    index=0; answers=[]; sessionMode=mode;sessionDayKey='';limitMs=30000;
+    index=0; answers=[]; sessionMode=mode;sessionDayKey='';limitMs=60000;
     sessionId = 's-' + (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random());
     hintsRemaining = Math.floor(session.length / 10); hintsUsed = 0;
     renderQuestion(); show('quiz'); return true;
@@ -587,7 +587,7 @@
     const btn=$('#dailyStartBtn');
     if(!profiles.getActive())throw Error('Bitte Spieler auswählen.');
     const status=profiles.getStatus();
-    if(!status.central||!status.online||status.version!=='0.7'||status.build!=='0.7.1')throw Error('Das Tagesquiz benötigt eine aktive Google-Verbindung und Apps Script 0.7.1. Bitte den aktualisierten Backend-Code bereitstellen.');
+    if(!status.central||!status.online||status.version!=='0.7'||status.build!=='0.7.2')throw Error('Das Tagesquiz benötigt eine aktive Google-Verbindung und Apps Script 0.7.2. Bitte den aktualisierten Backend-Code bereitstellen.');
     dailyStarting=true;btn.disabled=true;btn.textContent='Tagesquiz wird reserviert …';
     try{
       await profiles.flush();
@@ -604,7 +604,7 @@
       const answeredIds=new Set(previous.map(a=>String(a.id)));
       const nextIndex=questions.findIndex(q=>!answeredIds.has(String(q.id)));
       if(nextIndex<0)throw Error('Alle zehn Tagesfragen wurden bereits beantwortet. Die Auswertung wird synchronisiert.');
-      session=questions;sessionMode='daily';sessionDayKey=reservation.dayKey;limitMs=10000;
+      session=questions;sessionMode='daily';sessionDayKey=reservation.dayKey;limitMs=20000;
       sessionId=reservation.sessionId;index=nextIndex;
       answers=previous.map(a=>{
         const q=questions.find(q=>String(q.id)===String(a.id));
@@ -621,11 +621,11 @@
     const s=profiles.getStatus(),day=profiles.getDaily();
     if(!s.central){panel.textContent='Für das gemeinsame Tagesquiz muss der Google-Server verbunden sein.';btn.disabled=true;}
     else if(!s.online){panel.textContent='Offline: Das Tagesquiz startet nur bei aktiver Verbindung.';btn.disabled=true;}
-    else if(s.version!=='0.7'||s.build!=='0.7.1'){panel.textContent='Bitte zuerst Google Apps Script 0.7.1 als neue Web-App-Version bereitstellen.';btn.disabled=true;}
+    else if(s.version!=='0.7'||s.build!=='0.7.2'){panel.textContent='Bitte zuerst Google Apps Script 0.7.2 als neue Web-App-Version bereitstellen.';btn.disabled=true;}
     else if(day.reservedSessionId){
       panel.textContent=day.completed?`Heute bereits gespielt: ${day.result?.correct??'–'} von 10 richtig. Morgen gibt es ein neues Quiz.`:'Tagesquiz bereits reserviert. Du kannst dieselbe Runde fortsetzen.';
       btn.disabled=!!day.completed;
-    } else {panel.textContent=`${day.dayKey||'Heute'} · 10 gleiche Multiple-Choice-Fragen für alle · 10 Sekunden je Frage · keine Tipps.`;btn.disabled=false;}
+    } else {panel.textContent=`${day.dayKey||'Heute'} · 10 gleiche Multiple-Choice-Fragen für alle · 20 Sekunden je Frage · keine Tipps.`;btn.disabled=false;}
     btn.textContent=day.reservedSessionId?(day.completed?'Heute bereits gespielt':'Tagesquiz fortsetzen'):'Tagesquiz starten';
     if(dailyStarting){btn.disabled=true;btn.textContent='Tagesquiz wird reserviert …';}
     const entries=day.leaderboard||[];
