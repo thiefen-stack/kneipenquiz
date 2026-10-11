@@ -344,7 +344,30 @@ window.QUIZ_QUESTIONS = [
       "Spanisch",
       "Chinesisch"
     ],
-    "explanation": "Zu den sechs UN-Amtssprachen gehören Arabisch, Chinesisch, Englisch, Französisch, Russisch und Spanisch. In der Auswahl waren Englisch, Spanisch und Chinesisch korrekt."
+    "explanation": "Zu den sechs UN-Amtssprachen gehören Arabisch, Chinesisch, Englisch, Französisch, Russisch und Spanisch. In der Auswahl waren Englisch, Spanisch und Chinesisch korrekt.",
+    "acceptThreeFrom": [
+      [
+        "Arabisch"
+      ],
+      [
+        "Chinesisch",
+        "Mandarin",
+        "Hochchinesisch"
+      ],
+      [
+        "Englisch"
+      ],
+      [
+        "Französisch",
+        "Franzoesisch"
+      ],
+      [
+        "Russisch"
+      ],
+      [
+        "Spanisch"
+      ]
+    ]
   },
   {
     "id": 19,
@@ -533,7 +556,55 @@ window.QUIZ_QUESTIONS = [
       "Die Verwandlung",
       "Das Schloss"
     ],
-    "explanation": "Der Prozess, Die Verwandlung und Das Schloss stammen von Franz Kafka."
+    "explanation": "Der Prozess, Die Verwandlung und Das Schloss stammen von Franz Kafka.",
+    "acceptThreeFrom": [
+      [
+        "Der Prozess",
+        "Der Prozeß",
+        "Prozess",
+        "Prozeß"
+      ],
+      [
+        "Die Verwandlung",
+        "Verwandlung"
+      ],
+      [
+        "Das Schloss",
+        "Das Schloß",
+        "Schloss",
+        "Schloß"
+      ],
+      [
+        "Das Urteil",
+        "Urteil"
+      ],
+      [
+        "In der Strafkolonie"
+      ],
+      [
+        "Ein Hungerkünstler",
+        "Hungerkünstler"
+      ],
+      [
+        "Brief an den Vater"
+      ],
+      [
+        "Der Verschollene",
+        "Amerika"
+      ],
+      [
+        "Vor dem Gesetz"
+      ],
+      [
+        "Der Bau"
+      ],
+      [
+        "Forschungen eines Hundes"
+      ],
+      [
+        "Beschreibung eines Kampfes"
+      ]
+    ]
   },
   {
     "id": 29,
@@ -700,7 +771,7 @@ window.QUIZ_QUESTIONS = [
     "id": 38,
     "category": "Literatur",
     "difficulty": "anspruchsvoll",
-    "q": "Nenne drei Werke von Umberto Eco.",
+    "q": "Nenne drei Romane von Umberto Eco.",
     "answer": "Der Name der Rose, Das Foucaultsche Pendel und Baudolino",
     "aliases": [
       "der name der rose das foucaultsche pendel baudolino",
@@ -719,7 +790,36 @@ window.QUIZ_QUESTIONS = [
       "Das Foucaultsche Pendel",
       "Baudolino"
     ],
-    "explanation": "Der Name der Rose, Das Foucaultsche Pendel und Baudolino stammen von Umberto Eco."
+    "explanation": "Der Name der Rose, Das Foucaultsche Pendel und Baudolino stammen von Umberto Eco.",
+    "acceptThreeFrom": [
+      [
+        "Der Name der Rose",
+        "Name der Rose"
+      ],
+      [
+        "Das Foucaultsche Pendel",
+        "Foucaultsches Pendel",
+        "Foucaultsche Pendel"
+      ],
+      [
+        "Die Insel des vorigen Tages",
+        "Insel des vorigen Tages"
+      ],
+      [
+        "Baudolino"
+      ],
+      [
+        "Die geheimnisvolle Flamme der Königin Loana",
+        "Geheimnisvolle Flamme der Königin Loana"
+      ],
+      [
+        "Der Friedhof in Prag",
+        "Friedhof in Prag"
+      ],
+      [
+        "Nullnummer"
+      ]
+    ]
   },
   {
     "id": 39,
@@ -816,14 +916,21 @@ window.QUIZ_QUESTIONS = [
     "id": 45,
     "category": "Sprache",
     "difficulty": "anspruchsvoll",
-    "q": "Buchstabiere „Koryphäe“.",
+    "q": "Welche Schreibweise ist korrekt?",
     "answer": "Koryphäe",
     "aliases": [
       "koryphäe"
     ],
     "explanation": "Die korrekte Schreibweise lautet K-o-r-y-p-h-ä-e.",
     "strictSpelling": true,
-    "origin": "Originalfrage"
+    "origin": "Originalfrage",
+    "choices": [
+      "Koryphäe",
+      "Koriphäe",
+      "Koryphée",
+      "Koryphee"
+    ],
+    "forceChoice": true
   },
   {
     "id": 46,
@@ -1042,27 +1149,29 @@ window.QUIZ_QUESTIONS = [
     "id": 57,
     "category": "Wissenschaft",
     "difficulty": "mittel",
-    "q": "Wie viel Blut fließt bei einem Erwachsenen ungefähr pro Tag durch beide Nieren?",
-    "answer": "etwa 1.800 Liter",
+    "q": "Wie viele Liter Blut durchströmen ungefähr beide Nieren eines Erwachsenen pro Tag?",
+    "answer": "etwa 1.700 Liter",
     "aliases": [
-      "1800 liter",
-      "1.800 liter",
-      "etwa 1800 liter",
-      "ca 1800 liter",
       "1700 liter",
-      "1.700 liter"
+      "1.700 liter",
+      "etwa 1700 liter",
+      "ca 1700 liter",
+      "1600 liter",
+      "1500 liter",
+      "1800 liter"
     ],
     "choices": [
       "etwa 180 Liter",
       "etwa 600 Liter",
-      "etwa 1.800 Liter",
+      "etwa 1.700 Liter",
       "etwa 5.000 Liter"
     ],
-    "explanation": "Je nach Quelle werden etwa 1.700 bis 1.800 Liter pro Tag angegeben; rund 1,2 Liter pro Minute fließen durch beide Nieren.",
+    "explanation": "Die beiden Nieren werden mit etwa 1,0 bis 1,2 Litern Blut pro Minute durchströmt; das sind grob 1.400 bis 1.700 Liter täglich. Gerundete Schätzwerte sind zulässig.",
     "origin": "Originalfrage",
     "numeric": {
-      "value": 1800,
-      "tolerance": 150
+      "value": 1700,
+      "tolerance": 300,
+      "unit": "liter"
     }
   },
   {
@@ -1762,7 +1871,7 @@ window.QUIZ_QUESTIONS = [
     "id": 78,
     "category": "Berlin",
     "difficulty": "mittel",
-    "q": "Auf welcher Berliner Insel liegt Schloss Pfaueninsel?",
+    "q": "Wie heißt die Berliner Havelinsel mit dem bekannten weißen Lustschloss?",
     "answer": "Pfaueninsel",
     "aliases": [
       "pfaueninsel"
@@ -1915,7 +2024,20 @@ window.QUIZ_QUESTIONS = [
       "deutschland schweiz österreich",
       "deutschland schweiz oesterreich"
     ],
-    "explanation": "An den Bodensee grenzen Deutschland, Österreich und die Schweiz."
+    "explanation": "An den Bodensee grenzen Deutschland, Österreich und die Schweiz.",
+    "acceptUnordered": [
+      [
+        "Deutschland"
+      ],
+      [
+        "Österreich",
+        "Oesterreich"
+      ],
+      [
+        "Schweiz",
+        "Die Schweiz"
+      ]
+    ]
   },
   {
     "id": 88,
@@ -7448,7 +7570,21 @@ window.QUIZ_QUESTIONS = [
       "Laufen, Fechten und Radfahren",
       "Schwimmen, Radfahren und Laufen"
     ],
-    "explanation": "Triathlon kombiniert Schwimmen, Radfahren und Laufen."
+    "explanation": "Triathlon kombiniert Schwimmen, Radfahren und Laufen.",
+    "acceptUnordered": [
+      [
+        "Schwimmen"
+      ],
+      [
+        "Radfahren",
+        "Rad fahren",
+        "Fahrradfahren",
+        "Fahrrad fahren"
+      ],
+      [
+        "Laufen"
+      ]
+    ]
   },
   {
     "id": 426,
@@ -8283,49 +8419,65 @@ window.QUIZ_QUESTIONS = [
     "id": 482,
     "category": "Sprache",
     "difficulty": "anspruchsvoll",
-    "q": "Buchstabiere „Rhythmus“.",
+    "q": "Welche Schreibweise ist korrekt?",
     "answer": "Rhythmus",
     "choices": [
-      "rhythmus"
+      "Rhythmus",
+      "Rythmus",
+      "Rhytmus",
+      "Rythums"
     ],
     "explanation": "Die korrekte Schreibweise lautet R-h-y-t-h-m-u-s.",
-    "strictSpelling": true
+    "strictSpelling": true,
+    "forceChoice": true
   },
   {
     "id": 483,
     "category": "Sprache",
     "difficulty": "anspruchsvoll",
-    "q": "Buchstabiere „Silhouette“.",
+    "q": "Welche Schreibweise ist korrekt?",
     "answer": "Silhouette",
     "choices": [
-      "silhouette"
+      "Silhouette",
+      "Siluette",
+      "Silhouete",
+      "Silluette"
     ],
     "explanation": "Die korrekte Schreibweise lautet S-i-l-h-o-u-e-t-t-e.",
-    "strictSpelling": true
+    "strictSpelling": true,
+    "forceChoice": true
   },
   {
     "id": 484,
     "category": "Sprache",
     "difficulty": "anspruchsvoll",
-    "q": "Buchstabiere „Akquise“.",
+    "q": "Welche Schreibweise ist korrekt?",
     "answer": "Akquise",
     "choices": [
-      "akquise"
+      "Akquise",
+      "Aquise",
+      "Akquiese",
+      "Akquisse"
     ],
     "explanation": "Die korrekte Schreibweise lautet A-k-q-u-i-s-e.",
-    "strictSpelling": true
+    "strictSpelling": true,
+    "forceChoice": true
   },
   {
     "id": 485,
     "category": "Sprache",
     "difficulty": "anspruchsvoll",
-    "q": "Buchstabiere „Chrysantheme“.",
+    "q": "Welche Schreibweise ist korrekt?",
     "answer": "Chrysantheme",
     "choices": [
-      "chrysantheme"
+      "Chrysantheme",
+      "Chrysanteme",
+      "Krysantheme",
+      "Chrysanthemme"
     ],
     "explanation": "Die korrekte Schreibweise lautet C-h-r-y-s-a-n-t-h-e-m-e.",
-    "strictSpelling": true
+    "strictSpelling": true,
+    "forceChoice": true
   },
   {
     "id": 486,
@@ -8387,7 +8539,7 @@ window.QUIZ_QUESTIONS = [
     "id": 490,
     "category": "Sprache",
     "difficulty": "mittel",
-    "q": "Welche Schreibweise ist korrekt für die Konjunktion in „Ich weiß, ___ du kommst“?",
+    "q": "Welche Schreibweise ist nach heutiger Rechtschreibung korrekt für die Konjunktion in „Ich weiß, ___ du kommst“?",
     "answer": "dass",
     "choices": [
       "daß",
@@ -8395,7 +8547,8 @@ window.QUIZ_QUESTIONS = [
       "dass",
       "das"
     ],
-    "explanation": "Als Konjunktion wird „dass“ mit Doppel-s geschrieben."
+    "explanation": "Als Konjunktion wird „dass“ mit Doppel-s geschrieben.",
+    "strictSpelling": true
   },
   {
     "id": 491,
@@ -8418,10 +8571,15 @@ window.QUIZ_QUESTIONS = [
     "q": "Wie geht die Reihe weiter? 1 – 3 – 6 – 10 – 15 – ?",
     "answer": "21",
     "choices": [
+      "19",
+      "20",
       "21",
-      "einundzwanzig"
+      "22"
     ],
-    "explanation": "Die Abstände sind +2, +3, +4, +5 und anschließend +6."
+    "explanation": "Die Abstände sind +2, +3, +4, +5 und anschließend +6.",
+    "aliases": [
+      "einundzwanzig"
+    ]
   },
   {
     "id": 493,
@@ -8430,10 +8588,15 @@ window.QUIZ_QUESTIONS = [
     "q": "Wie geht die Reihe weiter? 81 – 27 – 9 – 3 – ?",
     "answer": "1",
     "choices": [
+      "0",
       "1",
-      "eins"
+      "2",
+      "3"
     ],
-    "explanation": "Jede Zahl wird durch 3 geteilt."
+    "explanation": "Jede Zahl wird durch 3 geteilt.",
+    "aliases": [
+      "eins"
+    ]
   },
   {
     "id": 494,
@@ -8442,10 +8605,15 @@ window.QUIZ_QUESTIONS = [
     "q": "Wie geht die Reihe weiter? 2 – 3 – 5 – 8 – 12 – 17 – ?",
     "answer": "23",
     "choices": [
+      "21",
+      "22",
       "23",
-      "dreiundzwanzig"
+      "24"
     ],
-    "explanation": "Die Abstände wachsen: +1, +2, +3, +4, +5, danach +6."
+    "explanation": "Die Abstände wachsen: +1, +2, +3, +4, +5, danach +6.",
+    "aliases": [
+      "dreiundzwanzig"
+    ]
   },
   {
     "id": 495,
@@ -8454,23 +8622,33 @@ window.QUIZ_QUESTIONS = [
     "q": "Wie geht die Reihe weiter? 1 – 4 – 9 – 16 – 25 – ?",
     "answer": "36",
     "choices": [
+      "30",
+      "34",
       "36",
-      "sechsunddreissig",
-      "sechsunddreißig"
+      "49"
     ],
-    "explanation": "Die Folge besteht aus Quadratzahlen: 1², 2², 3², 4², 5², 6²."
+    "explanation": "Die Folge besteht aus Quadratzahlen: 1², 2², 3², 4², 5², 6².",
+    "aliases": [
+      "sechsunddreißig",
+      "sechsunddreissig"
+    ]
   },
   {
     "id": 496,
     "category": "Logik & Zahlen",
     "difficulty": "mittel",
-    "q": "Was ergibt 30 geteilt durch ein Halb plus 10?",
+    "q": "Wie viel ergibt 30 geteilt durch 0,5 und anschließend plus 10?",
     "answer": "70",
     "choices": [
+      "25",
+      "40",
       "70",
-      "siebzig"
+      "100"
     ],
-    "explanation": "Durch 0,5 teilen verdoppelt: 30 / 0,5 = 60; plus 10 ergibt 70."
+    "explanation": "Durch 0,5 teilen verdoppelt: 30 / 0,5 = 60; plus 10 ergibt 70.",
+    "aliases": [
+      "siebzig"
+    ]
   },
   {
     "id": 497,
@@ -8479,11 +8657,17 @@ window.QUIZ_QUESTIONS = [
     "q": "Welchen kleineren Winkel bilden Stunden- und Minutenzeiger genau um 6:00 Uhr?",
     "answer": "180 Grad",
     "choices": [
-      "180",
-      "180 grad",
-      "180°"
+      "45 Grad",
+      "90 Grad",
+      "120 Grad",
+      "180 Grad"
     ],
-    "explanation": "Um 6:00 Uhr stehen die Zeiger einander gegenüber."
+    "explanation": "Um 6:00 Uhr stehen die Zeiger einander gegenüber.",
+    "aliases": [
+      "180",
+      "180°",
+      "180 grad"
+    ]
   },
   {
     "id": 498,
@@ -8492,10 +8676,15 @@ window.QUIZ_QUESTIONS = [
     "q": "Du hast drei Äpfel und nimmst zwei davon. Wie viele Äpfel hast du dann?",
     "answer": "2",
     "choices": [
+      "1",
       "2",
-      "zwei"
+      "3",
+      "4"
     ],
-    "explanation": "Die zwei genommenen Äpfel hast du in der Hand."
+    "explanation": "Die zwei genommenen Äpfel hast du in der Hand.",
+    "aliases": [
+      "zwei"
+    ]
   },
   {
     "id": 499,
@@ -8504,11 +8693,20 @@ window.QUIZ_QUESTIONS = [
     "q": "Ein Arzt gibt dir drei Tabletten und sagt: „Nimm alle 30 Minuten eine.“ Wie lange dauert es, bis alle drei genommen sind?",
     "answer": "1 Stunde",
     "choices": [
-      "1 stunde",
-      "60 minuten",
-      "eine stunde"
+      "30 Minuten",
+      "45 Minuten",
+      "1 Stunde",
+      "90 Minuten"
     ],
-    "explanation": "Die erste nimmst du sofort, die zweite nach 30 Minuten, die dritte nach 60 Minuten."
+    "explanation": "Die erste nimmst du sofort, die zweite nach 30 Minuten, die dritte nach 60 Minuten.",
+    "aliases": [
+      "60 Minuten",
+      "60 min",
+      "eine Stunde",
+      "1 h",
+      "1 std",
+      "1:00 Stunde"
+    ]
   },
   {
     "id": 500,
@@ -8528,10 +8726,15 @@ window.QUIZ_QUESTIONS = [
     "q": "Eine Familie hat zwei Eltern und sechs Söhne. Alle Söhne haben dieselbe Schwester. Wie viele Personen gehören zur Familie?",
     "answer": "9",
     "choices": [
+      "7",
+      "8",
       "9",
-      "neun"
+      "10"
     ],
-    "explanation": "2 Eltern + 6 Söhne + 1 gemeinsame Schwester = 9 Personen."
+    "explanation": "2 Eltern + 6 Söhne + 1 gemeinsame Schwester = 9 Personen.",
+    "aliases": [
+      "neun"
+    ]
   },
   {
     "id": 502,
@@ -8540,11 +8743,16 @@ window.QUIZ_QUESTIONS = [
     "q": "Wie viele Kanten hat ein Würfel?",
     "answer": "12",
     "choices": [
-      "12",
+      "6",
+      "8",
+      "10",
+      "12"
+    ],
+    "explanation": "Ein Würfel hat 6 Flächen, 8 Ecken und 12 Kanten.",
+    "aliases": [
       "zwölf",
       "zwoelf"
-    ],
-    "explanation": "Ein Würfel hat 6 Flächen, 8 Ecken und 12 Kanten."
+    ]
   },
   {
     "id": 503,
@@ -8553,12 +8761,21 @@ window.QUIZ_QUESTIONS = [
     "q": "Wie groß ist die Wahrscheinlichkeit, bei drei fairen Münzwürfen dreimal Kopf zu erhalten?",
     "answer": "1/8",
     "choices": [
+      "1/2",
+      "1/4",
       "1/8",
-      "12,5%",
-      "12.5 prozent",
-      "ein achtel"
+      "1/16"
     ],
-    "explanation": "Es gibt 2³ = 8 gleich wahrscheinliche Folgen; nur eine davon ist Kopf-Kopf-Kopf."
+    "explanation": "Es gibt 2³ = 8 gleich wahrscheinliche Folgen; nur eine davon ist Kopf-Kopf-Kopf.",
+    "aliases": [
+      "12,5 %",
+      "12.5 %",
+      "12,5 Prozent",
+      "12.5 Prozent",
+      "0,125",
+      "0.125",
+      "ein Achtel"
+    ]
   },
   {
     "id": 504,
@@ -8567,11 +8784,20 @@ window.QUIZ_QUESTIONS = [
     "q": "Was ist schwerer: ein Kilogramm Eisen oder ein Kilogramm Federn?",
     "answer": "Beide sind gleich schwer",
     "choices": [
+      "Das Eisen",
+      "Die Federn",
+      "Beide sind gleich schwer",
+      "Nicht vergleichbar"
+    ],
+    "explanation": "Beide Massen betragen exakt ein Kilogramm.",
+    "aliases": [
       "gleich schwer",
       "beide gleich",
-      "beide sind gleich schwer"
-    ],
-    "explanation": "Beide Massen betragen exakt ein Kilogramm."
+      "beide sind gleich schwer",
+      "beide wiegen gleich viel",
+      "beides wiegt gleich viel",
+      "gleich viel"
+    ]
   },
   {
     "id": 505,
@@ -8580,10 +8806,15 @@ window.QUIZ_QUESTIONS = [
     "q": "Welche Zahl fehlt? 5 – 10 – 20 – 40 – ? – 160",
     "answer": "80",
     "choices": [
+      "60",
+      "70",
       "80",
-      "achtzig"
+      "90"
     ],
-    "explanation": "Jede Zahl wird verdoppelt."
+    "explanation": "Jede Zahl wird verdoppelt.",
+    "aliases": [
+      "achtzig"
+    ]
   },
   {
     "id": 506,
@@ -8592,11 +8823,18 @@ window.QUIZ_QUESTIONS = [
     "q": "Ein Rechteck ist 8 cm lang und 5 cm breit. Wie groß ist sein Umfang?",
     "answer": "26 cm",
     "choices": [
-      "26",
+      "13 cm",
       "26 cm",
-      "26 zentimeter"
+      "40 cm",
+      "80 cm"
     ],
-    "explanation": "Der Umfang ist 2 × (8 + 5) = 26 cm."
+    "explanation": "Der Umfang ist 2 × (8 + 5) = 26 cm.",
+    "aliases": [
+      "26",
+      "26cm",
+      "26 cm",
+      "26 Zentimeter"
+    ]
   },
   {
     "id": 507,

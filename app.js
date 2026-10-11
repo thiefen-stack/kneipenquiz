@@ -1,4 +1,4 @@
-/* KNEIPENQUIZ_V073: interne Zurueck-Navigation in Browser und PWA */
+/* KNEIPENQUIZ_V074: Qualität der Antworten, Navigation weiterhin wie 0.7.3 */
 (() => {
   const BASE = window.QUIZ_QUESTIONS || [];
   let imported = JSON.parse(localStorage.getItem('bq_imported') || '[]');
@@ -139,15 +139,47 @@
     const n=normalize(input); if(!n) return false;
     const vals=[expected,...aliases].filter(Boolean).map(normalize);
     if(vals.includes(n)) return true;
-    return vals.some(v=>v.length>=6 && Math.abs(v.length-n.length)<=2 && levenshtein(v,n)<=1);
+    // Buchstaben-Tippfehler dulden, aber niemals Ziffern oder falsche Zahlenwerte.
+    // Rechtschreibfragen bleiben sowieso strikt.
+    return vals.some(v=>v.length>=6 && Math.abs(v.length-n.length)<=2 &&
+      /^[a-z ]+$/.test(v) && /^[a-z ]+$/.test(n) && levenshtein(v,n)<=1);
+  }
+  function matchList(input, groups, required=3){
+    // Aufzählungen werden als Mengen verglichen: beliebige Reihenfolge, keine Dopplungen.
+    // Falsche oder überzählige Begriffe machen die Gesamtantwort ungültig.
+    let parts=String(input).split(/\s*(?:[,;]|\bund\b|\bsowie\b|&)\s*/i)
+      .map(x=>normalize(x)).filter(Boolean);
+    // Häufige Kurzform ohne Kommas: drei einzelne Ländernamen/Sprachen.
+    if(parts.length===1 && groups.every(group=>group.some(term=>!normalize(term).includes(' ')))){
+      const words=normalize(input).split(' ').filter(Boolean);
+      if(words.length===required)parts=words;
+    }
+    if(parts.length!==required) return false;
+    const matched=new Set();
+    for(const part of parts){
+      const idx=groups.findIndex((synonyms,i)=>!matched.has(i) &&
+        synonyms.some(option=>simpleMatch(part,option)));
+      if(idx===-1)return false;
+      matched.add(idx);
+    }
+    return matched.size===required;
   }
   function textCorrect(input,q){
     if(q.strictSpelling){
       const n=normalizeSpelling(input);
       return [q.answer,...(q.aliases||[])].some(v=>normalizeSpelling(v)===n);
     }
+    if(q.acceptThreeFrom) return matchList(input,q.acceptThreeFrom,3) ||
+      simpleMatch(input,q.answer,q.aliases||[]);
+    if(q.acceptUnordered) return matchList(input,q.acceptUnordered,q.acceptUnordered.length);
     if(q.numeric){
-      const num=parseNumber(input);
+      // Bei Litern nur Zahlen mit passender (oder ohne) Einheit akzeptieren.
+      // Keine zufällige 4-stellige Zahl innerhalb eines sonst falschen Texts auslesen.
+      const raw=String(input).trim();
+      const valid=q.numeric.unit==='liter'
+        ? /^(?:(?:ca\.?|circa|etwa|ungefähr|ungefahr|rund)\s*)?\d[\d.\s]*(?:,\d+)?\s*(?:l|liter|litern)?(?:\s*(?:pro tag|am tag|täglich))?[.!]?$/i.test(raw)
+        : true;
+      const num=valid?parseNumber(input):NaN;
       if(Number.isFinite(num) && Math.abs(num-Number(q.numeric.value))<=Number(q.numeric.tolerance||0)) return true;
     }
     if(q.keywords?.length){
@@ -195,9 +227,13 @@
     if (!profiles.getActive()) { show('playerGate'); return false; }
     const cat=$('#categorySelect').value;
     const focus=mistakeOnly?'weak':$('#trainFocus').value;
+    const mode=$('#modeSelect').value;
     trainingProgressCache=profiles.getQuestionProgress();
     const diff=$('#difficultySelect')?.value||'all';
-    let pool=bank.filter(q=>(cat==='all'||q.category===cat) && (diff==='all'||q.difficulty===diff) && (!mistakeOnly || mistakes.has(q.id) || (trainingProgressCache[String(q.id)]?.wrong||0)>0));
+    // Rechtschreib-Auswahlfragen im reinen Freitext-Modus überspringen.
+    let pool=bank.filter(q=>(cat==='all'||q.category===cat) && (diff==='all'||q.difficulty===diff) &&
+      (mode!=='text'||!q.forceChoice) &&
+      (!mistakeOnly || mistakes.has(q.id) || (trainingProgressCache[String(q.id)]?.wrong||0)>0));
     const onlyNew = !mistakeOnly && ($('#unseenOnly').checked || focus==='unseen');
     if (onlyNew) {
       const seen = profiles.getSeenIds();
@@ -219,12 +255,12 @@
     const desired=requested===0?pool.length:Math.min(requested,pool.length);
     session=weightedSample(pool,desired);
     if(focus==='weak')session.sort((a,b)=> (trainingProgressCache[String(b.id)]?.wrong||0)-(trainingProgressCache[String(a.id)]?.wrong||0));
-    const mode=$('#modeSelect').value;
     if(mode==='original'){
-      const eligible=shuffle(session.filter(q=>Array.isArray(q.choices)&&q.choices.length>=2&&!q.taskType&&!q.audioLocal));
-      const choiceCount=Math.min(eligible.length, Math.max(1,Math.round(session.length*.20)));
+      const forced=session.filter(q=>q.forceChoice).length;
+      const eligible=shuffle(session.filter(q=>!q.forceChoice && Array.isArray(q.choices)&&q.choices.length>=2&&!q.taskType&&!q.audioLocal));
+      const choiceCount=Math.min(eligible.length,Math.max(0,Math.round(session.length*.20)-forced));
       const ids=new Set(eligible.slice(0,choiceCount).map(q=>String(q.id)));
-      session=session.map(q=>({...q,renderType:ids.has(String(q.id))?'choice':'text'}));
+      session=session.map(q=>({...q,renderType:q.forceChoice||ids.has(String(q.id))?'choice':'text'}));
     } else if(mode==='choice'){
       session=session.filter(q=>q.choices?.length>=2&&!q.taskType&&!q.audioLocal).map(q=>({...q,renderType:'choice'}));
       if(!session.length){alert('Für diese Auswahl stehen keine Auswahlfragen zur Verfügung.');return false;}
@@ -330,6 +366,9 @@
   }
 
   function buildHintChoices(q){
+    // Bereits redaktionell kuratierte Auswahl verwenden, bevor zufällige Ablenker entstehen.
+    if(!q.multi && Array.isArray(q.choices) && q.choices.length===4 &&
+       q.choices.some(c=>normalize(c)===normalize(q.answer))) return shuffle(q.choices);
     const correct = String(q.answer || '').trim();
     if (!correct) return [];
     const values = [correct];
@@ -383,7 +422,9 @@
       if(q.multi){
         const a=[...selected].map(normalize).sort(); const b=[...(q.correctChoices||[])].map(normalize).sort();
         correct=JSON.stringify(a)===JSON.stringify(b);
-      } else correct=normalize(selected[0])===normalize(q.answer);
+      } else correct=q.strictSpelling
+        ? normalizeSpelling(selected[0])===normalizeSpelling(q.answer)
+        : normalize(selected[0])===normalize(q.answer);
     } else {
       given=$('#textAnswer')?.value||'';
       if(!given.trim())return;
