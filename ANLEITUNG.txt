@@ -1,0 +1,66 @@
+KNEIPENQUIZ 0.7.5 – ZAHLEN UND SCHNELLERER START
+===============================================
+
+WICHTIG: Das ist ein gezielter Patch fuer die derzeitige GitHub-Version 0.7.4.
+Er ersetzt NICHT die ganze Anwendung, damit keine neueren Aenderungen verloren gehen.
+
+INSTALLATION UNTER WINDOWS 11
+----------------------------
+1. GitHub Desktop oeffnen -> Repository -> Show in Explorer.
+2. Die Dateien INSTALLIEREN_075.cmd und Update_Kneipenquiz_075.ps1 aus
+   diesem ZIP direkt in den Ordner kopieren, in dem app.js und index.html liegen.
+3. INSTALLIEREN_075.cmd doppelt anklicken. Eine Konsole oeffnet sich.
+4. Erfolgsmeldung abwarten: "KNEIPENQUIZ 0.7.5 erfolgreich eingebaut."
+   Der Patch prueft die benoetigten Fundstellen vor jeder Veraenderung.
+   Bei einem Fehler wird nichts geaendert.
+5. Danach INSTALLIEREN_075.cmd und Update_Kneipenquiz_075.ps1 aus dem
+   Repository-Ordner loeschen (sollten NICHT mit zu GitHub hochgeladen werden).
+6. GitHub Desktop: die vier geaenderten Quelldateien pruefen, Commit, Push origin.
+7. https://quiz.thiefen.de neu laden. Bei installierter App ggf. beenden
+   und noch einmal oeffnen, damit der neue Service Worker aktiv wird.
+
+Die bisherigen Originaldateien werden vor der Installation separat unter
+%LOCALAPPDATA%\Kneipenquiz\Backups\Sicherung-vor-075-... gesichert.
+Kein Loeschen des Browser-Speichers erforderlich.
+
+NEU IN 0.7.5
+-----------
+- Numerisch gleichwertige deutsche Zahlwoerter und Ziffern werden erkannt:
+  sechs = 6; zwoelf = 12; sechsundzwanzig = 26; einhundert = 100.
+  Auch bestimmte ausgeschriebene Jahreszahlen koennen erkannt werden.
+- Bewusst keine beliebigen Zahlen in anderen Saetzen: "6 Meter" ist nicht
+  gleich der geforderten einfachen Antwort "6".
+- Beim Oeffnen werden bekannte Spieler ohne Warten auf Google sofort angezeigt.
+- Spielerwechsel wartet nicht mehr blockierend auf einen gesamten Snapshot.
+- Tagesquiz-Start vermeidet doppelte grosse Datenbankabfragen. Eine neue
+  Tagesquiz-Reservierung wird per ACK bestaetigt; die Statistik folgt spaeter.
+- Ein bereits gespieltes Tagesquiz kann dadurch nicht erneut gespielt werden.
+
+UNVERAENDERT
+-----------
+- config.js (Google-Serveradresse)
+- questions.js (512 Fragen)
+- Google-Sheets / Code.gs (Backend 0.7.2)
+- Spieler, Ranglistenpunkte, Abzeichen, Antwortdaten, Tagesquiz-Regeln
+- Zeitgrenzen: normale Fragen 60 s, Tagesquiz 20 s
+
+WAS IST BEI EINEM NOCHMALS LANGSAMEN START?
+------------------------------------------
+Der Start neuer Spieler oder der allererste Besuch auf einem neuen Geraet
+braucht weiterhin eine Serverabfrage. Google Apps Script kann mitunter
+langsam starten. Mit vielen gleichzeitigen Spielern ist eine REST-API auf
+STRATO (PHP + MariaDB) perspektivisch sinnvoll. Dafuer wird allerdings ein
+HTTPS-Endpunkt und eine sorgfaeltige Migration benoetigt. Wir wechseln die
+Datenbank in 0.7.5 bewusst NICHT.
+
+TESTFALL
+--------
+Eine numerische Frage mit der Musterloesung "6" muss die Eingabe "sechs"
+akzeptieren; "sieben" darf nicht akzeptiert werden. Bekannte Spieler sollen
+bereits vor Ende des Google-Abgleichs in der Auswahlliste stehen.
+
+TECHNISCHER HINWEIS
+-------------------
+Fuer dieses Update ist keine neue Apps-Script-Bereitstellung notwendig.
+Die JavaScript-Logik wurde lokal auf Syntax und numerische Beispiele geprueft.
+Ein vollstaendiger Live-Test erfolgt erst nach deinem Push auf GitHub.
