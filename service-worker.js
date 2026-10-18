@@ -1,14 +1,14 @@
-// KNEIPENQUIZ_V074
-const CACHE_NAME = 'kneipenquiz-v0.7.4-20261011-quality';
+// KNEIPENQUIZ_V075
+const CACHE_NAME = 'kneipenquiz-v0.7.5-20261011-quality';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css?v=074',
-  './app.js?v=074',
-  './config.js?v=074',
-  './profiles.js?v=074',
-  './diagnose.html?v=074',
-  './questions.js?v=074',
+  './styles.css?v=075',
+  './app.js?v=075',
+  './config.js?v=075',
+  './profiles.js?v=075',
+  './diagnose.html?v=075',
+  './questions.js?v=075',
   './manifest.webmanifest',
   './assets/brandenburger-tor.svg',
   './assets/flags/austria.svg',

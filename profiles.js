@@ -124,7 +124,8 @@
           state.remoteSeen[playerId] = data.seen || [];
           if (data.progress) state.remoteProgress[playerId] = data.progress;
         }
-        state.remoteDaily = data.daily || null;
+        // Langsame Antworten eines frueheren Spielerprofils nicht zuordnen.
+        if(playerId===state.activeId)state.remoteDaily = data.daily || null;
         state.dayKey = data.dayKey || state.dayKey || '';
         state.backendVersion = data.version || '';
         state.backendBuild = data.build || '';
@@ -168,8 +169,18 @@
   }
   async function selectPlayer(playerId) {
     if (!state.players.some(p => p.id === playerId)) throw new Error('Spieler nicht gefunden.');
-    state.activeId = playerId; persist(); notify();
-    if (central) await refresh().catch(() => {});
+    state.activeId = playerId;
+    // Tagesergebnis ist spielerbezogen und darf nicht vom vorherigen Spieler bleiben.
+    if(central)state.remoteDaily=null;
+    persist(); notify();
+    // Spielerwahl nie durch einen Google-Snapshot blockieren.
+    if(central){
+      const previous=refreshInFlight;
+      Promise.resolve().then(async()=>{
+        if(previous)await previous.catch(()=>{});
+        await refresh().catch(()=>{});
+      });
+    }
     return getActive();
   }
   function queueFlush() {
@@ -276,21 +287,39 @@
     return migrationPromise;
   }
   async function reserveDaily(sessionId) {
-    if (!central || !online || getBackendVersion() !== '0.7' || state.backendBuild !== '0.7.2') throw new Error('Tagesquiz benötigt Apps Script 0.7.2 und eine Serververbindung.');
-    await refresh();
-    const dayKey = state.dayKey;
-    if (!dayKey) throw new Error('Kein gültiger Quiztag vom Server empfangen.');
-    // Vorhandene Serverreservierung niemals duplizieren: dieselbe Runde fortsetzen.
-    if (state.remoteDaily?.reservedSessionId) return {dayKey,sessionId:state.remoteDaily.reservedSessionId};
+    if (!central || !online || getBackendVersion() !== '0.7' || state.backendBuild !== '0.7.2')
+      throw new Error('Tagesquiz benötigt Apps Script 0.7.2 und eine Serververbindung.');
+    const berlinDay=new Intl.DateTimeFormat('sv-SE',{
+      timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit'
+    }).format(new Date());
+    // Nur bei fehlendem oder veraltetem Tages-/Spielerstand den grossen Snapshot laden.
+    if(state.dayKey!==berlinDay || !state.remoteDaily)await refresh();
+    const dayKey=state.dayKey;
+    if(dayKey!==berlinDay)throw new Error('Der Server hat keinen gueltigen Berliner Quiztag bestaetigt.');
+    if(state.remoteDaily?.reservedSessionId)
+      return {dayKey,sessionId:state.remoteDaily.reservedSessionId};
     await send([{kind:'dailyStart',playerId:state.activeId,sessionId,dayKey}]);
-    for (let i=0;i<7;i++) {
-      await wait(350+i*250);
-      await refresh();
-      if (state.remoteDaily?.reservedSessionId) {
-        return {dayKey,sessionId:state.remoteDaily.reservedSessionId};
-      }
+    // ACK liest nur die registrierten Ereignis-IDs und ist deutlich schlanker
+    // als die mehrfache Berechnung der vollstaendigen Rangliste.
+    for(let attempt=0;attempt<6;attempt++){
+      await wait(250+attempt*200);
+      try {
+        const ack=await jsonp('ack',{ids:sessionId});
+        if((ack.ids||[]).includes(sessionId)){
+          state.remoteDaily={...(state.remoteDaily||{}),dayKey,
+            reservedSessionId:sessionId,completed:false,result:null};
+          persist();notify();
+          // Ergebnisse/Rangliste spaeter aktualisieren, Start nicht aufhalten.
+          refresh().catch(()=>{});
+          return {dayKey,sessionId};
+        }
+      }catch(err){if(attempt===5)console.warn('Tagesquiz-Bestaetigung:',err);}
     }
-    throw new Error('Der Quizstart wurde nicht bestätigt. Bitte die Seite aktualisieren – keine weitere Reservierung erzeugen.');
+    // Falls ein anderes Geraet die Tagesrunde zuerst angelegt hat:
+    await refresh();
+    if(state.remoteDaily?.reservedSessionId)
+      return {dayKey,sessionId:state.remoteDaily.reservedSessionId};
+    throw new Error('Tagesquiz-Reservierung noch nicht bestaetigt. Bitte aktualisieren, nicht erneut mehrfach starten.');
   }
   async function init() {
     if (central) {

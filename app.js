@@ -1,4 +1,4 @@
-/* KNEIPENQUIZ_V074: Qualität der Antworten, Navigation weiterhin wie 0.7.3 */
+/* KNEIPENQUIZ_V075: Qualität der Antworten, Navigation weiterhin wie 0.7.3 */
 (() => {
   const BASE = window.QUIZ_QUESTIONS || [];
   let imported = JSON.parse(localStorage.getItem('bq_imported') || '[]');
@@ -135,10 +135,61 @@
     else if(/^[-+]?\d{1,3}(?:\.\d{3})+$/.test(t)) t=t.replace(/\./g,'');
     return Number(t);
   }
+  // 0.7.5: Zahlen und ausgeschriebene deutsche Zahlwoerter gleich bewerten.
+  // Nur VOLLSTAENDIGE Zahlenangaben sind gueltig, niemals Teile eines Satzes.
+  function germanIntegerLiteral(input){
+    const raw=String(input??'').trim().toLocaleLowerCase('de-DE').replace(/[.!?]+$/,'').trim();
+    if (/^\+?(?:\d+|\d{1,3}(?:\.\d{3})+)$/.test(raw)) return Number(raw.replace(/\./g,''));
+    const w=raw.replace(/[\s-]/g,'').replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss');
+    if(!/^[a-z]+$/.test(w))return null;
+    const units={null:0,zero:0,ein:1,eins:1,eine:1,einen:1,zwei:2,drei:3,vier:4,
+      fuenf:5,sechs:6,sieben:7,acht:8,neun:9,zehn:10,elf:11,zwoelf:12,
+      dreizehn:13,vierzehn:14,fuenfzehn:15,sechzehn:16,siebzehn:17,
+      achtzehn:18,neunzehn:19};
+    const tens={zwanzig:20,dreissig:30,vierzig:40,fuenfzig:50,sechzig:60,
+      siebzig:70,achtzig:80,neunzig:90};
+    const has=(obj,key)=>Object.prototype.hasOwnProperty.call(obj,key);
+    function below100(s){
+      if(has(units,s))return units[s];
+      if(has(tens,s))return tens[s];
+      for(const [name,val] of Object.entries(tens)){
+        if(!s.endsWith(name))continue;
+        const left=s.slice(0,-name.length);
+        if(!left.endsWith('und'))continue;
+        const u=left.slice(0,-3);
+        if(has(units,u)&&units[u]>=1&&units[u]<=9)return val+units[u];
+      }
+      return null;
+    }
+    function below1000(s){
+      if(!s)return 0;
+      const at=s.indexOf('hundert');
+      if(at===-1)return below100(s);
+      const prefix=s.slice(0,at),rest=s.slice(at+7);
+      const h=prefix?below100(prefix):1;
+      const tail=rest?below100(rest):0;
+      return h!==null&&h>=1&&h<=19&&tail!==null?h*100+tail:null;
+    }
+    const at=w.indexOf('tausend');
+    if(at===-1)return below1000(w);
+    const prefix=w.slice(0,at),rest=w.slice(at+7);
+    const thousands=prefix?below1000(prefix):1,remaining=below1000(rest);
+    return thousands!==null&&thousands>=1&&thousands<=999&&remaining!==null
+      ?thousands*1000+remaining:null;
+  }
+  function sameNumericalAnswer(input,answers){
+    const given=germanIntegerLiteral(input);
+    return given!==null&&answers.some(answer=>{
+      const wanted=germanIntegerLiteral(answer);
+      return wanted!==null&&wanted===given;
+    });
+  }
+
   function simpleMatch(input, expected, aliases=[]){
     const n=normalize(input); if(!n) return false;
     const vals=[expected,...aliases].filter(Boolean).map(normalize);
     if(vals.includes(n)) return true;
+    if(sameNumericalAnswer(input,[expected,...aliases])) return true;
     // Buchstaben-Tippfehler dulden, aber niemals Ziffern oder falsche Zahlenwerte.
     // Rechtschreibfragen bleiben sowieso strikt.
     return vals.some(v=>v.length>=6 && Math.abs(v.length-n.length)<=2 &&
@@ -703,16 +754,22 @@
     if(!status.central||!status.online||status.version!=='0.7'||status.build!=='0.7.2')throw Error('Das Tagesquiz benötigt eine aktive Google-Verbindung und Apps Script 0.7.2. Bitte den aktualisierten Backend-Code bereitstellen.');
     dailyStarting=true;btn.disabled=true;btn.textContent='Tagesquiz wird reserviert …';
     try{
-      await profiles.flush();
-      await profiles.refresh();
+      // Vor dem Start keine komplette Statistik-Synchronisierung abwarten.
+      // Der Server prueft die eindeutige Tages-Reservierung weiterhin selbst.
+      const berlinDay=new Intl.DateTimeFormat('sv-SE',{
+        timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit'
+      }).format(new Date());
       const day=profiles.getDaily();
       if(day.completed)throw Error('Du hast das heutige Tagesquiz bereits abgeschlossen. Morgen gibt es neue Fragen.');
-      const questions=dailyQuestions(day.dayKey);
+      const questions=dailyQuestions(berlinDay);
       if(questions.length!==10)throw Error('Für das Tagesquiz fehlen Auswahlfragen.');
       const newSession='s-daily-'+(crypto.randomUUID?crypto.randomUUID():Date.now());
+      // Bestehende Runde vor dem Fortsetzen einmal aktualisieren,
+      // neue Runde startet unmittelbar nach bestaetigter Reservierung.
+      if(day.reservedSessionId)await profiles.refresh();
       const reservation=await profiles.reserveDaily(newSession);
-      await profiles.refresh();
       const saved=profiles.getDaily();
+      if(saved.completed)throw Error('Das heutige Tagesquiz wurde bereits abgeschlossen.');
       const previous=saved.result?.answers||[];
       const answeredIds=new Set(previous.map(a=>String(a.id)));
       const nextIndex=questions.findIndex(q=>!answeredIds.has(String(q.id)));
@@ -917,8 +974,11 @@
 
   fillCategories(); updatePoolInfo(); updateAudioCount(); renderCustomQuestions();
   profiles.subscribe(() => { renderGate(); updateStats(); renderPersonalStats(); renderLeaderboard();renderDailyPanel();updateConnectionState(); });
-  profiles.init().then(() => {
+  // Bereits bekannte Spieler SOFORT anzeigen; langsamer Google-Abgleich im Hintergrund.
+  renderGate();
+  show('playerGate');
+  profiles.init().then(()=>renderGate()).catch(err=>{
+    console.warn('Spielerdaten werden im Hintergrund aktualisiert:',err);
     renderGate();
-    show('playerGate');
   });
 })();
